@@ -1,0 +1,73 @@
+.pumppop{
+    font-size:  18px;
+    font-weight: bold;
+    padding: 12px 12px 12px 0;
+    background: linear-gradient(
+      
+        #dfdfdf,
+        #bfd8d5,
+        #b1bed5
+    );
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.select-mode{
+    border: 3px solid #c9c2c5;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+.pump-select-mode{
+    width: 120px;
+    height: 30px;
+    margin-left: 20px;
+    font-weight: 500;
+
+}
+Button.btnstart:hover,Button.btnreset,Button.btnstop {
+    width: 80px;
+    height: 40px;
+    font: 1em sans-serif;
+}
+Button.btnstart:hover,Button.btnreset:hover
+ {background-color: #05c46b}
+
+Button.btnstart:active,Button.btnreset:active {
+  background-color: #cecece;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+Button.btnstop:hover {background-color:#c23616}
+
+Button.btnstop:active {
+  background-color: #cecece;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+  .pump-set{
+    border: 3px solid #c9c2c5;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+.pump-status{
+    
+        border: 3px solid #c9c2c5;
+        border-radius: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+}
+.pump-status-light,.pump-fault-light{
+    width: 70px;
+    height: 70px;
+
+}
+Label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+    margin-left: 20px;
+  }

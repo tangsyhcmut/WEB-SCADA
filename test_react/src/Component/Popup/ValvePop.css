@@ -1,0 +1,72 @@
+.valvepop{
+    font-size:  18px;
+    font-weight: bold;
+    padding: 12px 12px 12px 0;
+    background: linear-gradient(
+      
+        #dfdfdf,
+        #bfd8d5,
+        #b1bed5
+    );
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.select-mode{
+    border: 3px solid #c9c2c5;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+.valve-select-mode{
+    width: 120px;
+    height: 30px;
+    margin-left: 20px;
+    font-weight: 500;
+
+}
+Button {
+    width: 80px;
+    height: 40px;
+    font: 1em sans-serif;
+}
+Button.btnopen:hover,Button.btnreset:hover
+ {background-color: #05c46b}
+
+Button.btnopen:active,Button.btnreset:active {
+  background-color: #cecece;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+Button.btnclose:hover {background-color:#c23616}
+
+Button.btnclose:active {
+  background-color: #cecece;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+  .valve-running{
+    border: 3px solid #c9c2c5;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+.valve-status-light{
+    
+        border: 3px solid #c9c2c5;
+        border-radius: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+}
+.valvehighlight,.valvelowlight,.valveopenlight,.valvecloselight,.valvefaultlight{
+    width: 50px;
+    height: 50px;
+}
+Label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+    margin-left: 20px;
+  }

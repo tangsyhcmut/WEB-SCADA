@@ -1,0 +1,15 @@
+.dashboard{
+
+}
+.multilevel,.motorchart{
+    display: inline-block;
+    margin-top: 20px;
+
+}
+.multilevel{
+    margin-left: 20px;
+}
+.motorchart{
+    float: right;
+    margin-right: 20px;
+}

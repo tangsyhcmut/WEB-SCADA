@@ -1,0 +1,649 @@
+/* -------main------- */
+.mainsection2-container {
+  
+    background: url('../img/Background.jpg') center center/cover no-repeat;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+    object-fit: contain;
+  }
+/* ---------------Status---------------- */
+.status-section{
+    position: absolute;
+    margin-top: 20rem;
+    width: 90rem;
+}
+/* -----------Label--------- */
+.valve{
+    position: relative;
+}
+.symbol-valve-title{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: translate(-180%, -95%); */
+    font: 1em sans-serif;
+    font-weight: bold;
+    color: #00416d;
+}
+/* ----------beforeTank1--------- */
+
+.pipe1{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-top: 5.5rem;
+}
+.pump1{
+    position: absolute;
+    height: 4rem;
+    width: 5rem;
+    margin-left: 2rem;
+    margin-top: 4rem;
+    
+}
+.pipe2{
+    position: absolute;
+    height: 1.25rem;
+    width: 3rem;
+    margin-left: 7rem;
+    margin-top: 4.25rem;
+
+}
+.valve0{
+    position: absolute;
+    height: 4.5rem;
+    width: 4rem;
+    margin-left: 8rem;
+    margin-top: 2rem;
+
+}
+.pipe3{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 12rem;
+    margin-top: 4.25rem;
+
+}
+.pipe4{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-left: 14rem;
+    margin-top: 4.1rem;
+
+}
+.pipe5{
+    position: absolute;
+    height: 3.5rem;
+    width: 1.25rem;
+    margin-left: 15.1rem;
+    margin-top: 6rem;
+
+}
+
+
+/* --------After Tank1----- */
+.pipe6{
+    position: absolute;
+    height: 1.5rem;
+    width: 4rem;
+    margin-left: 25rem;
+    margin-top: 18rem;
+
+}
+.pipe7{
+    position: absolute;
+    height: 3.5rem;
+    width: 3rem;
+    margin-left: 27rem;
+    margin-top: 16.1rem;
+
+}
+.pipe8{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 30rem;
+    margin-top: 18.2rem;
+
+}
+.pipe9{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 27.8rem;
+    margin-top: 13.9rem;
+
+}
+.pipe10{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 30rem;
+    margin-top: 14rem;
+
+}
+.pump2{
+    position: absolute;
+    height: 4rem;
+    width: 5rem;
+    margin-left: 30.5rem;
+    margin-top: 12.5rem;
+    
+}
+.pump3{
+    position: absolute;
+    height: 4rem;
+    width: 5rem;
+    margin-left: 30.5rem;
+    margin-top: 16.8rem;
+    
+}
+.pipe10{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 30rem;
+    margin-top: 14rem;
+
+}
+.pipe11{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 35rem;
+    margin-top: 12.7rem;
+
+}
+.pipe12{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 35rem;
+    margin-top: 17rem;
+
+}
+.pipe13{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 36.5rem;
+    margin-top: 12.6rem;
+
+}
+.pipe14{
+    position: absolute;
+    height: 3.25rem;
+    width: 3rem;
+    margin-left: 36.5rem;
+    margin-top: 15.1rem;
+}
+.pipe15{
+    position: absolute;
+    height: 1.5rem;
+    width: 1.25rem;
+    margin-left: 37.4rem;
+    margin-top: 14rem;
+
+}
+.pipe16{
+    position: absolute;
+    height: 1.25rem;
+    width: 3rem;
+    margin-left: 39rem;
+    margin-top: 17rem;
+
+}
+.pipe17{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 41.5rem;
+    margin-top: 16rem;
+
+}
+.pipe18{
+    position: absolute;
+    height: 11rem;
+    width: 1.2rem;
+    margin-left: 42.5rem;
+    margin-top: 5.5rem;
+
+}
+
+.after-tank1{
+    margin-left: -9rem;
+}
+.tank1-container{
+    margin-left:-1rem;
+    margin-top: -1.5rem;
+}
+
+/* ---------Tank1------------ */
+.tank1{
+    position: absolute;
+    height: 12rem;
+    width: 12rem;
+    margin-left: 5rem;
+    margin-top: 8rem;
+}
+
+/* -------------Tank2------------- */
+/* --------------BeforeTank2--------------- */
+.pipe19{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left: 33.4rem;
+    margin-top: 11rem;
+}
+.pipe20{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 33.5rem;
+    margin-top: 2rem;
+}
+.pipe21{
+    position: absolute;
+    height: 1.25rem;
+    width: 3rem;
+    margin-left: 35.5rem;
+    margin-top: 2.1rem;
+}
+.pipe22{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 36.1rem;
+    margin-top: 11.6rem;
+}
+.valve1{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 37rem;
+    margin-top: 0rem;
+
+}
+.valve2{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 37rem;
+    margin-top: 9.3rem;
+
+}
+.pipe23{
+    position: absolute;
+    height: 1.25rem;
+    width: 14rem;
+    margin-left: 40rem;
+    margin-top: 2.2rem;
+}
+.pipe24{
+    position: absolute;
+    height: 1.25rem;
+    width: 14rem;
+    margin-left: 40rem;
+    margin-top: 11.5rem;
+}
+.pipe25{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left:43rem;
+    margin-top: 2.2rem;
+}
+.pipe26{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left:43rem;
+    margin-top: 11.5rem;
+}
+.valve3{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 49rem;
+    margin-top: 0rem;
+
+}
+.valve4{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 49rem;
+    margin-top: 9.3rem;
+
+}
+.pipe27{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 53rem;
+    margin-top: 2.15rem;
+}
+.pipe28{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left: 52.5rem;
+    margin-top: 10.8rem;
+}
+.pipe29{
+    position: absolute;
+    height: 10rem;
+    width: 1.2rem;
+    margin-left: 54rem;
+    margin-top: 4rem;
+
+}
+
+
+
+/* -------------------afterTank2 ------------------- */
+
+.pipe30{
+    position: absolute;
+    height: 2rem;
+    width: 1.9rem;
+    margin-left: 43.5rem;
+    margin-top: 13.9rem;
+
+}
+.pipe31{
+    position: absolute;
+    height: 1.7rem;
+    width: 1.2rem;
+    margin-left: 42.7rem;
+    margin-top: 14.9rem;
+    filter: brightness(70%);
+
+}
+.pipe32{
+    position: absolute;
+    height: 1rem;
+    width: 3rem;
+    margin-left: 42.2rem;
+    margin-top: 16.5rem;
+
+}
+.pipe33{
+    position: absolute;
+    height: 1rem;
+    width: 14rem;
+    margin-left: 44rem;
+    margin-top: 14.9rem;
+}
+.valve5{
+    position: absolute;
+    height: 3.2rem;
+    width: 2.8rem;
+    margin-left: 46rem;
+    margin-top: 13.1rem;
+
+}
+.pipe34{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 57rem;
+    margin-top: 13.8rem;
+}
+.pipe35{
+    position: absolute;
+    height: 10rem;
+    width: 1.2rem;
+    margin-left: 58rem;
+    margin-top: 4rem;
+
+}
+
+
+
+/* -----------tank2---- */
+.tank2{
+    position: absolute;
+    height: 15rem;
+    width: 14rem;
+    margin-left: 37.5rem;
+    margin-top: 3.2rem;
+}
+
+/* --------------------Tank3------- */
+/* ----------------before-Tank3---------------- */
+
+
+.pipe36{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left: 57.9rem;
+    margin-top: 10.8rem;
+}
+.pipe37{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 57.9rem;
+    margin-top: 2rem;
+}
+.pipe38{
+    position: absolute;
+    height: 1.25rem;
+    width: 3rem;
+    margin-left: 58.9rem;
+    margin-top: 2.1rem;
+}
+.pipe39{
+    position: absolute;
+    height: 1.25rem;
+    width: 2rem;
+    margin-left: 60rem;
+    margin-top: 11.4rem;
+}
+.valve6{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left:61rem;
+    margin-top: 0rem;
+
+}
+.valve7{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 61rem;
+    margin-top: 9.2rem;
+
+}
+.pipe40{
+    position: absolute;
+    height: 1.25rem;
+    width: 14rem;
+    margin-left: 62rem;
+    margin-top: 2.2rem;
+}
+.pipe41{
+    position: absolute;
+    height: 1.25rem;
+    width: 14rem;
+    margin-left: 62rem;
+    margin-top: 11.5rem;
+}
+.pipe42{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left:67rem;
+    margin-top: 2.2rem;
+}
+.pipe43{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left:67rem;
+    margin-top: 11.5rem;
+}
+.valve8{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 72rem;
+    margin-top: 0rem;
+
+}
+.valve9{
+    position: absolute;
+    height: 4rem;
+    width: 3rem;
+    margin-left: 72rem;
+    margin-top: 9.3rem;
+
+}
+.pipe44{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 76rem;
+    margin-top: 2.15rem;
+}
+.pipe45{
+    position: absolute;
+    height: 2.5rem;
+    width: 2.75rem;
+    margin-left: 75.5rem;
+    margin-top: 10.9rem;
+}
+.pipe46{
+    position: absolute;
+    height: 10rem;
+    width: 1.2rem;
+    margin-left: 77rem;
+    margin-top: 4rem;
+
+}/* -------------------afterTank2 ------------------- */
+
+.pipe47{
+    position: absolute;
+    height: 2rem;
+    width: 1.9rem;
+    margin-left: 67.5rem;
+    margin-top: 13.9rem;
+
+}
+.pipe48{
+    position: absolute;
+    height: 1.7rem;
+    width: 1.2rem;
+    margin-left: 66.8rem;
+    margin-top: 14.9rem;
+    filter: brightness(70%);
+
+}
+.pipe49{
+    position: absolute;
+    height: 1rem;
+    width: 3rem;
+    margin-left: 66.4rem;
+    margin-top: 16.5rem;
+
+}
+.pipe50{
+    position: absolute;
+    height: 1rem;
+    width: 11rem;
+    margin-left: 68rem;
+    margin-top: 14.9rem;
+}
+.valve10{
+    position: absolute;
+    height: 3.2rem;
+    width: 2.8rem;
+    margin-left: 69.5rem;
+    margin-top: 13.1rem;
+
+}
+.pipe51{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 79rem;
+    margin-top: 13.8rem;
+}
+.pipe52{
+    position: absolute;
+    height: 10rem;
+    width: 1.2rem;
+    margin-left: 80rem;
+    margin-top: 4rem;
+
+}
+
+
+
+/* -----------tank3---- */
+.tank3{
+    position: absolute;
+    height: 15rem;
+    width: 14rem;
+    margin-left: 61.5rem;
+    margin-top: 3.2rem;
+}
+/* -----------------Tank4--------- */
+/* -----------------BeforeTank4----------- */
+.pipe53{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 80rem;
+    margin-top: 2rem;
+
+}
+.pipe54{
+    position: absolute;
+    height: 1.25rem;
+    width: 6rem;
+    margin-left: 81rem;
+    margin-top: 2.1rem;
+}
+.pipe55{
+    position: absolute;
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-left: 87rem;
+    margin-top: 2rem;
+}
+/* --------AfterTank4-------- */
+
+.pipe56{
+    position: absolute;
+    height: 2rem;
+    width: 1.25rem;
+    margin-left: 85.8rem;
+    margin-top: 12rem;
+}
+.pump4{
+    position: absolute;
+    height:6rem;
+    width:8rem;
+    margin-left: 83.7rem;
+    margin-top: 14rem;
+    
+}
+/* ---------Tank4------------ */
+.tank4{
+    position: absolute;
+    height: 14rem;
+    width: 10rem;
+    margin-left: 81rem;
+    margin-top: 3rem;
+}
