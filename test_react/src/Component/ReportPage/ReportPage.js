@@ -17,6 +17,7 @@ export const ReportPage = () => {
         )
         console.log(res.data)
         setReportList(res.data)
+        console.log(reportList)
       } catch (error) {
         console.log(error.message)
       }
@@ -25,7 +26,7 @@ export const ReportPage = () => {
     getReport()
   }, [])
   const columns = useMemo(() => COLUMNS, [])
-  const data = useMemo(() => reportList, [])
+  const data = useMemo(() => reportList)
 
   const {
     getTableProps,
@@ -46,7 +47,7 @@ export const ReportPage = () => {
     {
       columns,
       data,
-      initialState: {pageSize:15, pageIndex: 0 }
+      initialState: {pageSize:12, pageIndex: 0 }
     },
     usePagination
   )

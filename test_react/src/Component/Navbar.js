@@ -7,6 +7,12 @@ import {
   } from "react-router-dom";
 import { useState,useEffect } from 'react';
 import './Navbar.css';
+import Button from 'react-bootstrap/Button'
+import { AuthContext } from '../context/AuthContext'
+import { useContext } from 'react'
+import logoutIcon from './img/logout.svg'
+import Logo from './img/navlogo.svg'
+
 
 function Navbar(){
   const[click,setClick] =useState(false);
@@ -14,20 +20,14 @@ function Navbar(){
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () =>setClick(false);
 
-  // const showButton = () => {
-  //   if (window.innerWidth <= 960) {
-  //     setButton(false);
-  //   } else {
-  //     setButton(true);
-  //   }
-  // };
+  const {
+		authState: {
+			user: { username }
+		},
+		logoutUser
+	} = useContext(AuthContext)
 
-  // useEffect(() => {
-  //   showButton();
-  // }, []);
-
-  // window.addEventListener('resize', showButton);
-
+	const logout = () => logoutUser()
     return(
         <>
         
@@ -35,7 +35,7 @@ function Navbar(){
             <div className='navbar-container'>
             
                 <NavLink to='/' className='navbar-logo' onClick={closeMobileMenu} >
-                WATER TREATMENT SYSTEM<span class="material-icons md-48">opacity</span> 
+                WATER TREATMENT SYSTEM<img className = 'nav-logo'src={Logo}/>
                 </NavLink>
                
                 <div className='menu-icon' onClick={handleClick}>
@@ -43,7 +43,7 @@ function Navbar(){
                 </div>
                 <ul className = {click ? 'nav-menu active':'nav-menu'}>
                   <li className='nav-item'>
-                    <NavLink to='/'className ='nav-NavLink' onClick={closeMobileMenu}>
+                    <NavLink to='/home'className ='nav-NavLink' onClick={closeMobileMenu}>
                     <span class="material-icons md-48">home</span> 
                      Home
                     </NavLink>
@@ -61,17 +61,32 @@ function Navbar(){
                     </NavLink>
                   </li>
                   <li className='nav-item'>
-                    <NavLink to='/report'className ='nav-NavLink' onClick={closeMobileMenu}>
+                    <NavLink to='/report' className ='nav-NavLink' onClick={closeMobileMenu}>
                     <span class="material-icons md-48">description</span> 
                       Report
                     </NavLink>
                   </li>
                   
                   <li className='nav-item'>
-                    <NavLink to='/login'className ='nav-NavLink' onClick={closeMobileMenu}>
-                    <span class="material-icons md-48">account_circle</span> 
-                      Login
-                    </NavLink>
+                 
+					      {/* <label>Welcome {username}</label> */}
+					                  	
+					        
+					      <Button
+					    	  // className ='nav-NavLink' 
+					      	className='logout-btn'
+					      	onClick={logout}
+				        	>
+						      <img
+						    	src={logoutIcon}
+							    alt='logoutIcon'
+						    	width='32'
+						    	height='32'
+							  className='mr-2'
+					    	/>
+						
+				      	</Button>
+				
                   </li>
                 </ul>
             </div>

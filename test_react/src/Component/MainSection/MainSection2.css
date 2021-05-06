@@ -14,20 +14,56 @@
     margin-top: 20rem;
     width: 90rem;
 }
-/* -----------Label--------- */
-.valve{
-    position: relative;
-}
-.symbol-valve-title{
-
+/* -----------------------EmerButton------- */
+Button.btn-sys-emer{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    /* transform: translate(-180%, -95%); */
-    font: 1em sans-serif;
+    width: 90px;
+    height: 90px;
+    font-size: 12px;
+    font-weight:bold;
+    border: 5px solid;
+    border-radius: 40%;
+    background-color:rgb(199, 64, 64);
+    margin-left: 27rem;
+    margin-top:-7rem;
+  
+}
+Button.btn-sys-emer:hover {background-color:#f30000}
+
+Button.btn-sys-emer:active {
+  background-color: #cecece;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+/* -----Label------ */
+.label-tank1,.label-tank2,.label-tank3,.label-tank4{
+    
+    position: absolute;
     font-weight: bold;
-    color: #00416d;
+    color:#132c33;
+}
+.label-tank1{
+    font-size: 30px;
+    margin-top: 17rem;
+    margin-left: 6rem;
+}
+.label-tank2{
+    font-size: 24px;
+    margin-left: 38rem;
+    margin-top: 18rem;
+
+}
+.label-tank3{
+    font-size: 24px;
+    margin-left: 62rem;
+    margin-top: 18rem;
+
+}
+.label-tank4{
+    font-size: 24px;
+    margin-left: 82rem;
+    margin-top: 10rem;
+
 }
 /* ----------beforeTank1--------- */
 
@@ -58,7 +94,7 @@
     height: 4.5rem;
     width: 4rem;
     margin-left: 8rem;
-    margin-top: 2rem;
+    margin-top: 1.6rem;
 
 }
 .pipe3{
@@ -84,6 +120,26 @@
     margin-left: 15.1rem;
     margin-top: 6rem;
 
+}
+/* ---------------------Level--------- */
+.leveltank1{
+    position: absolute;
+    margin-top: 5.5rem;
+}
+.leveltank2{
+    position: absolute;
+    margin-top: 0.75rem;
+    margin-left: 27.5rem;
+}
+.leveltank3{
+    position: absolute;
+    margin-top: 0.5rem;
+    margin-left: 52rem;
+}
+.leveltank4{
+    position: absolute;
+    margin-top: 0.5rem;
+    margin-left: 89rem;
 }
 
 
@@ -228,8 +284,8 @@
 .tank1{
     position: absolute;
     height: 12rem;
-    width: 12rem;
-    margin-left: 5rem;
+    width: 11rem;
+    margin-left: 6rem;
     margin-top: 8rem;
 }
 
@@ -364,7 +420,7 @@
     width: 1.2rem;
     margin-left: 42.7rem;
     margin-top: 14.9rem;
-    filter: brightness(70%);
+    filter: brightness(55%);
 
 }
 .pipe32{
@@ -546,7 +602,7 @@
     width: 1.2rem;
     margin-left: 66.8rem;
     margin-top: 14.9rem;
-    filter: brightness(70%);
+    filter: brightness(55%);
 
 }
 .pipe49{
@@ -642,8 +698,8 @@
 /* ---------Tank4------------ */
 .tank4{
     position: absolute;
-    height: 14rem;
+    height: 13rem;
     width: 10rem;
-    margin-left: 81rem;
-    margin-top: 3rem;
+    margin-left: 80.5rem;
+    margin-top: 3.5rem;
 }

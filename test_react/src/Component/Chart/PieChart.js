@@ -61,8 +61,8 @@ const PieChart = props => {
                     x={`${center}`} 
                     y={`${center}`} 
                     className="svg-circle-text">
-                        {progress}%
-                        /100%
+                        {progress}%/100%
+                      
                 </text>
             </svg>
         </>

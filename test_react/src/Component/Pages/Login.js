@@ -1,11 +1,11 @@
 import React from 'react'
-import '../../App.css';
-import Form from '../LoginForm/Form';
+import './Login.css';
+import FormSignIn from '../../Features/Auth/LoginForm/FormSignIn';
 function Login() {
     return (
-        <div>
+        <div className='login'>
             
-            <Form/>
+            <FormSignIn/>
 
         </div>
     )

@@ -24,19 +24,19 @@ export default function App(props) {
     <div className='barContainer'>
     <button onClick={setValue}>Set</button>
     <BarChart
-      width={105}
+      width={100}
       height={props.height}
       data={data}
      
      > 
       <CartesianGrid horizontal ={false} vertical={false} />
       {/* <XAxis  hide={true} /> */}
-      <YAxis domain ={[0,props.maxValue]} unit ='m'/>
+      <YAxis domain ={[0,props.maxValue]} unit ='m' fontSize ='12' />
       <Tooltip />
-      <Legend iconSize = '10' align='right'/>
+      <Legend iconSize = '0' align='right' fontSize="5"/>
       
-      <Bar dataKey='pv' name='Level' fill="#3742fa" background={{ fill: "#eee" }}>
-      <LabelList dataKey="pv" position="top" fontSize="12"/>
+      <Bar dataKey='pv' name=' ' fill="#3742fa" background={{ fill: "#eee" }}>
+      <LabelList dataKey="pv" position="top" fontSize="13" fontWeight="bold"/>
       </Bar>
     </BarChart>
     </div>

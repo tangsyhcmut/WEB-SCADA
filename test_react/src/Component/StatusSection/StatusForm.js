@@ -33,7 +33,7 @@ function StatusForm() {
             </Row>
             <Row>
             <t className='system-mode'>Running Mode :</t> 
-            <Button  className='btn-sys-emer'>EMERGENCY</Button>
+            
             </Row>
            
         </Container>

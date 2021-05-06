@@ -1,6 +1,8 @@
 .powerData{
-    background:linear-gradient(rgba(192,192,192,0.7),rgba(255,255,255,0.8));
+    background:linear-gradient( #4B79A1,
+    #283E51);
       width: 25%;
+      height: 50vh;
       font-size: 20px;
       font-weight: bold;
       border-radius: 20px;
@@ -31,10 +33,11 @@ h3{
 }
 .voltage,.current,.power,.factor{
     display: inline-block;
+    color:cornsilk;
     margin-top: 10px;
     margin-left: 20px;
     padding: 10px 20px 10px 10px; 
-    border: 3px solid #c9c2c5;
+    border: 3px solid #f3f1f1;
     border-radius: 10px;
     list-style: none;
 }

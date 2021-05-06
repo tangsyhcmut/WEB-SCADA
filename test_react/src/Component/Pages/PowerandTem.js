@@ -1,5 +1,9 @@
 import {useState}  from 'react'
-// import '../../App.css';
+import './PT.css';
+import {
+    Container, Col, Form,
+    FormGroup, Label, Row   
+  } from 'reactstrap';
 import MotorPop from '../Popup/MotorPop';
 import PumpPop from '../Popup/PumpPop';
 import ValvePop from '../Popup/ValvePop';
@@ -8,12 +12,18 @@ import IMG from '../img/On_Red.png'
 import TextApi from '../../api/TextApi'
 import Temperature from '../TemperatureSection/Temperature'
 import PowerData from '../ElectricPower/PowerData'
-function Security() {
+
+
+PowerandTem.propTypes = {};
+
+
+function PowerandTem() {
     const [openPopup, setOpenPopup] = useState(false)
+   
 
     return (
-        <div>
-            {/* <h1>Security</h1>
+        <Container className="PTcontainer">
+            {/* <h1>PowerData</h1>
            
             <TextApi/>
             <img src={IMG} onClick={() =>  setOpenPopup(true)}/> */}
@@ -32,10 +42,16 @@ function Security() {
             >
                 <MotorPop/>
             </Popup> */}
+            <Col className="power-container">
             <PowerData/>
+            </Col>
+            <Col className="temperature-container">
             <Temperature/>
-        </div>
+            
+            </Col>
+            
+        </Container>
     )
 }
 
-export default Security
+export default PowerandTem

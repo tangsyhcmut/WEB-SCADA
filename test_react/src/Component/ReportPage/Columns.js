@@ -18,7 +18,7 @@ export const COLUMNS = [
     {
         Header: 'Message',
         accessor: 'body'
-    },
+    }
     // {
     //     Header: 'User',
     //     accessor: 'user'
