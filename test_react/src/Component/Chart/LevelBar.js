@@ -22,7 +22,7 @@ export default function App(props) {
 
   return (
     <div className='barContainer'>
-    <button onClick={setValue}>Set</button>
+    
     <BarChart
       width={100}
       height={props.height}

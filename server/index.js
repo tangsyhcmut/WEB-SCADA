@@ -1,10 +1,48 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const socket = require("socket.io");
 const cors = require('cors')
 
+
+
+const app = express()
+
 const authRouter = require('./routes/auth')
-// const postRouter = require('./routes/post')
+const PORT = process.env.PORT || 5000
+const server =app.listen(PORT)
+
+// Socket.io server-side
+//Setup
+const io = require("socket.io")(server, {
+	cors: {
+	  origin: PORT,
+	  methods: ["GET", "POST"],
+	  allowedHeaders: ["my-custom-header"],
+	  credentials: true
+	}
+  });
+
+
+//Connection
+io.on("connection", (socket) => {
+  console.log(socket.id);
+
+   socket.on("send_sys_state",(data)=>{
+	   console.log(data);
+	   socket.emit("receive_sys_state",data)
+   })
+
+  
+  socket.on("disconnect", () => {
+    console.log("USER DISCONNECTED");
+  });
+});
+
+
+
+
+
 
 const connectDB = async () => {
 	try {
@@ -27,13 +65,17 @@ const connectDB = async () => {
 
 connectDB()
 
-const app = express()
 app.use(express.json())
 app.use(cors())
 
 app.use('/api/auth', authRouter)
-// app.use('/api/posts', postRouter)
 
-const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+
+
+
+
+
+
+
+

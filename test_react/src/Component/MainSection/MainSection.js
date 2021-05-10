@@ -111,6 +111,7 @@ function MainSection() {
          <img className='pipe30' src={Pipe_hori}/>
          <img className='pump3' src={Pump}/>
          <img className='pump4' src={Pump}/>
+         <img className='pump5' src={Pump}/>
         
 
          <img className= 'waterTank' src={WaterTank} alt="Bể nước sử dụng"/>

@@ -407,7 +407,15 @@ margin-top: -41rem;
 }
 .pump4{
     position: absolute;
-    width: 6rem;
+    width: 5rem;
+    height: 4rem;
+    margin-left: 81.5%;
+    margin-top: 25%;
+    filter: brightness(50%);
+}
+.pump5{
+    position: absolute;
+    width: 5rem;
     height: 5rem;
     margin-left: 81.5%;
     margin-top: 25%;

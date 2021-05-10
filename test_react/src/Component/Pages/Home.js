@@ -7,7 +7,12 @@ import NotiTable from'../NotiSection/NotiTable';
 import Footer from '../Footer/Footer';
 import{Container,Row,Col} from 'reactstrap';
 
+
+
 function Home() {
+
+   
+
     return (
         <div>
             <Container>

@@ -10,6 +10,7 @@ import Report from "./Component/Pages/Report";
 import PowerandTem from "./Component/Pages/PowerandTem";
 import {useEffect} from 'react';
 import ProtectedRoute from './Component/routing/ProtectedRoute'
+import Test from './Component/test/test'
 
 
 
@@ -37,8 +38,16 @@ function App() {
         
         <ProtectedRoute  exact path ='/P-T' exact component ={PowerandTem} />
         
-        <ProtectedRoute  exact path ='/report' exact component ={Report} />
+        <ProtectedRoute   exact path ='/test' exact component ={Test} />
         
+        <ProtectedRoute  exact path ='/report' exact component ={Report} />
+        {/* <Route  exact path ='/home' exact component ={Home} />
+        <Route  exact path ='/dashboard' component ={Dashboard} />
+        
+        <Route  exact path ='/P-T' exact component ={PowerandTem} />
+        <Route  exact path ='/test' exact component ={Test} />
+        
+        <Route  exact path ='/report' exact component ={Report} /> */}
       </Switch>
     </Router>
 

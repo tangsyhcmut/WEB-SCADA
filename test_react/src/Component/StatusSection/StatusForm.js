@@ -14,27 +14,24 @@ function StatusForm() {
     return (
         <Container className='statusForm'>
             <h2 className='titleStatus'> SYSTEM STATUS </h2>
-            <Row>
-        <div className="status-light" >
+            <Col>
+             <div className="status-light" >
+        
+            <Label> Running </Label>
+            <img className="greenlight" src ={bit ? greenlighton : greenlightoff}/>
+            
+            <Label> Warning </Label>
+            <img className="yellowlight" src ={bit ? yellowlighton : yellowlightoff}/>
             
             <Label> Error </Label>
             <img className="redlight" src ={bit ?  redlighton : redlightoff } />
         
-            
-            <Label> Warning </Label>
-            <img className="yellowlight" src ={bit ? yellowlighton : yellowlightoff}/>
-           
-
-            
-            <Label> Running </Label>
-            <img className="greenlight" src ={bit ? greenlighton : greenlightoff}/>
-            
         </div>
-            </Row>
-            <Row>
-            <t className='system-mode'>Running Mode :</t> 
-            
-            </Row>
+            </Col>
+            <Col className ='sys-mode'>
+            <a className='system-mode'>Running Mode :</a> 
+            </Col>
+            <Button  className='btn-sys-emer'>EMERGENCY</Button>
            
         </Container>
     )
