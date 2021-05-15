@@ -3,7 +3,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const socket = require("socket.io");
 const cors = require('cors')
-
+var mqtt = require('mqtt')
+var settings = {
+    mqttServerUrl :"192.168.100.5", 
+    port : 1884,
+    topic :"ModbusDaTa"
+    }
 
 
 const app = express()
@@ -32,8 +37,45 @@ io.on("connection", (socket) => {
 	   console.log(data);
 	   socket.emit("receive_sys_state",data)
    })
+   /// MQTT Power metter
+   var clientMQTT  = mqtt.connect('mqtt://' + settings.mqttServerUrl + ":" + settings.port);
+   clientMQTT.on('connect', function () {
+       clientMQTT.subscribe(settings.topic)
+       console.log("Subscribed topic " + settings.topic);
+   })
+   
+   
+   clientMQTT.on('message',function (topic, message){
+       
+      let data = JSON.parse(message);
+      // console.log(data)
+      // 
+      // console.log(message);
+      let simeas = data.S;
+      let temperature = data.T;
+      socket.emit('temperature',temperature);
+      socket.emit('powermeter',simeas);
+   })
+ 
+  /// temperature
+   socket.on('sysMode',data=>{
+     console.log(data);
+     let sysMode= JSON.stringify(data);
+    
+     clientMQTT.publish('temMode',sysMode);
+   })
 
-  
+
+   socket.on('temperatureSet',data=>{
+     console.log(data);
+     let tem= JSON.stringify(data);
+    
+    clientMQTT.publish('temValue',tem);
+   })
+
+
+
+
   socket.on("disconnect", () => {
     console.log("USER DISCONNECTED");
   });
@@ -47,7 +89,7 @@ io.on("connection", (socket) => {
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@login.rr5zz.mongodb.net/test?retryWrites=true&w=majority`,
+			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@login.ezfrs.mongodb.net/mythesis?retryWrites=true&w=majority`,
 			{
 				useCreateIndex: true,
 				useNewUrlParser: true,
@@ -69,13 +111,3 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api/auth', authRouter)
-
-
-
-
-
-
-
-
-
-

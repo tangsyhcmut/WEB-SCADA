@@ -10,19 +10,30 @@ import {
   } from 'reactstrap';
     import './PumpPop.css'
   import Select from 'react-select'
-//   import './App.css';
+
   
 
-function PumpPop() {
+function PumpPop(props) {
 
 
-    const [stateP1,setStateP1] = useState({auto:false,man:false,start:false,stop:false});
+    const [stateP1,setStateP1] = useState(
+      {auto:false,man:false,start:false,stop:false});
     const btnAutoClick=()=> setStateP1({auto:true,man:false,start:false,stop:false});
     const btnManClick=()=> setStateP1({auto:false,man:true,start:false,stop:false});
     const btnStartClick =()=>setStateP1({auto:false,man:true,start:true,stop:false});
     const btnStopClick =()=>setStateP1({auto:false,man:true,start:false,stop:true});
     const btnResetClick =()=>setStateP1({auto:false,man:false,start:false,stop:false});
     console.log(stateP1)
+    
+    const selectMode =(e)=>{
+      if(e.target.value === 'Man')
+    {
+      setStateP1({auto:false,man:true,start:false,stop:false});
+    }
+    else
+    setStateP1({auto:true,man:false,start:false,stop:false})};
+     
+      
     
 
     const[bit,setbit] =useState(false)
@@ -35,7 +46,7 @@ function PumpPop() {
           <Col >
             <FormGroup>
               <Label>Mode :</Label>
-              <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect">
+              <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect" onChange={selectMode}>
              <option>Auto</option>
              <option>Man</option>
              </Input>

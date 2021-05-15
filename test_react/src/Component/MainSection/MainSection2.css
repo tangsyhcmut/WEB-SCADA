@@ -2,7 +2,7 @@
 .mainsection2-container {
   
     background: url('../img/Background.jpg') center center/cover no-repeat;
-    height: 100vh;
+    height: 90vh;
     width: 100%;
     display: flex;
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
@@ -12,19 +12,21 @@
 /* ---------------Status---------------- */
 .status-section{
     position: absolute;
+    margin-left: 74rem;
     margin-top: 1rem;
-    width: 90rem;
+    width: 50rem;
 }
 /* ---------------Control---------------- */
 .control-section{
     position: absolute;
     margin-top: 22rem;
-    width: 90rem;
+    margin-left: 72rem;
+    width:90rem;
 }
 /* -----------------------EmerButton------- */
 
 /* -----Label------ */
-.label-tank1,.label-tank2,.label-tank3,.label-tank4,
+/* .label-tank1,.label-tank2,.label-tank3,.label-tank4,
 .label-micro-filter,
 .label-ro-filter,.label-uv-filter
 ,.label-watertank{
@@ -79,11 +81,16 @@
     margin-left: 24rem;
     margin-top: 22rem;
 
+} */
+.model-container{
+    position: absolute;
+    margin-top: 2rem;
+    margin-left: -15rem;
 }
 /* ---------------------Level--------- */
 .leveltank1{
     position: absolute;
-    margin-top: 8rem;
+    margin-top: 6rem;
     margin-left: 13rem;
 }
 .leveltank2{
@@ -94,12 +101,12 @@
 .leveltank3{
     position: absolute;
     margin-top: 2.5rem;
-    margin-left: 53rem;
+    margin-left: 75rem;
 }
 .leveltank4{
     position: absolute;
-    margin-top: 2.5rem;
-    margin-left: 89rem;
+    margin-top: 16rem;
+    margin-left: 71rem;
 }
 .leveltank5{
     position: absolute;
@@ -119,14 +126,14 @@
     height: 3rem;
     width: 1rem;
     margin-left:20rem;
-    margin-top: 1rem;
+    margin-top: -1rem;
 }
 .pump1{
     position: absolute;
     height: 4.5rem;
     width: 4rem;
     margin-left: 19.5rem;
-    margin-top: 2rem;
+    margin-top: 0rem;
     
 }
 .pipe2{
@@ -134,7 +141,7 @@
     height: 3rem;
     width: 1rem;
     margin-left: 21rem;
-    margin-top: 4.25rem;
+    margin-top: 2.25rem;
 
 }
 .valve0{
@@ -142,7 +149,7 @@
     height: 3.5rem;
     width: 3.5rem;
     margin-left: 22.2rem;
-    margin-top: 6rem;
+    margin-top: 4rem;
 
 }
 .pipe3{
@@ -150,7 +157,7 @@
     height: 1rem;
     width: 2rem;
     margin-left: 18rem;
-    margin-top: 4.25rem;
+    margin-top: 2.25rem;
 
 }
 .pipe4{
@@ -158,7 +165,7 @@
     height: 2rem;
     width: 2rem;
     margin-left: 25.5rem;
-    margin-top: 8rem;
+    margin-top: 6rem;
 
 }
 .pipe5{
@@ -166,7 +173,7 @@
     height: 2rem;
     width: 2rem;
     margin-left: 20.9rem;
-    margin-top: 7rem;
+    margin-top: 5rem;
 
 }
 
@@ -177,7 +184,7 @@
     height: 3rem;
     width: 1rem;
     margin-left: 36.6rem;
-    margin-top: 15rem;
+    margin-top: 13rem;
 
 }
 .pipe7{
@@ -185,7 +192,7 @@
     height: 2.2rem;
     width: 2.2rem;
     margin-left: 36rem;
-    margin-top: 17rem;
+    margin-top: 15rem;
 
 }
 .pipe8{
@@ -193,7 +200,7 @@
     height: 1rem;
     width: 2rem;
     margin-left: 38rem;
-    margin-top: 18.2rem;
+    margin-top: 16.2rem;
 
 }
 .pipe9{
@@ -201,7 +208,7 @@
     height: 2rem;
     width: 2rem;
     margin-left: 36.5rem;
-    margin-top: 13.9rem;
+    margin-top: 11.9rem;
 
 }
 
@@ -210,7 +217,7 @@
     height: 3.5rem;
     width: 4rem;
     margin-left: 38.8rem;
-    margin-top: 12.5rem;
+    margin-top: 10.5rem;
     
 }
 .pump3{
@@ -218,7 +225,7 @@
     height: 3.5rem;
     width: 4rem;
     margin-left: 38.8rem;
-    margin-top: 16.8rem;
+    margin-top: 14.8rem;
     
 }
 .pipe10{
@@ -226,7 +233,7 @@
     height: 1rem;
     width: 2rem;
     margin-left: 38rem;
-    margin-top: 14rem;
+    margin-top: 12rem;
 
 }
 .pipe11{
@@ -234,7 +241,7 @@
     height: 1rem;
     width: 2rem;
     margin-left: 42rem;
-    margin-top: 12.7rem;
+    margin-top: 10.7rem;
 
 }
 .pipe12{
@@ -242,7 +249,7 @@
     height: 1rem;
     width: 3rem;
     margin-left: 41rem;
-    margin-top: 17rem;
+    margin-top: 15rem;
 
 }
 .pipe13{
@@ -250,7 +257,7 @@
     height: 2rem;
     width: 2rem;
     margin-left: 43.2rem;
-    margin-top: 12.6rem;
+    margin-top: 10.6rem;
 
 }
 .pipe14{
@@ -258,14 +265,14 @@
     height: 2.2rem;
     width: 2.2rem;
     margin-left: 43.5rem;
-    margin-top: 15.8rem;
+    margin-top: 13.8rem;
 }
 .pipe15{
     position: absolute;
     height: 3rem;
     width: 1rem;
     margin-left: 44.1rem;
-    margin-top: 14rem;
+    margin-top: 12rem;
 
 }
 .pipe16{
@@ -273,7 +280,7 @@
     height: 1rem;
     width: 3rem;
     margin-left: 44rem;
-    margin-top: 17rem;
+    margin-top: 15rem;
 
 }
 .pipe17{
@@ -281,7 +288,7 @@
     height: 2rem;
     width: 2rem;
     margin-left: 46.6rem;
-    margin-top: 16rem;
+    margin-top: 14rem;
 
 }
 .pipe18{
@@ -289,7 +296,7 @@
     height: 11rem;
     width: 1rem;
     margin-left: 47.5rem;
-    margin-top: 5.5rem;
+    margin-top: 3.5rem;
 
 }
 
@@ -307,7 +314,7 @@
     height: 10rem;
     width: 9rem;
     margin-left: 19rem;
-    margin-top: 10rem;
+    margin-top: 8rem;
 }
 
 /* -------------Tank2------------- */
@@ -471,14 +478,14 @@
     position: absolute;
     height: 2rem;
     width: 2rem;
-    margin-left: 58rem;
+    margin-left: 57rem;
     margin-top: 14rem;
 }
 .pipe35{
     position: absolute;
     height: 10rem;
     width: 1rem;
-    margin-left:  59rem;
+    margin-left:  58rem;
     margin-top: 4rem;
 
 }
@@ -657,13 +664,13 @@
     height: 2rem;
     width: 2rem;
     margin-left: 76.6rem;
-    margin-top: 14rem;
+    margin-top: 14.8rem;
 }
 .pipe52{
     position: absolute;
     height: 10rem;
     width: 1rem;
-    margin-left: 77.5rem;
+    margin-left: 77rem;
     margin-top: 4rem;
 
 }
@@ -741,7 +748,7 @@
     position: absolute;
     height: 8rem;
     width: 1rem;
-    margin-left: 89.4rem;
+    margin-left: 81.4rem;
     margin-top: 21.8rem;
 }
 
@@ -764,10 +771,10 @@
 /* ---------Tank4------------ */
 .tank4{
     position: absolute;
-    height: 13rem;
+    height: 11rem;
     width: 10rem;
-    margin-left: 80.5rem;
-    margin-top: 3.5rem;
+    margin-left: 76rem;
+    margin-top: 16rem;
 }
 
 
@@ -777,7 +784,7 @@
     position: absolute;
     height: 2rem;
     width: 2rem;
-    margin-left: 86.1rem;
+    margin-left: 80.1rem;
     margin-top: 29.5rem;
 
 }
@@ -785,15 +792,15 @@
     position: absolute;
     height: 1.8rem;
     width:  1.8rem;
-    margin-left: 88.7rem;
+    margin-left: 80.7rem;
     margin-top: 29.7rem;
 
 }
 .pipe63{
     position: absolute;
     height: 1rem;
-    width: 19rem;
-    margin-left: 70rem;
+    width: 14rem;
+    margin-left: 67rem;
     margin-top: 30.5rem;
 }
 /* --------After Filter------------------------------------------------ */
@@ -860,12 +867,15 @@
     margin-top: 30rem;
     
 }
+.after-micro-filter{
+    margin-left:-2rem;
+}
 /* -------------------Micro filter ------------- */
 .micro-filter{
-    height: 120px;
+    height: 100px;
     width: 80px;
     position: absolute;
-    margin-left: 78rem;
+    margin-left: 75rem;
     margin-top: 30.5rem;
 }
 
@@ -917,6 +927,9 @@
     margin-left: 60.7rem;
     margin-top: 22.2rem;
 }
+.before-ro-filter{
+    margin-left: -2rem;
+}
 /* --------------------------after RO Filter-------------- */
 .pipe74{
     position: absolute;
@@ -959,7 +972,7 @@
     position: absolute;
     height: 1.8rem;
     width:  1.8rem;
-    margin-left: 61rem;
+    margin-left: 60rem;
     margin-top: 29.2rem;
 
 }
@@ -967,14 +980,14 @@
     position: absolute;
     height: 5rem;
     width: 0.8rem;
-    margin-left: 61.8rem;
+    margin-left: 60.8rem;
     margin-top: 30rem;
 }
 .pipe81{
     position: absolute;
     height: 1.8rem;
     width:  1.8rem;
-    margin-left: 61rem;
+    margin-left: 60rem;
     margin-top: 31.5rem;
 
 }
@@ -990,35 +1003,35 @@
 
 /* --------------------------RO Filter-------------- */
 .rofilter1{
-    height:80px;
+    height:60px;
     width: 180px;
     position: absolute;
-    margin-left: 52.5rem;
-    margin-top: 33.5rem;
+    margin-left: 51.5rem;
+    margin-top: 34rem;
 
 }
 .rofilter2{
-    height:80px;
+    height:60px;
     width: 180px;
     position: absolute;
-    margin-left: 50rem;
-    margin-top: 30rem;
+    margin-left: 49.5rem;
+    margin-top: 30.5rem;
 
 }
 .rofilter3{
-    height:80px;
+    height:60px;
     width: 180px;
     position: absolute;
-    margin-left: 53rem;
-    margin-top: 23.5rem;
+    margin-left: 52rem;
+    margin-top: 24.5rem;
 
 }
 .rofilter4{
-    height:80px;
+    height:60px;
     width: 180px;
     position: absolute;
-    margin-left: 50rem;
-    margin-top: 20rem;
+    margin-left: 49rem;
+    margin-top: 21rem;
 
 }
 
@@ -1094,10 +1107,10 @@
 }
 .pipe92{
     position: absolute;
-    height: 6rem;
+    height: 7rem;
     width: 0.8rem;
     margin-left: 51rem;
-    margin-top: 34rem;
+    margin-top: 33rem;
 }
 .pipe94{
     position: absolute;

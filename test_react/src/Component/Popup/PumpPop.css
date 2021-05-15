@@ -2,12 +2,8 @@
     font-size:  18px;
     font-weight: bold;
     padding: 12px 12px 12px 0;
-    background: linear-gradient(
-      
-        #dfdfdf,
-        #bfd8d5,
-        #b1bed5
-    );
+    background:linear-gradient( #4B79A1,
+    #283E51);
     border-radius: 10px;
     display: flex;
     flex-direction: column;

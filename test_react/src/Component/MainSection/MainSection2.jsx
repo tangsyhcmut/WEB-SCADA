@@ -1,46 +1,57 @@
-import React from 'react'
-import {Button} from 'reactstrap';
-import './MainSection2.css';
-// Status
-import Status from '../StatusSection/StatusForm'
+import React, { useState } from 'react';
+// Level bar
+import Level from '../Chart/LevelBar';
 // Control
-import Control from '../ControlSection/ControlSection'
-//Bể Lắng
-import  FeedTank from '../img/Tank_1.png';
-import  PressureTank from '../img/Tank_2.svg';
-import  RawTank from '../img/Tank_4.svg';
-
+import Control from '../ControlSection/ControlSection';
+// Filter
+import MicroFilter from '../img/Container.svg';
+// Valve
+import Valve_hori from '../img/Hand valve 2.png';
+import Pipe_four from '../img/Intersection.svg';
+import Pipe_alight from '../img/Pipes_alight.png';
 // Pipes
 import Pipe_hori from '../img/Pipes_horizontal.png';
-import Pipe_alight from '../img/Pipes_alight.png';
+import Pipe_LB from '../img/Pipes_LB.png';
+import Pipe_LT from '../img/Pipes_LT.png';
 import Pipe_RB from '../img/Pipes_RB.png';
 import Pipe_RT from '../img/Pipes_RT.png';
-import Pipe_LT from '../img/Pipes_LT.png';
-import Pipe_LB from '../img/Pipes_LB.png';
-import Pipe_fork from '../img/Pipe_fork.png';
-import Pipe_fork_down from '../img/Pipe_fork_down.png';
 import Pipe_angle from '../img/Pipe_angle.svg';
-import Pipe_four from '../img/Intersection.svg';
-
-import Pipe_fork_alight_right from '../img/Pipe_fork_alight_right.svg';
+import Pipe_fork from '../img/Pipe_fork.png';
 import Pipe_fork_alight_left from '../img/Pipe_fork_alight_left.png';
+import Pipe_fork_alight_right from '../img/Pipe_fork_alight_right.svg';
+import Pipe_fork_down from '../img/Pipe_fork_down.png';
+import Pump_Pressure from '../img/pressurepump.svg';
+import Pump_Pressure_2 from '../img/pressurepump2.svg';
 // Pump
 import Pump from '../img/Pump.png';
 import Pump_alight from '../img/Pump_alight.svg';
-import Pump_Pressure from '../img/pressurepump.svg'
-import Pump_Pressure_2 from '../img/pressurepump2.svg'
-// Filter
-import MicroFilter from '../img/Container.svg';
-import ROFilter from '../img/RO.svg'
-import UVFilter from '../img/UV.svg'
-// Valve
-import Valve_hori from '../img/Hand valve 2.png';
-// Level bar
-import Level from '../Chart/LevelBar'
+import ROFilter from '../img/RO.svg';
+//Bể Lắng
+import FeedTank from '../img/Tank_1.png';
+import PressureTank from '../img/Tank_2.svg';
+import RawTank from '../img/Tank_4.svg';
+import UVFilter from '../img/UV.svg';
+//Popup
+import Popup from '../Popup/Popup';
+import PumpPop from '../Popup/PumpPop';
+import ValvePop from '../Popup/ValvePop'
+// Status
+import Status from '../StatusSection/StatusForm';
+import './MainSection2.css';
+
 
 
 
 function MainSection2() {
+    // PopUp
+    const [popupPump1,setPopupPump1] = useState(false);
+    //Valve
+    const [popupValve0,setPopupValve0] = useState(false);
+
+
+
+
+
     return (
         <div className='mainsection2-container'>
             {/* -------------Status---------------- */}
@@ -57,7 +68,12 @@ function MainSection2() {
              <Control/>
              
             </div>
-            {/* -------------------------Tank1-------------- */}
+            
+            
+            
+            
+    <div className="model-container">
+                {/* -------------------------Tank1-------------- */}
         <div className="tank1-container">
              {/* ----------- Before Tank1-------------------- */}
             
@@ -65,14 +81,29 @@ function MainSection2() {
 
             <img className="pipe1" src ={Pipe_alight}/>
             <img className="pipe2" src ={Pipe_alight}/>
-            <img title=" PUMP 1 " className="pump1" src ={Pump_alight}/>
+            <img title=" PUMP 1 " className="pump1"  onClick={() =>  setPopupPump1(true)} src ={Pump_alight}/>
+            
+            <Popup
+             title="Pump 1"
+            openPopup={popupPump1}
+            setOpenPopup={setPopupPump1}
+             >
+            <PumpPop/> </Popup>
+            
             {/* <img className="pipe3" src ={Pipe_hori}/> */}
            
             
             <img className="pipe5" src ={Pipe_LT}/>
             <img className="pipe4" src ={Pipe_RB}/>
 
-            <img title=' VALVE 0 ' className="valve0"  src ={Valve_hori}/>
+            <img title=' VALVE 0 ' className="valve0" onClick={() =>  setPopupValve0(true)}  src ={Valve_hori}/>
+
+            <Popup
+             title="Valve 0"
+            openPopup={popupValve0}
+            setOpenPopup={setPopupValve0}
+             >
+            <ValvePop/> </Popup>
                 
             
             </div>
@@ -99,7 +130,8 @@ function MainSection2() {
            {/* -------------Tank1------------ */} 
 
            <img title=" Feed Tank" className="tank1" src ={FeedTank} />
-           <p className='label-tank1' > FEED TANK </p>
+
+         
            <div className='leveltank1'>
            <Level  value={1.5} maxValue ={3} height ={210}/> 
            </div>
@@ -112,7 +144,7 @@ function MainSection2() {
         <div className="tank2-container">
                 {/* ----------beforeTank2------------------ */}
                 <img title=" Pressure Tank 1" className='tank2' src={PressureTank}/>
-                <p className='label-tank2' > PRESSURE TANK 1 </p>
+                {/* <p className='label-tank2' > PRESSURE TANK 1 </p> */}
                 <div className="before-tank2">
 
                     <img className="pipe21" src ={Pipe_hori}/>
@@ -166,7 +198,7 @@ function MainSection2() {
             {/* ---Tank3----------- */}
         {/* ----------beforeTank2------------------ */}
         <img title='Pressure Tank 2' className='tank3' src={PressureTank}/>
-        <p className='label-tank3' > PRESSURE TANK 2 </p>
+        {/* <p className='label-tank3' > PRESSURE TANK 2 </p> */}
 
             <div className='before-tank3'>
                     <img className="pipe38" src ={Pipe_hori}/>
@@ -194,8 +226,8 @@ function MainSection2() {
                     <img className="pipe48" src ={Pipe_LB}/>
                     <img className="pipe49" src ={Pipe_angle}/>
                     <img title=' VALVE 10 ' className="valve10" src ={Valve_hori}/>
-                    <img className="pipe52" src ={Pipe_alight}/>
-                    <img className="pipe51" src ={Pipe_RT}/>
+                    {/* <img className="pipe52" src ={Pipe_alight}/> */}
+                    <img className="pipe51" src ={Pipe_RB}/>
                     
 
                 </div>
@@ -211,25 +243,25 @@ function MainSection2() {
             {/* ------------Before Tank4--------------------*/}
                 <div className="before-tank4">
 
-                <img className="pipe54" src ={Pipe_hori}/>
+                {/* <img className="pipe54" src ={Pipe_hori}/>
                 <img className="pipe53" src ={Pipe_LB}/>
-                <img className="pipe55" src ={Pipe_RB}/>
+                <img className="pipe55" src ={Pipe_RB}/> */}
 
                 </div>
             {/* --------After Tank 4---------- */}
                 <div className='after-tank4'>
-                <img className="pipe56" src ={Pipe_alight}/>
+                {/* <img className="pipe56" src ={Pipe_alight}/>
                 <img className="pipe57" src ={Pipe_fork_alight_right}/>
-                <img className="pipe58" src ={Pipe_RB}/>
-                <img className="pipe59" src ={Pipe_alight}/>
+                <img className="pipe58" src ={Pipe_RB}/> */}
+                {/* <img className="pipe59" src ={Pipe_alight}/> */}
                 <img className="pipe60" src ={Pipe_alight}/>
                 
-                <img title=" PUMP 4 " className="pump4" src ={Pump_alight}/>
-                <img title=" PUMP 5 " className="pump5" src ={Pump_alight}/>
+                {/* <img title=" PUMP 4 " className="pump4" src ={Pump_alight}/>
+                <img title=" PUMP 5 " className="pump5" src ={Pump_alight}/> */}
                 </div>
         </div>
            <img title="Raw Tank" className="tank4" src ={RawTank}/>
-           <p className='label-tank4' > RAW TANK </p>
+           {/* <p className='label-tank4' > RAW TANK </p> */}
             {/* -------LevelTank4----- */}
             <div className='leveltank4'>
                     <Level  value={1} maxValue ={3} height ={210}/> 
@@ -241,7 +273,7 @@ function MainSection2() {
             <div className='before-micro-filter'>
                 <img className="pipe63" src ={Pipe_hori}/>
                  <img className="pipe61" src ={Pipe_RT}/>
-                 <img className="pipe62" src ={Pipe_fork}/>
+                 {/* <img className="pipe62" src ={Pipe_fork}/> */}
                 
             </div>
             {/* --------After Filter-------- */} 
@@ -257,7 +289,7 @@ function MainSection2() {
             </div>
             {/* --------Micro Filter--------*/}
             <img title="Micro Filter"className='micro-filter' src={MicroFilter}/>
-            <p className='label-micro-filter' > MICRO FILTER </p>
+            {/* <p className='label-micro-filter' > MICRO FILTER </p> */}
          </div>
 
             {/* -----------RO Filter------------ */}
@@ -312,7 +344,7 @@ function MainSection2() {
                     <img title="RO Filter 2" className='rofilter2' src ={ROFilter}/>
                     <img title="RO Filter 3" className='rofilter3' src ={ROFilter}/>
                     <img title="RO Filter 4" className='rofilter4' src ={ROFilter}/>
-                    <p className='label-ro-filter' > RO FILTER </p>
+                    {/* <p className='label-ro-filter' > RO FILTER </p> */}
                 </div>
                 
          </div>
@@ -335,21 +367,24 @@ function MainSection2() {
                 </div>
                 {/* -----------uv------- */}
                 <img title='UV Water Filter' className='uvfilter' src={UVFilter}/>
-                <p className='label-uv-filter' > UV FILTER </p>
-        </div>
-        {/* ------------------Tank 5  Water Tank------------------------------ */}
+                {/* <p className='label-uv-filter' > UV FILTER </p> */}
+          </div>
+                {/* ------------------Tank 5  Water Tank------------------------------ */}
 
-            <div className="water-tank">
+                  <div className="water-tank">
 
                     <img title='Water Tank' className="watertank" src ={RawTank}/>
-                    <p className='label-watertank' > WATER TANK </p>
-            </div>
-            <div className='leveltank5'>
+                    {/* <p className='label-watertank' > WATER TANK </p> */}
+                  </div>
+                  <div className='leveltank5'>
                 <Level  value={1.5} maxValue ={3} height ={210}/> 
-           </div>
+                </div>
        
+
+    </div>
+            
        
-        </div>
+</div>
     )
 }
 

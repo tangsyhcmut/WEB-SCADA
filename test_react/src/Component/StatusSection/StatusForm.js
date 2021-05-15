@@ -13,7 +13,7 @@ function StatusForm() {
     const handleBit = () => setBit(!bit);
     return (
         <Container className='statusForm'>
-            <h2 className='titleStatus'> SYSTEM STATUS </h2>
+            {/* <h2 className='titleStatus'> SYSTEM STATUS </h2> */}
             <Col>
              <div className="status-light" >
         
@@ -26,10 +26,12 @@ function StatusForm() {
             <Label> Error </Label>
             <img className="redlight" src ={bit ?  redlighton : redlightoff } />
         
-        </div>
+            </div>
             </Col>
             <Col className ='sys-mode'>
-            <a className='system-mode'>Running Mode :</a> 
+
+            <a className='system-mode'>Mode :</a> 
+            
             </Col>
             <Button  className='btn-sys-emer'>EMERGENCY</Button>
            

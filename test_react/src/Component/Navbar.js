@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button'
 import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
 import logoutIcon from './img/logout.svg'
-import Logo from './img/navlogo.svg'
+import Logo from './img/liquid.svg'
 
 
 function Navbar(){
@@ -35,7 +35,7 @@ function Navbar(){
             <div className='navbar-container'>
             
                 <NavLink to='/' className='navbar-logo' onClick={closeMobileMenu} >
-                WATER TREATMENT SYSTEM<img className = 'nav-logo'src={Logo}/>
+                WATER TREATMENT SYSTEM  <img className = 'nav-logo'src={Logo}/>
                 </NavLink>
                
                 <div className='menu-icon' onClick={handleClick}>

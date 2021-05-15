@@ -20,11 +20,7 @@ function Home() {
 
 
             <Row>
-            <Col>
             
-            <ControlSection/>
-            </Col>
-            <NotiTable/>
             </Row>
 
 
