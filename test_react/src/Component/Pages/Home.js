@@ -6,8 +6,7 @@ import ControlSection from '../ControlSection/ControlSection';
 import NotiTable from'../NotiSection/NotiTable';
 import Footer from '../Footer/Footer';
 import{Container,Row,Col} from 'reactstrap';
-
-
+import StatusData from '../StatusSection/StatusData';
 
 function Home() {
 
@@ -20,7 +19,7 @@ function Home() {
 
 
             <Row>
-            
+            <StatusData/>
             </Row>
 
 

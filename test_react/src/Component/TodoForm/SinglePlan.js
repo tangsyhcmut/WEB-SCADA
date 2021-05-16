@@ -3,10 +3,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import ActionButtons from './ActionButton'
+import './SinglePlan.css'
 
-const SinglePost = ({plan: {_id, status, title, description} }) => (
+const SinglePost = ({ post: { _id, status, title, description } }) => (
 	<Card
-		className='shadow'
+		className='card-plan'
 		border={
 			status === 'DONE'
 				? 'success'
@@ -20,25 +21,31 @@ const SinglePost = ({plan: {_id, status, title, description} }) => (
 				<Row>
 					<Col>
 						<p className='post-title'>{title}</p>
-						<Badge
+						
+					</Col>
+					<Col className='btn-edit'>
+						<ActionButtons  _id={_id} />
+					</Col>
+				</Row>
+					<Row>
+					<Badge
+							className='post-status'
 							pill
-							variant={
-								status === 'DONE'
-									? 'success'
-									: status === 'DOING'
-									? 'warning'
-									: 'danger'
-							}
+							// variant={
+							// 	status === 'DONE'
+							// 		? 'success'
+							// 		: status === 'DOING'
+							// 		? 'warning'
+							// 		: 'danger'
+							// }
 						>
 							{status}
 						</Badge>
-					</Col>
-					<Col className='text-right'>
-						<ActionButtons _id={_id} />
-					</Col>
-				</Row>
+					</Row>
+					
+				
 			</Card.Title>
-			<Card.Text>{description}</Card.Text>
+			<Card.Text className='post-description'>{description}</Card.Text>
 		</Card.Body>
 	</Card>
 )

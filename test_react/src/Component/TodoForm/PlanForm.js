@@ -1,4 +1,4 @@
-import { PlanContext } from '../../context/PlanContext'
+import { PostContext } from '../../context/PlanContext'
 import { AuthContext } from '../../context/AuthContext'
 import { useContext, useEffect } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
@@ -9,12 +9,12 @@ import Toast from 'react-bootstrap/Toast'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import Col from 'react-bootstrap/Col'
-import SinglePlan from './SinglePlan'
-import AddPlanModal from './AddPlan'
-import UpdatePlanModal from './UpdatePlan'
-import addIcon from '../img/trash.svg'
-
-const Dashboard = () => {
+import SinglePost from './SinglePlan'
+import AddPostModal from './AddPlan'
+import UpdatePostModal from './UpdatePlan'
+import addIcon from '../img/add.svg'
+import './PlanForm.css'
+const PlanForm = () => {
 	// Contexts
 	const {
 		authState: {
@@ -23,40 +23,40 @@ const Dashboard = () => {
 	} = useContext(AuthContext)
 
 	const {
-		planState: { plan, plans, plansLoading },
-		getPlans,
-		setShowAddPlanModal,
+		postState: { post, posts, postsLoading },
+		getPosts,
+		setShowAddPostModal,
 		showToast: { show, message, type },
 		setShowToast
-	} = useContext(PlanContext)
+	} = useContext(PostContext)
 
-	// Start: Get all plans
-	useEffect(() => getPlans(), [])
+	// Start: Get all posts
+	useEffect(() => getPosts(), [])
 
 	let body = null
 
-	if (plansLoading) {
+	if (postsLoading) {
 		body = (
 			<div className='spinner-container'>
-				{/* <Spinner animation='border' variant='info' /> */}
-                hello
+				<Spinner animation='border' variant='info' />
 			</div>
 		)
-	} else if (plans.length === 0) {
+	} else if (posts.length === 0) {
 		body = (
 			<>
-				<Card className='text-center mx-5 my-5'>
+				<Card className='new-todo'>
 					<Card.Header as='h1'>Hi {username}</Card.Header>
 					<Card.Body>
-						<Card.Title>TO DO LIST</Card.Title>
+						<Card.Title>Plan to do !</Card.Title>
 						<Card.Text>
-							Click the button below to create plan
+							Click the button below to add plan.
 						</Card.Text>
 						<Button
+							className='btn-addplan'
 							variant='primary'
-							onClick={setShowAddPlanModal.bind(this, true)}
+							onClick={setShowAddPostModal.bind(this, true)}
 						>
-							DoIt!
+							Add Plan!
 						</Button>
 					</Card.Body>
 				</Card>
@@ -66,25 +66,25 @@ const Dashboard = () => {
 		body = (
 			<>
 				<Row className='row-cols-1 row-cols-md-3 g-4 mx-auto mt-3'>
-					{plans.map(plan => (
-						<Col key={plan._id} className='my-2'>
-							<SinglePlan plan={plan} />
+					{posts.map(post => (
+						<Col key={post._id} className='my-2'>
+							<SinglePost post={post} />
 						</Col>
 					))}
 				</Row>
 
-				{/* Open Add Plan Modal */}
-				<OverlayTrigger
+				{/* Open Add Post Modal */}
+				{/* <OverlayTrigger
 					placement='left'
-					overlay={<Tooltip>Add a new to do</Tooltip>}
-				>
+					// overlay={<Tooltip>Add a new plan to do</Tooltip>}
+				> */}
 					<Button
 						className='btn-floating'
-						onClick={setShowAddPlanModal.bind(this, true)}
+						onClick={setShowAddPostModal.bind(this, true)}
 					>
-						<img src={addIcon} alt='add-plan' width='60' height='60' />
+						<img src={addIcon} alt='add-post' width='50' height='40' />
 					</Button>
-				</OverlayTrigger>
+				{/* </OverlayTrigger> */}
 			</>
 		)
 	}
@@ -92,9 +92,9 @@ const Dashboard = () => {
 	return (
 		<>
 			{body}
-			<AddPlanModal />
-			{plan !== null && <UpdatePlanModal />}
-			{/* After plan is added, show toast */}
+			<AddPostModal />
+			{post !== null && <UpdatePostModal />}
+			{/* After post is added, show toast */}
 			<Toast
 				show={show}
 				style={{ position: 'fixed', top: '20%', right: '10px' }}
@@ -115,4 +115,4 @@ const Dashboard = () => {
 	)
 }
 
-export default Dashboard
+export default PlanForm

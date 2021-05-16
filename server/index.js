@@ -14,6 +14,8 @@ var settings = {
 const app = express()
 
 const authRouter = require('./routes/auth')
+const postRouter = require('./routes/post')
+
 const PORT = process.env.PORT || 5000
 const server =app.listen(PORT)
 
@@ -60,17 +62,17 @@ io.on("connection", (socket) => {
   /// temperature
    socket.on('sysMode',data=>{
      console.log(data);
-     let sysMode= JSON.stringify(data);
+    //  let sysMode= JSON.stringify(data);
     
-     clientMQTT.publish('temMode',sysMode);
+     clientMQTT.publish('R101TSTAT',data);
    })
 
 
    socket.on('temperatureSet',data=>{
      console.log(data);
-     let tem= JSON.stringify(data);
+    //  let tem= JSON.stringify(data);
     
-    clientMQTT.publish('temValue',tem);
+    clientMQTT.publish('R345TSTAT',data);
    })
 
 
@@ -111,3 +113,4 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api/auth', authRouter)
+app.use('/api/posts', postRouter)

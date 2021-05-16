@@ -1,53 +1,52 @@
 import { createContext, useReducer, useState } from 'react'
-import { planReducer } from '../reducers/planReducer'
+import { postReducer } from '../reducers/planReducer'
 import {
 	apiUrl,
-	PLANS_LOADED_FAIL,
-	PLANS_LOADED_SUCCESS,
-	ADD_PLAN,
-	DELETE_PLAN,
-	UPDATE_PLAN,
-    FIND_PLAN
-	
+	POSTS_LOADED_FAIL,
+	POSTS_LOADED_SUCCESS,
+	ADD_POST,
+	DELETE_POST,
+	UPDATE_POST,
+	FIND_POST
 } from './constants'
 import axios from 'axios'
 
-export const PlanContext = createContext()
+export const PostContext = createContext()
 
-const PlanContextProvider = ({ children }) => {
+const PostContextProvider = ({ children }) => {
 	// State
-	const [planState, dispatch] = useReducer(planReducer, {
-		plan: null,
-		plans: [],
-		plansLoading: true
+	const [postState, dispatch] = useReducer(postReducer, {
+		post: null,
+		posts: [],
+		postsLoading: true
 	})
 
-	const [showAddPlanModal, setShowAddPlanModal] = useState(false)
-	const [showUpdatePlanModal, setShowUpdatePlanModal] = useState(false)
+	const [showAddPostModal, setShowAddPostModal] = useState(false)
+	const [showUpdatePostModal, setShowUpdatePostModal] = useState(false)
 	const [showToast, setShowToast] = useState({
 		show: false,
 		message: '',
 		type: null
 	})
 
-	// Get all plans
-	const getPlans = async () => {
+	// Get all posts
+	const getPosts = async () => {
 		try {
-			const response = await axios.get(`${apiUrl}/plans`)
+			const response = await axios.get(`${apiUrl}/posts`)
 			if (response.data.success) {
-				dispatch({ type: PLANS_LOADED_SUCCESS, payload: response.data.plans })
+				dispatch({ type: POSTS_LOADED_SUCCESS, payload: response.data.posts })
 			}
 		} catch (error) {
-			dispatch({ type: PLANS_LOADED_FAIL })
+			dispatch({ type: POSTS_LOADED_FAIL })
 		}
 	}
 
-	// Add plan
-	const addPlan = async newPlan => {
+	// Add post
+	const addPost = async newPost => {
 		try {
-			const response = await axios.plan(`${apiUrl}/plans`, newPlan)
+			const response = await axios.post(`${apiUrl}/posts`, newPost)
 			if (response.data.success) {
-				dispatch({ type: ADD_PLAN, payload: response.data.plan })
+				dispatch({ type: ADD_POST, payload: response.data.post })
 				return response.data
 			}
 		} catch (error) {
@@ -57,32 +56,32 @@ const PlanContextProvider = ({ children }) => {
 		}
 	}
 
-	// Delete plan
-	const deletePlan = async planId => {
+	// Delete post
+	const deletePost = async postId => {
 		try {
-			const response = await axios.delete(`${apiUrl}/plans/${planId}`)
+			const response = await axios.delete(`${apiUrl}/posts/${postId}`)
 			if (response.data.success)
-				dispatch({ type: DELETE_PLAN, payload: planId })
+				dispatch({ type: DELETE_POST, payload: postId })
 		} catch (error) {
 			console.log(error)
 		}
 	}
-        // Find plan when user is updating plan
-	        const findPlan= planId => {
-		    const plan = planState.plans.find(plan => plan._id === planId)
-		    dispatch({ type: FIND_PLAN, payload: plan })
-	    }
-	
 
-	// Update plan
-	const updatePlan = async updatedPlan => {
+	// Find post when user is updating post
+	const findPost = postId => {
+		const post = postState.posts.find(post => post._id === postId)
+		dispatch({ type: FIND_POST, payload: post })
+	}
+
+	// Update post
+	const updatePost = async updatedPost => {
 		try {
 			const response = await axios.put(
-				`${apiUrl}/plans/${updatedPlan._id}`,
-				updatedPlan
+				`${apiUrl}/posts/${updatedPost._id}`,
+				updatedPost
 			)
 			if (response.data.success) {
-				dispatch({ type: UPDATE_PLAN, payload: response.data.plan })
+				dispatch({ type: UPDATE_POST, payload: response.data.post })
 				return response.data
 			}
 		} catch (error) {
@@ -92,27 +91,27 @@ const PlanContextProvider = ({ children }) => {
 		}
 	}
 
-	// Plan context data
-	const planContextData = {
-		planState,
-		getPlans,
-		showAddPlanModal,
-		setShowAddPlanModal,
-		showUpdatePlanModal,
-		setShowUpdatePlanModal,
-		addPlan,
+	// Post context data
+	const postContextData = {
+		postState,
+		getPosts,
+		showAddPostModal,
+		setShowAddPostModal,
+		showUpdatePostModal,
+		setShowUpdatePostModal,
+		addPost,
 		showToast,
 		setShowToast,
-		deletePlan,
-        findPlan,
-		updatePlan
+		deletePost,
+		findPost,
+		updatePost
 	}
 
 	return (
-		<PlanContext.Provider value={planContextData}>
+		<PostContext.Provider value={postContextData}>
 			{children}
-		</PlanContext.Provider>
+		</PostContext.Provider>
 	)
 }
 
-export default PlanContextProvider
+export default PostContextProvider

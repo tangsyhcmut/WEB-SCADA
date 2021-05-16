@@ -1,17 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const verifyToken = require('../middleware/auth')
-const Plan = require('../models/PlanTodo')
 
-// @route GET api/plans
-// @desc Get plans
+const Post = require('../models/Post')
+
+// @route GET api/posts
+// @desc Get posts
 // @access Private
 router.get('/', verifyToken, async (req, res) => {
 	try {
-		const plans = await Plan.find({ user: req.userId }).populate('user', [
+		const posts = await Post.find({ user: req.userId }).populate('user', [
 			'username'
 		])
-		res.json({ success: true, plans })
+		res.json({ success: true, posts })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({ success: false, message: 'Internal server error' })
@@ -22,7 +23,7 @@ router.get('/', verifyToken, async (req, res) => {
 // @desc Create post
 // @access Private
 router.post('/', verifyToken, async (req, res) => {
-	const { title, description,status } = req.body
+	const { title, description, status } = req.body
 
 	// Simple validation
 	if (!title)
@@ -31,27 +32,27 @@ router.post('/', verifyToken, async (req, res) => {
 			.json({ success: false, message: 'Title is required' })
 
 	try {
-		const newPlan = new Plan({
+		const newPost = new Post({
 			title,
 			description,
-            status: status||'DONE',
-			user: req.userId
+			status: status || 'TO DO',
+			user: req.userId,
 		})
 
-		await newPlan.save()
+		await newPost.save()
 
-		res.json({ success: true, message: 'Create success!', plan: newPlan })
+		res.json({ success: true, message: 'Happy learning!', post: newPost })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({ success: false, message: 'Internal server error' })
 	}
 })
 
-// @route PUT api/plans
-// @desc Update plan
+// @route PUT api/posts
+// @desc Update post
 // @access Private
 router.put('/:id', verifyToken, async (req, res) => {
-	const { title, description,status} = req.body
+	const { title, description, status } = req.body
 
 	// Simple validation
 	if (!title)
@@ -60,32 +61,31 @@ router.put('/:id', verifyToken, async (req, res) => {
 			.json({ success: false, message: 'Title is required' })
 
 	try {
-		let updatedPlan = {
+		let updatedPost = {
 			title,
-			description: description||'',
-            status: status||'TO DO'
-			
+			description: description || '',
+			status: status || 'TO DO'
 		}
 
-		const planUpdateCondition = { _id: req.params.id, user: req.userId }
+		const postUpdateCondition = { _id: req.params.id, user: req.userId }
 
-		updatedPlan = await Plan.findOneAndUpdate(
-			planUpdateCondition,
-			updatedPlan,
+		updatedPost = await Post.findOneAndUpdate(
+			postUpdateCondition,
+			updatedPost,
 			{ new: true }
 		)
 
-		// User not authorised to update plan or plan not found
-		if (!updatedPlan)
+		// User not authorised to update post or post not found
+		if (!updatedPost)
 			return res.status(401).json({
 				success: false,
-				message: 'Plan not found or user not authorised'
+				message: 'Post not found or user not authorised'
 			})
 
 		res.json({
 			success: true,
 			message: 'Excellent progress!',
-			plan: updatedPlan
+			post: updatedPost
 		})
 	} catch (error) {
 		console.log(error)
@@ -98,17 +98,17 @@ router.put('/:id', verifyToken, async (req, res) => {
 // @access Private
 router.delete('/:id', verifyToken, async (req, res) => {
 	try {
-		const planDeleteCondition = { _id: req.params.id, user: req.userId }
-		const deletedPlan = await Plan.findOneAndDelete(planDeleteCondition)
+		const postDeleteCondition = { _id: req.params.id, user: req.userId }
+		const deletedPost = await Post.findOneAndDelete(postDeleteCondition)
 
 		// User not authorised or post not found
-		if (!deletedPlan)
+		if (!deletedPost)
 			return res.status(401).json({
 				success: false,
-				message: 'Plan not found or user not authorised'
+				message: 'Post not found or user not authorised'
 			})
 
-		res.json({ success: true, plan: deletedPlan })
+		res.json({ success: true, post: deletedPost })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({ success: false, message: 'Internal server error' })

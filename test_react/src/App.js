@@ -36,7 +36,7 @@ function App() {
 						/>
         <ProtectedRoute  exact path ='/home' exact component ={Home} />
         <ProtectedRoute  exact path ='/dashboard' component ={Dashboard} />
-        <ProtectedRoute exact path='/test' component={Test} />
+        <ProtectedRoute exact path='/test' component={PlanForm} />
         
         <ProtectedRoute  exact path ='/P-T' exact component ={PowerandTem} />
         

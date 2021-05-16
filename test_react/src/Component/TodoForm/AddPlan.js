@@ -2,48 +2,49 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { useContext, useState } from 'react'
-import { PlanContext } from '../../context/PlanContext'
+import { PostContext } from '../../context/PlanContext'
+import './AddPlan.css'
 
-const AddPlanModal = () => {
+const AddPostModal = () => {
 	// Contexts
 	const {
-		showAddPlanModal,
-		setShowAddPlanModal,
-		addPlan,
+		showAddPostModal,
+		setShowAddPostModal,
+		addPost,
 		setShowToast
-	} = useContext(PlanContext)
+	} = useContext(PostContext)
 
 	// State
-	const [newPlan, setNewPlan] = useState({
+	const [newPost, setNewPost] = useState({
 		title: '',
 		description: '',
 		status: 'TO DO'
 	})
 
-	const { title, description } = newPlan
+	const { title, description } = newPost
 
-	const onChangeNewPlanForm = event =>
-		setNewPlan({ ...newPlan, [event.target.name]: event.target.value })
+	const onChangeNewPostForm = event =>
+		setNewPost({ ...newPost, [event.target.name]: event.target.value })
 
 	const closeDialog = () => {
-		resetAddPlanData()
+		resetAddPostData()
 	}
 
 	const onSubmit = async event => {
 		event.preventDefault()
-		const { success, message } = await addPlan(newPlan)
-		resetAddPlanData()
+		const { success, message } = await addPost(newPost)
+		resetAddPostData()
 		setShowToast({ show: true, message, type: success ? 'success' : 'danger' })
 	}
 
-	const resetAddPlanData = () => {
-		setNewPlan({ title: '', description: '', status: 'TO DO' })
-		setShowAddPlanModal(false)
+	const resetAddPostData = () => {
+		setNewPost({ title: '', description: '', status: 'TO DO' })
+		setShowAddPostModal(false)
 	}
 
 	return (
-		<Modal show={showAddPlanModal} onHide={closeDialog}>
-			<Modal.Header closeButton>
+		<Modal className="add-plan-form" show={showAddPostModal} onHide={closeDialog}>
+			<Modal.Header >
 				<Modal.Title>What do you want to do?</Modal.Title>
 			</Modal.Header>
 			<Form onSubmit={onSubmit}>
@@ -56,7 +57,8 @@ const AddPlanModal = () => {
 							required
 							aria-describedby='title-help'
 							value={title}
-							onChange={onChangeNewPlanForm}
+							onChange={onChangeNewPostForm}
+							className='input-title'
 						/>
 						<Form.Text id='title-help' muted>
 							Required
@@ -69,22 +71,24 @@ const AddPlanModal = () => {
 							placeholder='Description'
 							name='description'
 							value={description}
-							onChange={onChangeNewPlanForm}
+							onChange={onChangeNewPostForm}
+							className='input-description'
 						/>
 					</Form.Group>
 					
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant='secondary' onClick={closeDialog}>
-						Cancel
-					</Button>
-					<Button variant='primary' type='submit'>
+					<Button className='btn-do' variant='primary' type='submit'>
 						DoIt!
 					</Button>
+					<Button className='btn-cancel' variant='secondary' onClick={closeDialog}>
+						Cancel
+					</Button>
+					
 				</Modal.Footer>
 			</Form>
 		</Modal>
 	)
 }
 
-export default AddPlanModal
+export default AddPostModal

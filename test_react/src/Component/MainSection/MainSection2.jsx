@@ -33,8 +33,14 @@ import RawTank from '../img/Tank_4.svg';
 import UVFilter from '../img/UV.svg';
 //Popup
 import Popup from '../Popup/Popup';
-import PumpPop from '../Popup/PumpPop';
-import ValvePop from '../Popup/ValvePop'
+import PumpPop from '../Popup/Pump1Pop';
+import Pump2Pop from '../Popup/Pump2Pop';
+import Pump3Pop from '../Popup/Pump3Pop';
+import ValvePop from '../Popup/ValvePop';
+import Valve1Pop from '../Popup/Valve1Pop';
+import Valve2Pop from '../Popup/Valve2Pop';
+import Valve3Pop from '../Popup/Valve3Pop';
+import Valve4Pop from '../Popup/Valve4Pop';
 // Status
 import Status from '../StatusSection/StatusForm';
 import './MainSection2.css';
@@ -45,8 +51,16 @@ import './MainSection2.css';
 function MainSection2() {
     // PopUp
     const [popupPump1,setPopupPump1] = useState(false);
+    const [popupPump2,setPopupPump2] = useState(false);
+    const [popupPump3,setPopupPump3] = useState(false);
     //Valve
     const [popupValve0,setPopupValve0] = useState(false);
+    const [popupValve1,setPopupValve1] = useState(false);
+    const [popupValve2,setPopupValve2] = useState(false);
+    const [popupValve3,setPopupValve3] = useState(false);
+    const [popupValve4,setPopupValve4] = useState(false);
+    const [popupValve5,setPopupValve5] = useState(false);
+
 
 
 
@@ -88,7 +102,8 @@ function MainSection2() {
             openPopup={popupPump1}
             setOpenPopup={setPopupPump1}
              >
-            <PumpPop/> </Popup>
+            <PumpPop/> 
+            </Popup>
             
             {/* <img className="pipe3" src ={Pipe_hori}/> */}
            
@@ -117,8 +132,28 @@ function MainSection2() {
             <img className="pipe7" src ={Pipe_fork}/>
             <img className="pipe11" src ={Pipe_hori}/>
             <img className="pipe12" src ={Pipe_hori}/>
-            <img title=" PUMP 2 " className="pump2" src ={Pump}/>
-            <img title=" PUMP 3 " className="pump3" src ={Pump}/>
+
+
+            <img title=" PUMP 2 " className="pump2" onClick={() =>  setPopupPump2(true)} src ={Pump}/>
+            <Popup
+             title="Pump 2"
+            openPopup={popupPump2}
+            setOpenPopup={setPopupPump2}
+             >
+            <Pump2Pop/> 
+            </Popup>
+            
+
+            <img title=" PUMP 3 " className="pump3" onClick={() =>  setPopupPump3(true)} src ={Pump}/>
+            
+            <Popup
+             title="Pump 3"
+            openPopup={popupPump3}
+            setOpenPopup={setPopupPump3}
+             >
+            <Pump3Pop/> 
+            </Popup>
+
             <img className="pipe15" src ={Pipe_alight}/>
             <img className="pipe16" src ={Pipe_hori}/>
             <img className="pipe13" src ={Pipe_RB}/>
@@ -154,16 +189,42 @@ function MainSection2() {
                     <img className="pipe23" src ={Pipe_hori}/>
                     <img className="pipe24" src ={Pipe_hori}/>
                     
-                         <img title=' VALVE 1 ' className="valve1" src ={Valve_hori}/>
+                         <img title=' VALVE 1 ' className="valve1" onClick={() =>  setPopupValve1(true)} src ={Valve_hori}/>
+                         <Popup
+                              title="Valve 1"
+                              openPopup={popupValve1}
+                            setOpenPopup={setPopupValve1}
+                        >
+                        <Valve1Pop/> </Popup>
                          
                     
                     
-                         <img title=' VALVE 2 ' className="valve2"  src ={Valve_hori}/>
-                   
+                         <img title=' VALVE 2 ' className="valve2" onClick={() =>  setPopupValve2(true)} src ={Valve_hori}/>
+                         <Popup
+                              title="Valve 2"
+                              openPopup={popupValve2}
+                            setOpenPopup={setPopupValve2}
+                        >
+                        <Valve1Pop/> </Popup>
                     <img className="pipe25" src ={Pipe_fork_down}/>
                     <img className="pipe26" src ={Pipe_fork_down}/>
-                    <img title=' VALVE 3 ' className="valve3" src ={Valve_hori}/>
-                    <img title=' VALVE 4 '  className="valve4" src ={Valve_hori}/>
+
+                    <img title=' VALVE 3 ' className="valve3" src ={Valve_hori} onClick={() =>  setPopupValve3(true)}/>
+
+                    <Popup
+                              title="Valve 3"
+                              openPopup={popupValve3}
+                            setOpenPopup={setPopupValve3}
+                        >
+                        <Valve3Pop/> </Popup>
+                    <img title=' VALVE 4 '  className="valve4" src ={Valve_hori} onClick={() =>  setPopupValve4(true)}/>
+                    <Popup
+                              title="Valve 4"
+                              openPopup={popupValve4}
+                            setOpenPopup={setPopupValve4}
+                        >
+                        <Valve4Pop/> </Popup>
+
                     <img className="pipe29" src ={Pipe_alight}/>
                     <img className="pipe27" src ={Pipe_RB}/>
                     <img className="pipe28" src ={Pipe_fork_alight_left}/>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const PlanSchema = new Schema({
+const PostSchema = new Schema({
 	title: {
 		type: String,
 		required: true
@@ -16,11 +16,7 @@ const PlanSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'users'
-	},
-    createdAt:{
-        type: Date,
-        default:Date.now
-    }
+	}
 })
 
-module.exports = mongoose.model('plans', PlanSchema)
+module.exports = mongoose.model('posts', PostSchema)

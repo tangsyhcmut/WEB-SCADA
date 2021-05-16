@@ -1,53 +1,52 @@
 import {
-	PLANS_LOADED_SUCCESS,
-	PLANS_LOADED_FAIL,
-	ADD_PLAN,
-	DELETE_PLAN,
-	FIND_PLAN,
-	UPDATE_PLAN
-
+	POSTS_LOADED_SUCCESS,
+	POSTS_LOADED_FAIL,
+	ADD_POST,
+	DELETE_POST,
+	UPDATE_POST,
+	FIND_POST
 } from '../context/constants'
 
-export const planReducer = (state, action) => {
+export const postReducer = (state, action) => {
 	const { type, payload } = action
 	switch (type) {
-		case PLANS_LOADED_SUCCESS:
+		case POSTS_LOADED_SUCCESS:
 			return {
 				...state,
-				plans: payload,
-				plansLoading: false
+				posts: payload,
+				postsLoading: false
 			}
 
-		case PLANS_LOADED_FAIL:
+		case POSTS_LOADED_FAIL:
 			return {
 				...state,
-				plans: [],
-				plansLoading: false
+				posts: [],
+				postsLoading: false
 			}
 
-		case ADD_PLAN:
+		case ADD_POST:
 			return {
 				...state,
-				plans: [...state.plans, payload]
+				posts: [...state.posts, payload]
 			}
-		case FIND_PLAN:
-			return { ...state, plan: payload }
 
-		case DELETE_PLAN:
+		case DELETE_POST:
 			return {
 				...state,
-				plans: state.plans.filter(plan => plan._id !== payload)
+				posts: state.posts.filter(post => post._id !== payload)
 			}
 
+		case FIND_POST:
+			return { ...state, post: payload }
 
-		case UPDATE_PLAN:
-			const newPlans = state.plans.map(plan =>
-				plan._id === payload._id ? payload : plan
+		case UPDATE_POST:
+			const newPosts = state.posts.map(post =>
+				post._id === payload._id ? payload : post
 			)
 
 			return {
 				...state,
-				plans: newPlans
+				posts: newPosts
 			}
 
 		default:

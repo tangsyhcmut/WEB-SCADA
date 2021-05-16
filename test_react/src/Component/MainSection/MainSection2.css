@@ -1,7 +1,7 @@
 /* -------main------- */
 .mainsection2-container {
   
-    background: url('../img/Background.jpg') center center/cover no-repeat;
+    background: url('../img/main.png') center center/cover no-repeat;
     height: 90vh;
     width: 100%;
     display: flex;

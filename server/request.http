@@ -2,19 +2,21 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username":"huuphuc",
-    "password":"1234"
+    "username":"phuc",
+    "password":"123"
 }
 ################################
 
 
-POST http://localhost:5000/api/plans
+POST http://localhost:5000/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDkyYmVmZDZjNmRiYzUwNThlYzE4ZDIiLCJpYXQiOjE2MjA3OTAyNzB9.rEOJwY3FssQXcFTbXtQwa_eFbs53okt81S9y-ZHcM8Y
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDlkMTJiNDE0NmNlMjQ2YjRlN2JhM2IiLCJpYXQiOjE2MjExMzQyNzd9.mWRYrnR_lhxqWjnK4V8U3c0HpTJ5IUV8VwnAYlQtlfs
+
 
 
 {
     "title": "huu",
-    "status": "node index"
+    "discription": "node index",
+    "status": "TO LEARN"
     
 }

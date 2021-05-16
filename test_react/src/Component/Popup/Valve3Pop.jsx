@@ -14,10 +14,10 @@ import {
     const CONNECTION_PORT = "localhost:5000/";
   
 
-function ValvePop() {
+function Valve3Pop() {
 
     const[bit,setbit] =useState(false)
-    const [stateV0,setStateV0] = useState([]);
+    const [stateV3,setStateV3] = useState([]);
 
 
     /// Connect 
@@ -26,7 +26,7 @@ function ValvePop() {
   }, [CONNECTION_PORT]);
     ///State
   useEffect(() => {
-    socket.on("valve0", (data) => {
+    socket.on("valve3", (data) => {
        
         
         });
@@ -34,19 +34,21 @@ function ValvePop() {
 
     ///Mode
     const selectMode =async(e)=>{
-      let valve0Mode = {
-        valve0Mode:e.target.value}
+      let valve3Mode = {
+        valve3Mode:e.target.value}
      await 
-     socket.emit('valve0Mode',valve0Mode)
+     socket.emit('valve3Mode',valve3Mode)
     };
     ///Set Open
     const btnOpenClick =()=>{
-      let setOpenV0 = {openV0:true}
-        socket.emit('valve0Open',setOpenV0)}
+
+        let setOpenV3 = {openV3:true}
+        socket.emit('valve3Open',setOpenV3)}
       ///Set Close
     const btnCloseClick =()=>{
-        let setCloseV0 = {closeV0:true}
-        socket.emit('valve0Close',setCloseV0)}
+
+        let setCloseV3 = {closeV3:true}
+        socket.emit('valve3Close',setCloseV3)}
 
     
     return (
@@ -72,8 +74,8 @@ function ValvePop() {
             <FormGroup>
             <div className="controlbtn">
                 <Label>Control : </Label>
-                <Button className='btnopen'  onClick={btnOpenClick} disabled ={!stateV0.man}>Open</Button> {' '}
-                <Button className='btnclose' onClick={btnCloseClick} disabled ={!stateV0.man}>Close</Button> 
+                <Button className='btnopen'  onClick={btnOpenClick} disabled ={!stateV3.man}>Open</Button> {' '}
+                <Button className='btnclose' onClick={btnCloseClick} disabled ={!stateV3.man}>Close</Button> 
                 <Button className='btnreset' >Reset</Button>
               </div>
             </FormGroup>
@@ -120,4 +122,4 @@ function ValvePop() {
     )
 }
 
-export default ValvePop
+export default Valve3Pop

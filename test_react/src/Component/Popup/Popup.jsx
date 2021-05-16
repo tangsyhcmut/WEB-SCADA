@@ -1,18 +1,18 @@
 import React from 'react'
 import { Dialog, DialogTitle, DialogContent, makeStyles, Typography } from '@material-ui/core';
-// import Controls from "./controls/Controls";
+ import Close from "../img/cancel.svg";
 
 
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0.2),
         position: 'absolute',
         top: theme.spacing(5),
         backgroundColor: 'lavender',
 
     },
     dialogTitle: {
-        paddingRight: '0px'
+        paddingRight: '5px'
     }
 }))
 
@@ -29,7 +29,14 @@ export default function Popup(props) {
                         {title}
                      
                     </Typography>
-                    <span class="material-icons md-48" onClick={() =>setOpenPopup(false)} >close</span> 
+                    <span class="material-icons md-48" onClick={() =>setOpenPopup(false)} > <img
+						    	src={Close}
+                                
+							    alt='logoutIcon'
+						    	width='35'
+						    	height='35'
+							  className='mr-2'
+					    	/></span> 
                     
                 </div>
             </DialogTitle>

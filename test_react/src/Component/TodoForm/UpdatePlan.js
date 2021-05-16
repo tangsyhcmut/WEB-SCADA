@@ -2,48 +2,49 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { useContext, useState, useEffect } from 'react'
-import { PlanContext } from '../../context/PlanContext'
+import { PostContext } from '../../context/PlanContext'
+import './UpdatePlan.css'
 
-const UpdatePlanModal = () => {
+const UpdatePostModal = () => {
 	// Contexts
 	const {
-		planState: { plan },
-		showUpdatePlanModal,
-		setShowUpdatePlanModal,
-		updatePlan,
+		postState: { post },
+		showUpdatePostModal,
+		setShowUpdatePostModal,
+		updatePost,
 		setShowToast
-	} = useContext(PlanContext)
+	} = useContext(PostContext)
 
 	// State
-	const [updatedPlan, setUpdatedPlan] = useState(plan)
+	const [updatedPost, setUpdatedPost] = useState(post)
 
-	useEffect(() => setUpdatedPlan(plan), [plan])
+	useEffect(() => setUpdatedPost(post), [post])
 
-	const { title, description , status } = updatedPlan
+	const { title, description, status } = updatedPost
 
-	const onChangeUpdatedPlanForm = event =>
-		setUpdatedPlan({ ...updatedPlan, [event.target.name]: event.target.value })
+	const onChangeUpdatedPostForm = event =>
+		setUpdatedPost({ ...updatedPost, [event.target.name]: event.target.value })
 
 	const closeDialog = () => {
-		setUpdatedPlan(plan)
-		setShowUpdatePlanModal(false)
+		setUpdatedPost(post)
+		setShowUpdatePostModal(false)
 	}
 
 	const onSubmit = async event => {
 		event.preventDefault()
-		const { success, message } = await updatePlan(updatedPlan)
-		setShowUpdatePlanModal(false)
+		const { success, message } = await updatePost(updatedPost)
+		setShowUpdatePostModal(false)
 		setShowToast({ show: true, message, type: success ? 'success' : 'danger' })
 	}
 
-	// const resetAddPlanData = () => {
-	// 	setNewPlan({ title: '', description: '', url: '', status: 'TO LEARN' })
-	// 	setShowAddPlanModal(false)
+	// const resetAddPostData = () => {
+	// 	setNewPost({ title: '', description: '', url: '', status: 'TO LEARN' })
+	// 	setShowAddPostModal(false)
 	// }
 
 	return (
-		<Modal show={showUpdatePlanModal} onHide={closeDialog}>
-			<Modal.Header closeButton>
+		<Modal className='update-plan-form' show={showUpdatePostModal} onHide={closeDialog}>
+			<Modal.Header >
 				<Modal.Title>Making progress?</Modal.Title>
 			</Modal.Header>
 			<Form onSubmit={onSubmit}>
@@ -56,7 +57,8 @@ const UpdatePlanModal = () => {
 							required
 							aria-describedby='title-help'
 							value={title}
-							onChange={onChangeUpdatedPlanForm}
+							onChange={onChangeUpdatedPostForm}
+							className='input-title'
 						/>
 						<Form.Text id='title-help' muted>
 							Required
@@ -69,7 +71,8 @@ const UpdatePlanModal = () => {
 							placeholder='Description'
 							name='description'
 							value={description}
-							onChange={onChangeUpdatedPlanForm}
+							onChange={onChangeUpdatedPostForm}
+							className='input-description'
 						/>
 					</Form.Group>
 					
@@ -78,7 +81,8 @@ const UpdatePlanModal = () => {
 							as='select'
 							value={status}
 							name='status'
-							onChange={onChangeUpdatedPlanForm}
+							onChange={onChangeUpdatedPostForm}
+							className='status-bar'
 						>
 							<option value='TO DO'>TO DO</option>
 							<option value='DOING'>DOING</option>
@@ -87,16 +91,17 @@ const UpdatePlanModal = () => {
 					</Form.Group>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant='secondary' onClick={closeDialog}>
-						Cancel
-					</Button>
-					<Button variant='primary' type='submit'>
+					<Button className='btn-do' variant='primary' type='submit'>
 						DoIt!
 					</Button>
+					<Button className='btn-cancel' variant='secondary' onClick={closeDialog}>
+						Cancel
+					</Button>
+					
 				</Modal.Footer>
 			</Form>
 		</Modal>
 	)
 }
 
-export default UpdatePlanModal
+export default UpdatePostModal

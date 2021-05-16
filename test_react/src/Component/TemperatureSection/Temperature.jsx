@@ -22,28 +22,21 @@ function Tem () {
   const { timeString } = useClock();
   const[inputTemp,setInputTemp] = useState(null)
   const [sys,setSys] = useState(null);
-  const [sysMode,setSysMode] = useState(null);
+  const [sysMode,setSysMode] = useState(0);
 
   const [sysSet,setSysSet] = useState(null)
     /// Connect 
     useEffect(() => {
         socket = io(CONNECTION_PORT);
     }, [CONNECTION_PORT]);
+
+
     useEffect(() => {
          socket.on("temperature", (data) => {
-            //   console.log(data);
+            
               setTemperature(data.Tp)
-              setTemperatureSet(data.N)
+              setTemperatureSet(data.D)
               setSys(data.CM)
-              // if(sys=0)
-              // setSysMode('Auto')
-              // else if(sys=1)
-              // {setSysMode('Cooling')}
-              
-              // else if(sys=2){
-              //   setSysMode('Heating')
-              // }
-              
              });
       });
 
@@ -52,77 +45,25 @@ function Tem () {
   ///// Set values 
   const setSystem=async (e) => {
     
-    let sysmode = {
-      sysmode: e.target.value
-    }
-    await socket.emit("sysMode", sysmode);
+    setSysMode(e.target.value)
+    await socket.emit("sysMode", sysMode);
 
 
   }
 
   const setTemp =async ()=>{
-   let setTemp = {
-     settem:inputTemp};
-   await socket.emit("temperatureSet", setTemp);
+   await socket.emit("temperatureSet", inputTemp);
 
   }
 
 
-  // const inputValidation =()=>{
-  //   if (inputTemp >35)
-  //   {}
-
-  // }
-  // const increaseTemperature = async () => {
-  //   if (temperatureSet === 35) return;
-
-  //   const newTemperature = temperatureSet + 1;
-    
-  //   if (newTemperature >= 30) {
-  //     setTemperatureColor("hot");
-  //   }
-  //   else  if  (newTemperature <=22)
-  //     {setTemperatureColor("cold");}
-   
-  //   else {setTemperatureColor("normal")
-
-  //   }
-  // let settem= {
-  //      temperatureSet: newTemperature
-  //     };
-  
-  //     await socket.emit("temperatureSet", settem);
-     
-  //   };
-  
-
-  // const decreaseTemperature = async() => {
-  //   if (temperatureSet === 18) return;
-
-  //   const newTemperature = temperatureSet - 1;
-    
-  //   if (newTemperature >=30) {
-  //     setTemperatureColor("hot");
-  //   }
-  //   else  if  (newTemperature <=22)
-  //     {setTemperatureColor("cold");}
-   
-  //   else {setTemperatureColor("normal")
-
-  //   }
-
-  //   let settem= {
-  //     temperatureSet: newTemperature
-  //    };
  
-  //    await socket.emit("temperatureSet", settem);
-  // };
  
  
   return (
     <Container className="tem-container">
       <Form >
-      <h2 className="label-tem" for ="tem-container" >Temperature</h2>
+      <h3 className="label-tem" for ="tem-container" >Temperature</h3>
 
       
 
@@ -144,15 +85,7 @@ function Tem () {
 
 
       <Col className= 'selectmode'>
-        <Row>
-            <FormGroup>
-            <Label>FAN:</Label>
-              <Input className='fan-select-mode' type="select" name="FanMode"  id="modeFan">
-             <option>ON</option>
-             <option>OFF</option>
-             </Input>
-            </FormGroup>
-        </Row>
+        
         <Row>
             <FormGroup>
             <Label>SYS:</Label>

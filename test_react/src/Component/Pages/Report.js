@@ -1,16 +1,19 @@
 import React from 'react'
-import '../../App.css';
+import './Report-page.css'
 
 import ReportPage from '../ReportPage/ReportPage'
-import TodoList from '../TodoForm/TodoList';
+import Plan from '../TodoForm/PlanForm'
+
 function Report() {
     return (
-        <div>
-            <div className="todo-app">
-            <TodoList/>
+        <div className='report-container'>
+            <div className='plan'>
+            <Plan/>
             </div>
+            <div className='report-table' >
             <ReportPage/>
-            {/* <FormSearch/> */}
+            </div>
+            
         </div>
     )
 }

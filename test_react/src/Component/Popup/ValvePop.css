@@ -17,16 +17,21 @@
     margin-left: 10px;
 }
 .valve-select-mode{
-    width: 120px;
-    height: 30px;
+    width: 160px;
+    height: 35px;
+    font: 1em sans-serif;
+    font-weight: bold;
     margin-left: 20px;
     font-weight: 500;
+    border-radius: 10px;
 
 }
-Button {
+Button.btnopen,Button.btnreset,Button.btnclose {
     width: 80px;
     height: 40px;
+    margin: 5px 8px 5px 8px;
     font: 1em sans-serif;
+    border-radius: 10px;
 }
 Button.btnopen:hover,Button.btnreset:hover
  {background-color: #05c46b}

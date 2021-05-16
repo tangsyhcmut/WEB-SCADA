@@ -1,4 +1,4 @@
-import {useState,Component} from 'react'
+import {useState,Component,useEffect} from 'react'
 import greenlightoff from '../img/Off_Green.png';
 import greenlighton from '../img/On_Green.png';
 import redlightoff from '../img/Off_Red.png';
@@ -9,34 +9,51 @@ import {
    
   } from 'reactstrap';
     import './PumpPop.css'
-  import Select from 'react-select'
-
+ 
+  import io from "socket.io-client";
+  let socket;
+  const CONNECTION_PORT = "localhost:5000/";
   
 
-function PumpPop(props) {
+function Pump2Pop() {
 
+ 
+  const [stateP2,setStateP2] = useState([]);
+  const [bit,setBit] = useState()
 
-    const [stateP1,setStateP1] = useState(
-      {auto:false,man:false,start:false,stop:false});
-    const btnAutoClick=()=> setStateP1({auto:true,man:false,start:false,stop:false});
-    const btnManClick=()=> setStateP1({auto:false,man:true,start:false,stop:false});
-    const btnStartClick =()=>setStateP1({auto:false,man:true,start:true,stop:false});
-    const btnStopClick =()=>setStateP1({auto:false,man:true,start:false,stop:true});
-    const btnResetClick =()=>setStateP1({auto:false,man:false,start:false,stop:false});
-    console.log(stateP1)
-    
-    const selectMode =(e)=>{
-      if(e.target.value === 'Man')
-    {
-      setStateP1({auto:false,man:true,start:false,stop:false});
-    }
-    else
-    setStateP1({auto:true,man:false,start:false,stop:false})};
-     
+    /// Connect 
+    useEffect(() => {
+      socket = io(CONNECTION_PORT);
+  }, [CONNECTION_PORT]);
+    ///State
+  useEffect(() => {
+    socket.on("pump2", (data) => {
+       
+        
+        });
+ });
+
+  
+    ///Mode
+    const selectMode =async(e)=>{
+      let pump2Mode = {
+        pump2Mode:e.target.value}
+     await 
+     socket.emit('pump2Mode',pump2Mode)
+    };
+    ///Set Start
+    const btnStartClick =()=>{
+      let setStartP2 = {startP2:true}
+      socket.emit('pump2Start',setStartP2)}
+      ///Set Stop
+    const btnStopClick =()=>{
+        let setStopP2 = {stopP2:true}
+        socket.emit('pump2Stop',setStopP2)}
+
       
     
 
-    const[bit,setbit] =useState(false)
+
     return (
         <Container className='pumppop'>
      
@@ -47,8 +64,8 @@ function PumpPop(props) {
             <FormGroup>
               <Label>Mode :</Label>
               <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect" onChange={selectMode}>
-             <option>Auto</option>
-             <option>Man</option>
+             <option value = '2'> Auto </option>
+             <option value ='1'> Man </option>
              </Input>
             </FormGroup>
           </Col>
@@ -56,9 +73,9 @@ function PumpPop(props) {
             <FormGroup>
             <div className="pump-controlbtn">
                 <Label>Control : </Label>
-                <Button className='btnstart' onClick={btnStartClick} disabled ={!stateP1.man}>Start</Button>
-                <Button className='btnstop' onClick={btnStopClick} disabled ={!stateP1.man}>Stop</Button> 
-                <Button className='btnreset' onClick ={btnResetClick}>Reset</Button>
+                <Button className='btnstart' onClick={btnStartClick} disabled ={!stateP2.man}>Start</Button>
+                <Button className='btnstop' onClick={btnStopClick} disabled ={!stateP2.man}>Stop</Button> 
+                <Button className='btnreset'>Reset</Button>
                 </div>
             </FormGroup>
           </Col>
@@ -66,7 +83,7 @@ function PumpPop(props) {
           <Col>
             <FormGroup>
             <div className='pump-status'>
-              <Label>Running Time</Label>
+              {/* <Label>Running Time</Label> */}
               <div className='pumplight'>
               <Label> Status </Label>
             <img className="pump-status-light" src ={bit ? greenlighton : greenlightoff}/>
@@ -96,4 +113,4 @@ function PumpPop(props) {
     )
 }
 
-export default PumpPop
+export default Pump2Pop
