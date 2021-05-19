@@ -7,6 +7,7 @@ import Control from '../ControlSection/ControlSection';
 import MicroFilter from '../img/Container.svg';
 // Valve
 import Valve_hori from '../img/Hand valve 2.png';
+import Valve_on from '../img/Valve_on.png'
 import Pipe_four from '../img/Intersection.svg';
 import Pipe_alight from '../img/Pipes_alight.png';
 // Pipes
@@ -20,11 +21,16 @@ import Pipe_fork from '../img/Pipe_fork.png';
 import Pipe_fork_alight_left from '../img/Pipe_fork_alight_left.png';
 import Pipe_fork_alight_right from '../img/Pipe_fork_alight_right.svg';
 import Pipe_fork_down from '../img/Pipe_fork_down.png';
-import Pump_Pressure from '../img/pressurepump.svg';
-import Pump_Pressure_2 from '../img/pressurepump2.svg';
+
 // Pump
 import Pump from '../img/Pump.png';
+import Pump_on from '../img/Pump_on.png'
 import Pump_alight from '../img/Pump_alight.svg';
+import Pump_alight_on from '../img/Vertical_pump_on.svg'
+import Pump_Pressure from '../img/pressurepump.svg';
+import Pump_Pressure_2 from '../img/pressurepump2.svg';
+import Pump_Pressure_on from '../img/Pressure_pump_on.svg';
+import Pump_Pressure_2_on from '../img/Pressure_pump2_on.svg';
 import ROFilter from '../img/RO.svg';
 //Bể Lắng
 import FeedTank from '../img/Tank_1.png';
@@ -61,7 +67,31 @@ function MainSection2() {
     const [popupValve4,setPopupValve4] = useState(false);
     const [popupValve5,setPopupValve5] = useState(false);
 
+    // State
+    const [statePump1,setStatePump1] = useState(false);
+    const [statePump2,setStatePump2] = useState(false);
+    const [statePump3,setStatePump3] = useState(false);
+    const [statePressPump1,setPressPump1] = useState(false);
+    const [statePressPump2,setPressPump2] = useState(false);
+    
 
+
+    const [stateValve1,setStateValve1] = useState(false);
+    const [stateValve2,setStateValve2] = useState(false);
+    const [stateValve3,setStateValve3] = useState(false);
+    const [stateValve4,setStateValve4] = useState(false);
+    const [stateValve5,setStateValve5] = useState(false);
+    const [stateValve6,setStateValve6] = useState(false);
+    const [stateValve7,setStateValve7] = useState(false);
+    const [stateValve8,setStateValve8] = useState(false);   
+    const [stateValve9,setStateValve9] = useState(false);
+    const [stateValve10,setStateValve10] = useState(false);
+    const [stateValve11,setStateValve11] = useState(false);
+    const [stateValve12,setStateValve12] = useState(false);
+    const [stateValve13,setStateValve13] = useState(false);
+
+
+    
 
 
 
@@ -95,7 +125,7 @@ function MainSection2() {
 
             <img className="pipe1" src ={Pipe_alight}/>
             <img className="pipe2" src ={Pipe_alight}/>
-            <img title=" PUMP 1 " className="pump1"  onClick={() =>  setPopupPump1(true)} src ={Pump_alight}/>
+            <img title=" PUMP 1 " className="pump1"  onClick={() =>  setPopupPump1(true)} src ={statePump1 ? Pump_alight_on: Pump_alight   }/>
             
             <Popup
              title="Pump 1"
@@ -111,7 +141,7 @@ function MainSection2() {
             <img className="pipe5" src ={Pipe_LT}/>
             <img className="pipe4" src ={Pipe_RB}/>
 
-            <img title=' VALVE 0 ' className="valve0" onClick={() =>  setPopupValve0(true)}  src ={Valve_hori}/>
+            <img title=' VALVE 0 ' className="valve0" onClick={() =>  setPopupValve0(true)}  src ={stateValve1 ? Valve_on: Valve_hori  }/>
 
             <Popup
              title="Valve 0"
@@ -134,7 +164,7 @@ function MainSection2() {
             <img className="pipe12" src ={Pipe_hori}/>
 
 
-            <img title=" PUMP 2 " className="pump2" onClick={() =>  setPopupPump2(true)} src ={Pump}/>
+            <img title=" PUMP 2 " className="pump2" onClick={() =>  setPopupPump2(true)} src ={statePump2 ? Pump_on : Pump}/>
             <Popup
              title="Pump 2"
             openPopup={popupPump2}
@@ -144,7 +174,7 @@ function MainSection2() {
             </Popup>
             
 
-            <img title=" PUMP 3 " className="pump3" onClick={() =>  setPopupPump3(true)} src ={Pump}/>
+            <img title=" PUMP 3 " className="pump3" onClick={() =>  setPopupPump3(true)} src ={statePump3 ? Pump_on : Pump}/>
             
             <Popup
              title="Pump 3"
@@ -189,7 +219,7 @@ function MainSection2() {
                     <img className="pipe23" src ={Pipe_hori}/>
                     <img className="pipe24" src ={Pipe_hori}/>
                     
-                         <img title=' VALVE 1 ' className="valve1" onClick={() =>  setPopupValve1(true)} src ={Valve_hori}/>
+                         <img title=' VALVE 1 ' className="valve1" onClick={() =>  setPopupValve1(true)} src ={stateValve1 ? Valve_on: Valve_hori  }/>
                          <Popup
                               title="Valve 1"
                               openPopup={popupValve1}
@@ -199,7 +229,7 @@ function MainSection2() {
                          
                     
                     
-                         <img title=' VALVE 2 ' className="valve2" onClick={() =>  setPopupValve2(true)} src ={Valve_hori}/>
+                         <img title=' VALVE 2 ' className="valve2" onClick={() =>  setPopupValve2(true)} src ={stateValve2 ? Valve_on: Valve_hori  }/>
                          <Popup
                               title="Valve 2"
                               openPopup={popupValve2}
@@ -209,7 +239,7 @@ function MainSection2() {
                     <img className="pipe25" src ={Pipe_fork_down}/>
                     <img className="pipe26" src ={Pipe_fork_down}/>
 
-                    <img title=' VALVE 3 ' className="valve3" src ={Valve_hori} onClick={() =>  setPopupValve3(true)}/>
+                    <img title=' VALVE 3 ' className="valve3" src ={stateValve3 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve3(true) }/>
 
                     <Popup
                               title="Valve 3"
@@ -217,7 +247,7 @@ function MainSection2() {
                             setOpenPopup={setPopupValve3}
                         >
                         <Valve3Pop/> </Popup>
-                    <img title=' VALVE 4 '  className="valve4" src ={Valve_hori} onClick={() =>  setPopupValve4(true)}/>
+                    <img title=' VALVE 4 '  className="valve4" src ={stateValve4 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve4(true)}/>
                     <Popup
                               title="Valve 4"
                               openPopup={popupValve4}
@@ -241,7 +271,11 @@ function MainSection2() {
                     <img className="pipe30" src ={Pipe_fork}/>
                     <img className="pipe31" src ={Pipe_LB}/>
                     <img className="pipe32" src ={Pipe_angle}/>
-                    <img title=' VALVE 5 ' className="valve5" src ={Valve_hori}/>
+
+
+                    <img title=' VALVE 5 ' className="valve5" src ={stateValve5 ? Valve_on: Valve_hori  }/>
+
+
                     <img className="pipe35" src ={Pipe_alight}/>
                     <img className="pipe34" src ={Pipe_RT}/>
                     
@@ -268,12 +302,20 @@ function MainSection2() {
                     <img className="pipe37" src ={Pipe_LB}/>
                     <img className="pipe40" src ={Pipe_hori}/>
                      <img className="pipe41" src ={Pipe_hori}/>
-                    <img title=' VALVE 6 ' className="valve6" src ={Valve_hori}/>
-                    <img title=' VALVE 7 ' className="valve7" src ={Valve_hori}/>
+
+
+                    <img title=' VALVE 6 ' className="valve6" src ={stateValve6 ? Valve_on: Valve_hori  }/>
+                    <img title=' VALVE 7 ' className="valve7" src ={stateValve7 ? Valve_on: Valve_hori  }/>
+
+
                     <img className="pipe42" src ={Pipe_fork_down}/>
                      <img className="pipe43" src ={Pipe_fork_down}/> 
-                      <img title=' VALVE 8 ' className="valve8" src ={Valve_hori}/> 
-                     <img title=' VALVE 9 'className="valve9" src ={Valve_hori}/> 
+
+
+                      <img title=' VALVE 8 ' className="valve8" src ={stateValve8 ? Valve_on: Valve_hori  }/> 
+                     <img title=' VALVE 9 'className="valve9" src ={stateValve9 ? Valve_on: Valve_hori  }/> 
+
+
                      <img className="pipe46" src ={Pipe_alight}/>
                     <img className="pipe44" src ={Pipe_RB}/>
                     <img className="pipe45" src ={Pipe_fork_alight_left}/>
@@ -286,7 +328,11 @@ function MainSection2() {
                     <img className="pipe47" src ={Pipe_fork}/>
                     <img className="pipe48" src ={Pipe_LB}/>
                     <img className="pipe49" src ={Pipe_angle}/>
-                    <img title=' VALVE 10 ' className="valve10" src ={Valve_hori}/>
+
+
+                    <img title=' VALVE 10 ' className="valve10" src ={stateValve10 ? Valve_on: Valve_hori  }/>
+
+
                     {/* <img className="pipe52" src ={Pipe_alight}/> */}
                     <img className="pipe51" src ={Pipe_RB}/>
                     
@@ -345,8 +391,8 @@ function MainSection2() {
             <img className="pipe64" src ={Pipe_fork}/>
             <img title=' VALVE 11 ' className="valve11" src ={Valve_hori}/>
             <img title=' VALVE 12 ' className="valve12" src ={Valve_hori}/>
-            <img title=" Pressure Pump 1 " className="pump6" src ={Pump_Pressure}/>
-            <img title=" Pressure Pump 2 " className="pump7" src ={Pump_Pressure_2}/>
+            <img title=" Pressure Pump 1 " className="pump6"  src ={statePressPump1 ?   Pump_Pressure_on:Pump_Pressure}/>
+            <img title=" Pressure Pump 2 " className="pump7" src ={statePressPump2 ?  Pump_Pressure_2_on:Pump_Pressure_2 }/>
             </div>
             {/* --------Micro Filter--------*/}
             <img title="Micro Filter"className='micro-filter' src={MicroFilter}/>

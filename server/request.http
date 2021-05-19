@@ -8,15 +8,8 @@ Content-Type: application/json
 ################################
 
 
-POST http://localhost:5000/api/posts
-Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDlkMTJiNDE0NmNlMjQ2YjRlN2JhM2IiLCJpYXQiOjE2MjExMzQyNzd9.mWRYrnR_lhxqWjnK4V8U3c0HpTJ5IUV8VwnAYlQtlfs
+GET http://localhost:5000/api/mqtts
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGE0Yzc4MmZkNDZhMjMzMmMyMzBhMDciLCJpYXQiOjE2MjE0MTQwMDR9.Yu4Vmm8UOJvUF1mvEVkfJbNfmL027cefISeYlvBFkLE
 
 
 
-{
-    "title": "huu",
-    "discription": "node index",
-    "status": "TO LEARN"
-    
-}

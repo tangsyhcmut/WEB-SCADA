@@ -8,6 +8,8 @@ import {
   } from 'reactstrap'
   
   import useClock from '../hooks/useClock'
+  import light_on from '../img/lightbulb.svg'
+  import light_off from '../img/lightbulb (1).svg'
 
   let socket;
   const CONNECTION_PORT = "localhost:5000/";
@@ -22,9 +24,8 @@ function Tem () {
   const { timeString } = useClock();
   const[inputTemp,setInputTemp] = useState(null)
   const [sys,setSys] = useState(null);
-  const [sysMode,setSysMode] = useState(0);
-
-  const [sysSet,setSysSet] = useState(null)
+  const [sysSet,setSysSet] = useState(null);
+  const[lightState,setLightState] = useState(false);
     /// Connect 
     useEffect(() => {
         socket = io(CONNECTION_PORT);
@@ -36,17 +37,22 @@ function Tem () {
             
               setTemperature(data.Tp)
               setTemperatureSet(data.D)
-              setSys(data.CM)
+              
+              if(data.CM==1)
+              {setSys('COOLING')}
+              else if (data.CM==2)
+              {setSys('HEATING')}
+              
              });
       });
 
 
 
   ///// Set values 
-  const setSystem=async (e) => {
+  const setMode=async() => {
     
-    setSysMode(e.target.value)
-    await socket.emit("sysMode", sysMode);
+    
+    await socket.emit("sysMode", sysSet);
 
 
   }
@@ -57,7 +63,16 @@ function Tem () {
   }
 
 
- 
+ const setOn = async ()=>{
+  setLightState(true)
+  await socket.emit("lightSet", '1')
+
+ }
+ const setOff = async ()=>{
+  setLightState(false)
+  await socket.emit("lightSet", '0')
+   
+}
  
  
   return (
@@ -74,6 +89,7 @@ function Tem () {
         <div className={`temperature-value-display ${temperatureColor}`}>
                 {temperature/10}°C
         </div>
+        <p className="sys-mode"> MODE: {sys} </p>
         <div className="clock">
         <p className="clock__time">{timeString}</p>
         </div> 
@@ -88,14 +104,16 @@ function Tem () {
         
         <Row>
             <FormGroup>
-            <Label>SYS:</Label>
-              <Input className='sys-select-mode' type="select" name="sysMode" id="SysSelect" value ={sys} onChange={setSystem}>
+            <Label>SET SYS:</Label>
+              <select className='sys-select-mode'   onChange={(e)=>{setSysSet(e.target.value)}}>
              <option value='0'>Auto</option>
-             <option value='1' >Cooling</option>
-             <option value='2' >Heating</option>
-             </Input>
+             <option value='1'>Cooling</option>
+             <option value='2'>Heating</option>
+             </select>
             </FormGroup>
+           
         </Row>
+        <Button className='btn-setmode' onClick={setMode}> Set </Button>
         <Row>
       <FormGroup className='set-tem-container'>
       <Label for='set-tem-container' >SET TEMPERATURE</Label>
@@ -114,6 +132,14 @@ function Tem () {
 
           
       </Col>
+      <Row>
+        <FormGroup className="light-container">
+        
+        <img className="light" src={lightState ? light_on : light_off} />
+        <Button className='btn-on' onClick={setOn}>ON</Button>
+        <Button className='btn-off' onClick={setOff}>OFF</Button>
+      </FormGroup>
+      </Row>
           
       
     

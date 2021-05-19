@@ -1,30 +1,27 @@
-import React, { useMemo,useState,useEffect } from 'react'
+import React, { useMemo,useState,useEffect,useContext} from 'react'
 // import productApi from '../../api/productApi'
 import { useTable, usePagination } from 'react-table'
 import axios from 'axios'
 import { COLUMNS } from './Columns'
 import './Report.css'
+import {MqttContext} from '../../context/MqttContext'
 
 export const ReportPage = () => {
 
   const [reportList, setReportList] = useState([])
 
-  useEffect(() => {
-    const getReport = async () => {
-      try {
-        const res = await axios.get(
-          'https://jsonplaceholder.typicode.com/comments/'
-        )
-        console.log(res.data)
-        setReportList(res.data)
-        console.log(reportList)
-      } catch (error) {
-        console.log(error.message)
-      }
-    }
+   //contexts
+   const {mqttState:{mqtts,mqttsLoading},
+   getMqtts} 
+   = useContext(MqttContext)
+   ///get all mqtt
+   useEffect(()=>{
+  getMqtts()
+  console.log(mqtts)
+   
+  setReportList(mqtts)
+  },[])
 
-    getReport()
-  }, [])
   const columns = useMemo(() => COLUMNS, [])
   const data = useMemo(() => reportList)
 

@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useContext} from 'react';
 import { Col, Container } from 'reactstrap';
 import PowerData from '../ElectricPower/PowerData';
 import Temperature from '../TemperatureSection/Temperature';
+
+
 import './PT.css';
 
 
@@ -10,6 +12,7 @@ import './PT.css';
 
 
 function PowerandTem() {
+   
 
 
     

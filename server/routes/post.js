@@ -41,7 +41,7 @@ router.post('/', verifyToken, async (req, res) => {
 
 		await newPost.save()
 
-		res.json({ success: true, message: 'Happy learning!', post: newPost })
+		res.json({ success: true, message: 'Success!', post: newPost })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({ success: false, message: 'Internal server error' })
@@ -84,7 +84,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 
 		res.json({
 			success: true,
-			message: 'Excellent progress!',
+			message: 'Success!',
 			post: updatedPost
 		})
 	} catch (error) {

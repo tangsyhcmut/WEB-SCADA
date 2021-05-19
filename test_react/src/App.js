@@ -11,7 +11,7 @@ import AuthContextProvider from './context/AuthContext';
 import Auth from './Features/Auth/Auth';
 import PlanForm from './Component/TodoForm/PlanForm'
 import Test from './Component/TemperatureSection/Temperature'
-
+import MqttContextProvider from './context/MqttContext';
 
 
 function App() {
@@ -20,6 +20,10 @@ function App() {
   return (
     <AuthContextProvider>
       <PlanConTextProvider>
+        <MqttContextProvider>
+          
+
+        
       <Router>
     
       <Switch>
@@ -44,6 +48,7 @@ function App() {
         
       </Switch>
     </Router>
+      </MqttContextProvider>
     </PlanConTextProvider>
 
    </AuthContextProvider>

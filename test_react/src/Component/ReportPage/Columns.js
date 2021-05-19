@@ -1,27 +1,31 @@
 export const COLUMNS = [
     {
-        Header: 'User',
-        accessor: 'postId'
+        Header: 'Time',
+        accessor: 'createdAt'
     },
     {
-        Header: 'Id',
-        accessor: 'id'
+        Header: 'UL1',
+        accessor: 'UL1'
     },
     {
-        Header: 'Name',
-        accessor: 'name'
+        Header: 'UL2',
+        accessor: 'UL2'
     },
     {
-        Header: 'Email',
-        accessor: 'email'
+        Header: 'UL3',
+        accessor: 'UL3'
     },
     {
-        Header: 'Message',
-        accessor: 'body'
+        Header: 'P',
+        accessor: 'P'
+    },
+    {
+        Header: 'Q',
+        accessor: 'Q'
+    },
+    {
+        Header: 'S',
+        accessor: 'S'
     }
-    // {
-    //     Header: 'User',
-    //     accessor: 'user'
-    // }
 
 ] 
