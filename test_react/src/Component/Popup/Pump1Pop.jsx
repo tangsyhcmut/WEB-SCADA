@@ -19,6 +19,7 @@ function PumpPop(props) {
 
  
   const [stateP1,setStateP1] = useState([]);
+  const[speedSet,setSpeedSet] = useState([]);
   const [bit,setBit] = useState()
 
     /// Connect 
@@ -28,7 +29,7 @@ function PumpPop(props) {
     ///State
   useEffect(() => {
     socket.on("pump1", (data) => {
-       
+       setStateP1(data)
         
         });
  });
@@ -42,13 +43,19 @@ function PumpPop(props) {
      socket.emit('pump1Mode',pump1Mode)
     };
     ///Set Start
-    const btnStartClick =()=>{
-      let setStartP1 = {startP1:true}
-      socket.emit('pump1Start',setStartP1)}
+    const btnStartClick =async()=>{
+      await 
+      socket.emit('Button',"Pump1_START")}
       ///Set Stop
-    const btnStopClick =()=>{
-        let setStopP1 = {stopP1:true}
-        socket.emit('pump1Stop',setStopP1)}
+    const btnStopClick =async()=>{
+      await 
+        socket.emit('Button',"Pump1_STOP")}
+    const btnResetClick =async()=>{
+      await 
+          socket.emit('Button',"Pump1_RESET")}
+    const btnSetClick =async()=>{
+      await 
+            socket.emit('SetSpeed_Pump1',speedSet)}
 
       
     
@@ -75,7 +82,7 @@ function PumpPop(props) {
                 <Label>Control : </Label>
                 <Button className='btnstart' onClick={btnStartClick} disabled ={!stateP1.man}>Start</Button>
                 <Button className='btnstop' onClick={btnStopClick} disabled ={!stateP1.man}>Stop</Button> 
-                <Button className='btnreset'>Reset</Button>
+                <Button className='btnreset'onClick={btnResetClick}>Reset</Button>
                 </div>
             </FormGroup>
           </Col>
@@ -86,9 +93,9 @@ function PumpPop(props) {
               {/* <Label>Running Time</Label> */}
               <div className='pumplight'>
               <Label> Status </Label>
-            <img className="pump-status-light" src ={bit ? greenlighton : greenlightoff}/>
+            <img className="pump-status-light" src ={stateP1.FEEDBACK ? greenlighton : greenlightoff}/>
              <Label> Fault </Label>
-            <img className="pump-fault-light" src ={bit ?  redlighton : redlightoff } />
+            <img className="pump-fault-light" src ={stateP1.FAULT ?  redlighton : redlightoff } />
               </div>
             
              </div>
@@ -99,10 +106,11 @@ function PumpPop(props) {
             <FormGroup>
             
               <Label>Set speed</Label>
-              <Input placeholder="0.00%" />
+              <Input placeholder="0.00%" onChange={ (e)=>setSpeedSet(e.target.value)} />
+              <Button onClick={btnSetClick} > Set </Button>
             </FormGroup>
             <FormGroup>
-              <Label>Status</Label>
+              <Label >Status: {stateP1.Speed}  % </Label>
               
             </FormGroup>
             </div>

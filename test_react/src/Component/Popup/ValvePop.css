@@ -26,17 +26,17 @@
     border-radius: 10px;
 
 }
-Button.btnopen,Button.btnreset,Button.btnclose {
+Button.btnopen,Button.btnreset,Button.btnclose,Button.btnset {
     width: 80px;
     height: 40px;
     margin: 5px 8px 5px 8px;
     font: 1em sans-serif;
     border-radius: 10px;
 }
-Button.btnopen:hover,Button.btnreset:hover
+Button.btnopen:hover,Button.btnreset:hover,Button.btnset:hover
  {background-color: #05c46b}
 
-Button.btnopen:active,Button.btnreset:active {
+Button.btnopen:active,Button.btnreset:active,Button.btnset:active {
   background-color: #cecece;
   box-shadow: 0 5px #666;
   transform: translateY(4px);

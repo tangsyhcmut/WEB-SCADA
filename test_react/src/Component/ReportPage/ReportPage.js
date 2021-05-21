@@ -44,7 +44,7 @@ export const ReportPage = () => {
     {
       columns,
       data,
-      initialState: {pageSize:12, pageIndex: 0 }
+      initialState: {pageSize:20, pageIndex: 0 }
     },
     usePagination
   )

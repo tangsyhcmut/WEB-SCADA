@@ -42,11 +42,11 @@ import Popup from '../Popup/Popup';
 import PumpPop from '../Popup/Pump1Pop';
 import Pump2Pop from '../Popup/Pump2Pop';
 import Pump3Pop from '../Popup/Pump3Pop';
-import ValvePop from '../Popup/ValvePop';
-import Valve1Pop from '../Popup/Valve1Pop';
-import Valve2Pop from '../Popup/Valve2Pop';
-import Valve3Pop from '../Popup/Valve3Pop';
-import Valve4Pop from '../Popup/Valve4Pop';
+import ValvePop from '../Popup/ValveFPop';
+import Valve1Pop from '../Popup/ValveA1Pop';
+import Valve2Pop from '../Popup/ValveA2Pop';
+import Valve3Pop from '../Popup/ValveA3Pop';
+import Valve4Pop from '../Popup/ValveA4Pop';
 // Status
 import Status from '../StatusSection/StatusForm';
 import './MainSection2.css';
@@ -235,7 +235,7 @@ function MainSection2() {
                               openPopup={popupValve2}
                             setOpenPopup={setPopupValve2}
                         >
-                        <Valve1Pop/> </Popup>
+                        <Valve2Pop/> </Popup>
                     <img className="pipe25" src ={Pipe_fork_down}/>
                     <img className="pipe26" src ={Pipe_fork_down}/>
 

@@ -30,7 +30,7 @@ function StatusForm() {
             </Col>
             <Col className ='sys-mode'>
 
-            <a className='system-mode'>Mode :</a> 
+            {/* <a className='system-mode'>Mode :</a>  */}
             
             </Col>
             <Button  className='btn-sys-emer'>EMERGENCY</Button>

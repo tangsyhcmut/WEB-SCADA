@@ -28,7 +28,10 @@
     border-radius: 5px;
     
 }
-
+/* .system-mode{
+    font: 1em sans-serif;
+    border-bottom: none;
+} */
 .status-light{
     font-size: 13px;
     margin-left: 20px;

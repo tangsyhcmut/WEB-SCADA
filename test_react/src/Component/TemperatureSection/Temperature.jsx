@@ -89,7 +89,7 @@ function Tem () {
         <div className={`temperature-value-display ${temperatureColor}`}>
                 {temperature/10}°C
         </div>
-        <p className="sys-mode"> MODE: {sys} </p>
+        <p className="temperature-mode"> MODE: {sys} </p>
         <div className="clock">
         <p className="clock__time">{timeString}</p>
         </div> 
@@ -125,7 +125,7 @@ function Tem () {
       <Row>
         <FormGroup className="settem-container">
         
-        <Input className='input-settem' onChange={(e)=>{setInputTemp(e.target.value)}}/>
+        <Input className='input-settem' onChange={(e)=>{setInputTemp(e.target.value*10)}}/>
         <Button className='btn-settem' onClick={setTemp}>SET</Button>
       </FormGroup>
       </Row>
