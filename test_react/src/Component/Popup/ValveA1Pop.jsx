@@ -1,56 +1,72 @@
-import {useState,Component,useEffect} from 'react'
-import greenlightoff from '../img/Off_Green.png';
-import greenlighton from '../img/On_Green.png';
-import redlightoff from '../img/Off_Red.png';
-import redlighton from '../img/On_Red.png';
+import { useEffect, useState } from 'react';
 import {
-    Container, Col, Form,
-    FormGroup, Label, Input,Button,Row
-   
-  } from 'reactstrap';
-    import './ValvePop.css'
-    import io from "socket.io-client";
+  Button, Col, Container, Form,
+  FormGroup, Input, Label, Row
+} from 'reactstrap';
+import io from "socket.io-client";
+import greenlightoff from '../img/Off_Green.png';
+import redlightoff from '../img/Off_Red.png';
+import greenlighton from '../img/On_Green.png';
+import redlighton from '../img/On_Red.png';
+import './ValvePop.css';
     let socket;
     const CONNECTION_PORT = "localhost:5000/";
   
 
-function Valve1Pop() {
+function ValvePop() {
 
-  const[mode,setMode] =useState(null)
-  const [stateVA1,setStateVA1] = useState([]);
+    const[modeSet,setModeSet] =useState(null)
+    const [mode,setMode] = useState();
+    const [opened,setOpened] = useState();
+    const [closed,setClosed] = useState();
+    const [fault,setFault] = useState();
 
 
-  /// Connect 
+
+    /// Connect 
+    useEffect(() => {
+      socket = io(CONNECTION_PORT);
+  }, [CONNECTION_PORT]);
+    ///State
   useEffect(() => {
-    socket = io(CONNECTION_PORT);
-}, [CONNECTION_PORT]);
-  ///State
-useEffect(() => {
-  socket.on("VA1", (data) => {
-    setStateVA1(data);
-     
-      
+    socket.on("VA1_MODE", (data) => {
+     if(data==2)
+     {setMode('AUTO')}
+     else if(data==1)
+     {setMode('MAN')}
       });
-});
+      socket.on("VA1_OPENED", (data) => {
+        setOpened(data);
+        console.log(data);
+        });
+       socket.on("VA1_CLOSED", (data) => {
+          setClosed(data);
+          console.log(data);
+          });
+          socket.on("VA1_FAULT", (data) => {
+            setFault(data);
+            console.log(data);
+            });
+ });
 
-  ///Mode
-  const btnSetClick =async()=>{
-      
-    await socket.emit('VA1_Mode',mode)}
+    ///Mode
+    const btnSetClick =async()=>{
+        
+      await socket.emit('VA1_MODE',modeSet)}
 
-  
-  ///Set Open
-  const btnOpenClick =async()=>{
-   
-    await socket.emit('Button','VA1_OPEN')}
-    ///Set Close
-  const btnCloseClick =async()=>{
-      
-    await socket.emit('Button','VA1_CLOSE')}
-    ///Set Reset
-  const btnResetClick =async()=>{
-      await socket.emit('Button','VA1_RESET')}
-
+    
+    ///Set Open
+    const btnOpenClick =async()=>{
+     
+      await socket.emit('Button','VA1_OPEN')}
+      ///Set Close
+    const btnCloseClick =async()=>{
+        
+      await socket.emit('Button','VA1_CLOSE')}
+      ///Set Reset
+    const btnResetClick =async()=>{
+        await socket.emit('Button','VA1_RESET')}
+       
     
     return (
         <Container>
@@ -61,9 +77,18 @@ useEffect(() => {
           <div className='select-mode'>
           <Col >
             <FormGroup >
-            
-              <Label>Mode :</Label>
-              <Input className='valve-select-mode' type="select" name="Mode" id="modeSelect" onChange={(e)=>setMode(e.target.value)}>
+              
+              <Label>Mode :           {mode}</Label>
+              
+             
+             
+            </FormGroup>
+          </Col>
+          <Col >
+            <FormGroup >
+
+              <Label>Set Mode :</Label>
+              <Input className='valve-select-mode' type="select" name="Mode" id="modeSelect" onChange={(e)=>setModeSet(e.target.value)}>
               <option value ='2'> Auto </option>
              <option value ='1'> Man </option>
              </Input>
@@ -77,43 +102,28 @@ useEffect(() => {
             <div className="controlbtn">
                 <Label>Control : </Label>
                 <Button className='btnopen'  onClick={btnOpenClick} >Open</Button> {' '}
-                <Button className='btnclose' onClick={btnCloseClick}>Close</Button> 
-                <Button className='btnreset' >Reset</Button>
+                <Button className='btnclose' onClick={btnCloseClick} >Close</Button> 
+                <Button className='btnreset'onClick={btnResetClick} >Reset</Button>
               </div>
             </FormGroup>
           </Col>
           </div>
-          <div className="valve-running">
-          <Col>
-            <Label>Running Time</Label>
-            <FormGroup>
-                
-              <Label>Position</Label>
-              <Input placeholder="0.00%" />
-            </FormGroup>
-            
-          </Col>
-          </div>
+          
           
         </Row>
         <Row form>
           <Col>
             <FormGroup>
             <div className='valve-status-light'>
-            <Label> High limit </Label>
-            <img className="valvehighlight" src ={stateVA1 ?  redlighton : redlightoff } />
-            <Label>Low limit </Label>
-            <img className="valvelowlight" src ={stateVA1 ?  redlighton : redlightoff } />
-
-
+            
             <Label>Opened</Label>
-            <img className="valveopenlight" src ={stateVA1.OPENED? greenlighton : greenlightoff}/>
+            <img className="valveopenlight" src ={opened? greenlighton : greenlightoff}/>
              <Label>Closed</Label>
-            <img className="valvecloselight" src ={stateVA1.CLOSED ? greenlighton : greenlightoff}/>
+            <img className="valvecloselight" src ={closed ? greenlighton : greenlightoff}/>
 
 
              <Label> Fault </Label>
-            <img className="valvefaultlight" src ={stateVA1.FAULT ?  redlighton : redlightoff } />
+            <img className="valvefaultlight" src ={fault ?  redlighton : redlightoff } />
              </div>
             </FormGroup>
           </Col>
@@ -124,4 +134,4 @@ useEffect(() => {
     )
 }
 
-export default Valve1Pop
+export default ValvePop

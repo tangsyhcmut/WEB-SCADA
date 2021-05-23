@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+////io
+import io from "socket.io-client";
 // Level bar
 import Level from '../Chart/LevelBar';
 // Control
@@ -7,7 +9,6 @@ import Control from '../ControlSection/ControlSection';
 import MicroFilter from '../img/Container.svg';
 // Valve
 import Valve_hori from '../img/Hand valve 2.png';
-import Valve_on from '../img/Valve_on.png'
 import Pipe_four from '../img/Intersection.svg';
 import Pipe_alight from '../img/Pipes_alight.png';
 // Pipes
@@ -21,46 +22,52 @@ import Pipe_fork from '../img/Pipe_fork.png';
 import Pipe_fork_alight_left from '../img/Pipe_fork_alight_left.png';
 import Pipe_fork_alight_right from '../img/Pipe_fork_alight_right.svg';
 import Pipe_fork_down from '../img/Pipe_fork_down.png';
-
-// Pump
-import Pump from '../img/Pump.png';
-import Pump_on from '../img/Pump_on.png'
-import Pump_alight from '../img/Pump_alight.svg';
-import Pump_alight_on from '../img/Vertical_pump_on.svg'
 import Pump_Pressure from '../img/pressurepump.svg';
 import Pump_Pressure_2 from '../img/pressurepump2.svg';
-import Pump_Pressure_on from '../img/Pressure_pump_on.svg';
 import Pump_Pressure_2_on from '../img/Pressure_pump2_on.svg';
+import Pump_Pressure_on from '../img/Pressure_pump_on.svg';
+// Pump
+import Pump from '../img/Pump.png';
+import Pump_alight from '../img/Pump_alight.svg';
+import Pump_on from '../img/Pump_on.png';
 import ROFilter from '../img/RO.svg';
 //Bể Lắng
 import FeedTank from '../img/Tank_1.png';
 import PressureTank from '../img/Tank_2.svg';
 import RawTank from '../img/Tank_4.svg';
 import UVFilter from '../img/UV.svg';
+import Valve_on from '../img/Valve_on.png';
+import Pump_alight_on from '../img/Vertical_pump_on.svg';
 //Popup
 import Popup from '../Popup/Popup';
 import PumpPop from '../Popup/Pump1Pop';
 import Pump2Pop from '../Popup/Pump2Pop';
 import Pump3Pop from '../Popup/Pump3Pop';
-import ValvePop from '../Popup/ValveFPop';
 import Valve1Pop from '../Popup/ValveA1Pop';
 import Valve2Pop from '../Popup/ValveA2Pop';
 import Valve3Pop from '../Popup/ValveA3Pop';
 import Valve4Pop from '../Popup/ValveA4Pop';
+import Valve5Pop from '../Popup/ValveA5Pop';
+import ValvePop from '../Popup/ValveFPop';
 // Status
 import Status from '../StatusSection/StatusForm';
 import './MainSection2.css';
 
 
+  let socket;
+  const CONNECTION_PORT = "localhost:5000/";
 
 
 function MainSection2() {
+
+    // const [data,setData] =useState({});
+
     // PopUp
     const [popupPump1,setPopupPump1] = useState(false);
     const [popupPump2,setPopupPump2] = useState(false);
     const [popupPump3,setPopupPump3] = useState(false);
     //Valve
-    const [popupValve0,setPopupValve0] = useState(false);
+    const [popupValveF,setPopupValveF] = useState(false);
     const [popupValve1,setPopupValve1] = useState(false);
     const [popupValve2,setPopupValve2] = useState(false);
     const [popupValve3,setPopupValve3] = useState(false);
@@ -71,24 +78,103 @@ function MainSection2() {
     const [statePump1,setStatePump1] = useState(false);
     const [statePump2,setStatePump2] = useState(false);
     const [statePump3,setStatePump3] = useState(false);
-    const [statePressPump1,setPressPump1] = useState(false);
-    const [statePressPump2,setPressPump2] = useState(false);
+    const [statePump4,setStatePump4] = useState(false);
+    const [statePump5,setStatePump5] = useState(false);
     
 
+    const [stateValveF,setStateValveF] = useState(false);
+    const [stateValveA1,setStateValveA1] = useState(false);
+    const [stateValveA2,setStateValveA2] = useState(false);
+    const [stateValveA3,setStateValveA3] = useState(false);
+    const [stateValveA4,setStateValveA4] = useState(false);
+    const [stateValveA5,setStateValveA5] = useState(false);
+    const [stateValveB1,setStateValveB1] = useState(false);
+    const [stateValveB2,setStateValveB2] = useState(false);
+    const [stateValveB3,setStateValveB3] = useState(false);
+    const [stateValveB4,setStateValveB4] = useState(false);
+    const [stateValveB5,setStateValveB5] = useState(false);
+    const [stateValveC1,setStateValveC1] = useState(false);
+    const [stateValveC2,setStateValveC2] = useState(false);
+   
+//// Level
+const[levelTank1,setLevelTank1] = useState([])
 
-    const [stateValve1,setStateValve1] = useState(false);
-    const [stateValve2,setStateValve2] = useState(false);
-    const [stateValve3,setStateValve3] = useState(false);
-    const [stateValve4,setStateValve4] = useState(false);
-    const [stateValve5,setStateValve5] = useState(false);
-    const [stateValve6,setStateValve6] = useState(false);
-    const [stateValve7,setStateValve7] = useState(false);
-    const [stateValve8,setStateValve8] = useState(false);   
-    const [stateValve9,setStateValve9] = useState(false);
-    const [stateValve10,setStateValve10] = useState(false);
-    const [stateValve11,setStateValve11] = useState(false);
-    const [stateValve12,setStateValve12] = useState(false);
-    const [stateValve13,setStateValve13] = useState(false);
+
+
+/////
+/// Connect io
+useEffect(() => {
+    socket = io(CONNECTION_PORT);
+}, [CONNECTION_PORT]);
+
+
+  ///-----GET State------
+useEffect(() => {
+
+  ////-------Level----///
+  socket.on("FTank_Level", (data) => {
+    setLevelTank1(data)
+             });    
+// ----------------Pump State--------///
+    socket.on("Pump_1_FEEDBACK", (data) => {
+        setStatePump1(data)
+             }); 
+             socket.on("Pump_2_FEEDBACK", (data) => {
+                setStatePump2(data)
+                     });    
+                     socket.on("Pump_3_FEEDBACK", (data) => {
+                        setStatePump3(data)
+                             });    
+                             socket.on("Pump_4_FEEDBACK", (data) => {
+                                setStatePump4(data)
+                                     });    
+                                     socket.on("Pump_5_FEEDBACK", (data) => {
+                                        setStatePump5(data)
+                                             });           
+// ----------------Valve State--------///
+    socket.on("VF_OPENED", (data) => {
+        setStateValveF(data)
+         }); 
+         socket.on("VA1_OPENED", (data) => {
+            setStateValveA1(data)
+             }); 
+             socket.on("VA2_OPENED", (data) => {
+                setStateValveA2(data)
+                 }); 
+                 socket.on("VA3_OPENED", (data) => {
+                    setStateValveA3(data)
+                     }); 
+                     socket.on("VA4_OPENED", (data) => {
+                        setStateValveA4(data)
+                         }); 
+                         socket.on("VA5_OPENED", (data) => {
+                            setStateValveA5(data)
+                             }); 
+    socket.on("VB1_OPENED", (data) => {
+            setStateValveB1(data)
+             }); 
+             socket.on("VB2_OPENED", (data) => {
+                setStateValveB2(data)
+                 }); 
+                 socket.on("VB3_OPENED", (data) => {
+                    setStateValveB3(data)
+                     }); 
+                     socket.on("VB4_OPENED", (data) => {
+                        setStateValveB4(data)
+                         }); 
+                         socket.on("VB5_OPENED", (data) => {
+                            setStateValveB5(data)
+                             }); 
+     socket.on("VC1_OPENED", (data) => {
+            setStateValveC1(data)
+             }); 
+             socket.on("VC2_OPENED", (data) => {
+                setStateValveC2(data)
+                 });                          
+ })
+
+
+
 
 
     
@@ -127,26 +213,23 @@ function MainSection2() {
             <img className="pipe2" src ={Pipe_alight}/>
             <img title=" PUMP 1 " className="pump1"  onClick={() =>  setPopupPump1(true)} src ={statePump1 ? Pump_alight_on: Pump_alight   }/>
             
-            <Popup
+        <Popup
              title="Pump 1"
             openPopup={popupPump1}
             setOpenPopup={setPopupPump1}
              >
             <PumpPop/> 
-            </Popup>
-            
-            {/* <img className="pipe3" src ={Pipe_hori}/> */}
-           
+        </Popup>
             
             <img className="pipe5" src ={Pipe_LT}/>
             <img className="pipe4" src ={Pipe_RB}/>
 
-            <img title=' VALVE 0 ' className="valve0" onClick={() =>  setPopupValve0(true)}  src ={stateValve1 ? Valve_on: Valve_hori  }/>
+            <img title=' VALVE F ' className="valve0" onClick={() =>  setPopupValveF(true)}  src ={stateValveF ? Valve_on: Valve_hori  }/>
 
             <Popup
-             title="Valve 0"
-            openPopup={popupValve0}
-            setOpenPopup={setPopupValve0}
+             title="Valve F"
+            openPopup={popupValveF}
+            setOpenPopup={setPopupValveF}
              >
             <ValvePop/> </Popup>
                 
@@ -195,13 +278,12 @@ function MainSection2() {
            {/* -------------Tank1------------ */} 
 
            <img title=" Feed Tank" className="tank1" src ={FeedTank} />
-
-         
            <div className='leveltank1'>
-           <Level  value={1.5} maxValue ={3} height ={210}/> 
+           <Level  value={levelTank1} maxValue ={3} height ={170}/> 
            </div>
            
-          
+          {/* -------------- */}
+    
            
 
         </div>
@@ -219,9 +301,9 @@ function MainSection2() {
                     <img className="pipe23" src ={Pipe_hori}/>
                     <img className="pipe24" src ={Pipe_hori}/>
                     
-                         <img title=' VALVE 1 ' className="valve1" onClick={() =>  setPopupValve1(true)} src ={stateValve1 ? Valve_on: Valve_hori  }/>
+                         <img title=' VALVE A1 ' className="valve1" onClick={() =>  setPopupValve1(true)} src ={stateValveA1 ? Valve_on: Valve_hori  }/>
                          <Popup
-                              title="Valve 1"
+                              title="Valve A1"
                               openPopup={popupValve1}
                             setOpenPopup={setPopupValve1}
                         >
@@ -229,7 +311,7 @@ function MainSection2() {
                          
                     
                     
-                         <img title=' VALVE 2 ' className="valve2" onClick={() =>  setPopupValve2(true)} src ={stateValve2 ? Valve_on: Valve_hori  }/>
+                         <img title=' VALVE A2 ' className="valve2" onClick={() =>  setPopupValve2(true)} src ={stateValveA2 ? Valve_on: Valve_hori  }/>
                          <Popup
                               title="Valve 2"
                               openPopup={popupValve2}
@@ -239,7 +321,7 @@ function MainSection2() {
                     <img className="pipe25" src ={Pipe_fork_down}/>
                     <img className="pipe26" src ={Pipe_fork_down}/>
 
-                    <img title=' VALVE 3 ' className="valve3" src ={stateValve3 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve3(true) }/>
+                    <img title=' VALVE A3 ' className="valve3" src ={stateValveA3 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve3(true) }/>
 
                     <Popup
                               title="Valve 3"
@@ -247,7 +329,7 @@ function MainSection2() {
                             setOpenPopup={setPopupValve3}
                         >
                         <Valve3Pop/> </Popup>
-                    <img title=' VALVE 4 '  className="valve4" src ={stateValve4 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve4(true)}/>
+                    <img title=' VALVE A4 '  className="valve4" src ={stateValveA4 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve4(true)}/>
                     <Popup
                               title="Valve 4"
                               openPopup={popupValve4}
@@ -273,7 +355,14 @@ function MainSection2() {
                     <img className="pipe32" src ={Pipe_angle}/>
 
 
-                    <img title=' VALVE 5 ' className="valve5" src ={stateValve5 ? Valve_on: Valve_hori  }/>
+                    <img title=' VALVE A5 ' className="valve5" src ={stateValveA5 ? Valve_on: Valve_hori} onClick={() =>  setPopupValve5(true) }/>
+
+                    <Popup
+                              title="Valve A5"
+                              openPopup={popupValve5}
+                            setOpenPopup={setPopupValve5}
+                        >
+                        <Valve5Pop/> </Popup>
 
 
                     <img className="pipe35" src ={Pipe_alight}/>
@@ -284,7 +373,7 @@ function MainSection2() {
                 </div>
                 {/* -------LevelTank2----- */}
                     <div className='leveltank2'>
-                    <Level  value={1} maxValue ={2} height ={210}/> 
+                    <Level  value={1} maxValue ={2} height ={180}/> 
                     </div>
 
         </div>
@@ -304,16 +393,18 @@ function MainSection2() {
                      <img className="pipe41" src ={Pipe_hori}/>
 
 
-                    <img title=' VALVE 6 ' className="valve6" src ={stateValve6 ? Valve_on: Valve_hori  }/>
-                    <img title=' VALVE 7 ' className="valve7" src ={stateValve7 ? Valve_on: Valve_hori  }/>
+                    <img title=' VALVE B1 ' className="valve6" src ={stateValveB1 ? Valve_on: Valve_hori  } />
+
+
+                    <img title=' VALVE B2 ' className="valve7" src ={stateValveB2 ? Valve_on: Valve_hori  }/>
 
 
                     <img className="pipe42" src ={Pipe_fork_down}/>
                      <img className="pipe43" src ={Pipe_fork_down}/> 
 
 
-                      <img title=' VALVE 8 ' className="valve8" src ={stateValve8 ? Valve_on: Valve_hori  }/> 
-                     <img title=' VALVE 9 'className="valve9" src ={stateValve9 ? Valve_on: Valve_hori  }/> 
+                      <img title=' VALVE 8 ' className="valve8" src ={stateValveB3 ? Valve_on: Valve_hori  }/> 
+                     <img title=' VALVE 9 'className="valve9" src ={stateValveB4 ? Valve_on: Valve_hori  }/> 
 
 
                      <img className="pipe46" src ={Pipe_alight}/>
@@ -330,7 +421,7 @@ function MainSection2() {
                     <img className="pipe49" src ={Pipe_angle}/>
 
 
-                    <img title=' VALVE 10 ' className="valve10" src ={stateValve10 ? Valve_on: Valve_hori  }/>
+                    <img title=' VALVE 10 ' className="valve10" src ={stateValveB5 ? Valve_on: Valve_hori  }/>
 
 
                     {/* <img className="pipe52" src ={Pipe_alight}/> */}
@@ -340,7 +431,7 @@ function MainSection2() {
                 </div>
                  {/* -------LevelTank3----- */}
                  <div className='leveltank3'>
-                    <Level  value={1} maxValue ={2} height ={210}/> 
+                    <Level  value={1} maxValue ={2} height ={180}/> 
                 </div>
 
 
@@ -371,7 +462,7 @@ function MainSection2() {
            {/* <p className='label-tank4' > RAW TANK </p> */}
             {/* -------LevelTank4----- */}
             <div className='leveltank4'>
-                    <Level  value={1} maxValue ={3} height ={210}/> 
+                    <Level  value={1} maxValue ={3} height ={180}/> 
             </div>
 
          {/* -------------Micro Filter-------- */}
@@ -391,8 +482,8 @@ function MainSection2() {
             <img className="pipe64" src ={Pipe_fork}/>
             <img title=' VALVE 11 ' className="valve11" src ={Valve_hori}/>
             <img title=' VALVE 12 ' className="valve12" src ={Valve_hori}/>
-            <img title=" Pressure Pump 1 " className="pump6"  src ={statePressPump1 ?   Pump_Pressure_on:Pump_Pressure}/>
-            <img title=" Pressure Pump 2 " className="pump7" src ={statePressPump2 ?  Pump_Pressure_2_on:Pump_Pressure_2 }/>
+            <img title=" Pressure Pump 1 " className="pump6"  src ={statePump4?   Pump_Pressure_on:Pump_Pressure}/>
+            <img title=" Pressure Pump 2 " className="pump7" src ={statePump5 ?  Pump_Pressure_2_on:Pump_Pressure_2 }/>
             </div>
             {/* --------Micro Filter--------*/}
             <img title="Micro Filter"className='micro-filter' src={MicroFilter}/>
@@ -484,7 +575,7 @@ function MainSection2() {
                     {/* <p className='label-watertank' > WATER TANK </p> */}
                   </div>
                   <div className='leveltank5'>
-                <Level  value={1.5} maxValue ={3} height ={210}/> 
+                <Level  value={1.5} maxValue ={3} height ={180}/> 
                 </div>
        
 

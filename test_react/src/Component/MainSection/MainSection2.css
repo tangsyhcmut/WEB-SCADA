@@ -90,18 +90,18 @@
 /* ---------------------Level--------- */
 .leveltank1{
     position: absolute;
-    margin-top: 6rem;
-    margin-left: 13rem;
+    margin-top: 7.7rem;
+    margin-left: 14rem;
 }
 .leveltank2{
     position: absolute;
-    margin-top: 2.5rem;
-    margin-left: 33rem;
+    margin-top: 5rem;
+    margin-left: 40.5rem;
 }
 .leveltank3{
     position: absolute;
-    margin-top: 2.5rem;
-    margin-left: 75rem;
+    margin-top: 5rem;
+    margin-left: 60.5rem;
 }
 .leveltank4{
     position: absolute;

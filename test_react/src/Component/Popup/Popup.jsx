@@ -1,6 +1,6 @@
-import React from 'react'
-import { Dialog, DialogTitle, DialogContent, makeStyles, Typography } from '@material-ui/core';
- import Close from "../img/cancel.svg";
+import { Dialog, DialogContent, DialogTitle, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
+import Close from "../img/cancel.svg";
 
 
 const useStyles = makeStyles(theme => ({

@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
-import {
-  Button, Col, Container, Form,
-  FormGroup, Input, Label, Row
-} from 'reactstrap';
-import io from "socket.io-client";
+import {useState,Component,useEffect} from 'react'
 import greenlightoff from '../img/Off_Green.png';
-import redlightoff from '../img/Off_Red.png';
 import greenlighton from '../img/On_Green.png';
+import redlightoff from '../img/Off_Red.png';
 import redlighton from '../img/On_Red.png';
-import './ValvePop.css';
+import {
+    Container, Col, Form,
+    FormGroup, Label, Input,Button,Row
+   
+  } from 'reactstrap';
+    import './ValvePop.css'
+    import io from "socket.io-client";
     let socket;
     const CONNECTION_PORT = "localhost:5000/";
   
 
-function ValvePop() {
+function Valve5Pop() {
 
     const[modeSet,setModeSet] =useState(null)
     const [mode,setMode] = useState();
@@ -29,44 +30,43 @@ function ValvePop() {
   }, [CONNECTION_PORT]);
     ///State
   useEffect(() => {
-    socket.on("VF_MODE", (data) => {
-      console.log(data)
-     if(data===2)
+    socket.on("VA5_MODE", (data) => {
+     if(data==2)
      {setMode('AUTO')}
-     else if(data===1)
+     else if(data==1)
      {setMode('MAN')}
       });
-      socket.on("VF_OPENED", (data) => {
+      socket.on("VA5_OPENED", (data) => {
         setOpened(data);
-        
+        console.log(data);
         });
-       socket.on("VF_CLOSED", (data) => {
+       socket.on("VA5_CLOSED", (data) => {
           setClosed(data);
-          
+          console.log(data);
           });
-          socket.on("VF_FAULT", (data) => {
+          socket.on("VA5_FAULT", (data) => {
             setFault(data);
-            
+            console.log(data);
             });
  });
 
     ///Mode
     const btnSetClick =async()=>{
         
-      await socket.emit('VAF_MODE',modeSet)}
+      await socket.emit('VA5_MODE',modeSet)}
 
     
     ///Set Open
     const btnOpenClick =async()=>{
      
-      await socket.emit('Button','VAF_OPEN')}
+      await socket.emit('Button','VA5_OPEN')}
       ///Set Close
     const btnCloseClick =async()=>{
         
-      await socket.emit('Button','VAF_CLOSE')}
+      await socket.emit('Button','VA5_CLOSE')}
       ///Set Reset
     const btnResetClick =async()=>{
-        await socket.emit('Button','VAF_RESET')}
+        await socket.emit('Button','VA5_RESET')}
        
     
     return (
@@ -79,7 +79,7 @@ function ValvePop() {
           <Col >
             <FormGroup >
               
-              <Label>Mode :{mode}</Label>
+              <Label>Mode :           {mode}</Label>
               
              
              
@@ -109,14 +109,27 @@ function ValvePop() {
             </FormGroup>
           </Col>
           </div>
-          
+          <div className="valve-running">
+          <Col>
+            {/* <Label>Running Time</Label> */}
+            <FormGroup>
+                
+              <Label>Position</Label>
+              <Input placeholder="0.00%" />
+            </FormGroup>
+            
+          </Col>
+          </div>
           
         </Row>
         <Row form>
           <Col>
             <FormGroup>
             <div className='valve-status-light'>
-            
+            <Label> High limit </Label>
+            <img className="valvehighlight" src ={opened ?  redlighton : redlightoff } />
+            <Label>Low limit </Label>
+            <img className="valvelowlight" src ={opened?  redlighton : redlightoff } />
 
 
             <Label>Opened</Label>
@@ -137,4 +150,4 @@ function ValvePop() {
     )
 }
 
-export default ValvePop
+export default Valve5Pop

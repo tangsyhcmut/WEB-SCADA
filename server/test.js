@@ -137,17 +137,10 @@ const io = require("socket.io")(server, {
     //   console.log("KQ: ", JSON.stringify(dataValue.value));
     //   // }
     //  });
-    //--------Emit DATA------------------------------////
     io.on("connection", (socket) => {
       console.log(socket.id);
-        // /--------------------------------------------------------------------------------------
-           
-        
-        
-        //// Emit Pump State////
 
-
-
+            //// Emit Pump
       readnode("ns=3;s=\"Pump_1\".\"MODE\"", (dataValue) => {
         
         socket.emit('Pump_1_MODE',dataValue.value.value);
@@ -182,14 +175,7 @@ const io = require("socket.io")(server, {
         socket.emit('Pump_2_Speed',dataValue.value.value);
        })
 
-
-
-
-      //// Emit VALVE State//////
-
-
-
-
+      //// Emit VALVE
       readnode("ns=3;s=\"VF\".\"MODE\"", (dataValue) => {
        
        socket.emit('VF_MODE',dataValue.value.value);
@@ -227,45 +213,18 @@ const io = require("socket.io")(server, {
          
          socket.emit('VA1_FAULT',dataValue.value.value);
         })
-
-
-
-
-        /////--------Level---------////
-
-
+        /////Level
         readnode("ns=3;s=\"FTank_Level\"", (dataValue) => {
           
           socket.emit('FTank_Level',dataValue.value.value);
-         })
-         
-         
+         }) 
 
 
-        ////-------------------Speed----------//////
 
-        readnode("ns=3;s=\"Pump_1\".\"Speed\"", (dataValue) => {
-         
-          socket.emit('Pump_1_SPEED',dataValue.value.value);
-         })
-         readnode("ns=3;s=\"Pump_2\".\"Speed\"", (dataValue) => {
-         
-          socket.emit('Pump_2_SPEED',dataValue.value.value);
-         })
-         readnode("ns=3;s=\"Pump_3\".\"Speed\"", (dataValue) => {
-         
-          socket.emit('Pump_3_SPEED',dataValue.value.value);
-         })
-         readnode("ns=3;s=\"Pump_4\".\"Speed\"", (dataValue) => {
-         
-          socket.emit('Pump_4_SPEED',dataValue.value.value);
-         })
-         readnode("ns=3;s=\"Pump_5\".\"Speed\"", (dataValue) => {
-         
-          socket.emit('Pump_5_SPEED',dataValue.value.value);
-         })
 
-        //  --------------------------------socket on-------
+
+
+
 
          socket.on("Button", (message) => {
             let node;
@@ -388,7 +347,6 @@ const io = require("socket.io")(server, {
         WriteNode(node, DataType.Boolean, true);
         WriteNode(node, DataType.Boolean, false);
       });
-      ////////////////////////////--------------------Setmode
       socket.on("VAF_MODE", (message) => {
         let VM = 5;
         console.log(typeof message);
@@ -431,15 +389,15 @@ const io = require("socket.io")(server, {
         console.log(typeof message);
         if (message === "0") {
           PM = 0;
-          
+          console.log('0')
         }
         if (message === "2") {
           PM = 2;
-          
+          console.log('2')
         }
         if (message === "1") {
           PM = 1;
-         
+          console.log('2')
         }
         console.log(PM);
         WriteNode('ns=3;s="Pump_1"."MODE"', DataType.Int16, PM);
@@ -449,48 +407,19 @@ const io = require("socket.io")(server, {
         console.log(typeof message);
         if (message === "0") {
           PM = 0;
-          
+          console.log('0')
         }
         if (message === "2") {
           PM = 2;
-         
+          console.log('2')
         }
         if (message === "1") {
           PM = 1;
-          
+          console.log('2')
         }
         console.log(PM);
         WriteNode('ns=3;s="Pump_2"."MODE"', DataType.Int16, PM);
       });
-
-
-
-      /////--------SET SPEED-----------------------------//////////////
-
-
-
-
-      socket.on("SetSpeed_Pump1", (message) => {
-        
-        WriteNode('ns=3;s="Pump_1"."SetSpeed"', DataType.Float,message);
-      });
-      socket.on("SetSpeed_Pump2", (message) => {
-        
-        WriteNode('ns=3;s="Pump_2"."SetSpeed"', DataType.Float,message);
-      });
-      socket.on("SetSpeed_Pump3", (message) => {
-        
-        WriteNode('ns=3;s="Pump_3"."SetSpeed"', DataType.Float,message);
-      });
-      socket.on("SetSpeed_Pump4", (message) => {
-        
-        WriteNode('ns=3;s="Pump_4"."SetSpeed"', DataType.Float,message);
-      });
-      socket.on("SetSpeed_Pump5", (message) => {
-        
-        WriteNode('ns=3;s="Pump_5"."SetSpeed"', DataType.Float,message);
-      });
-
 
 
 

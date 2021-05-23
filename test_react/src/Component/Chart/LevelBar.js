@@ -1,23 +1,29 @@
 
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+  Bar, BarChart,
+
+
+
   CartesianGrid,
-  Tooltip,
-  Legend,
-  LabelList
+
+
+  LabelList, Legend, Tooltip, YAxis
 } from "recharts";
 
 export default function App(props) {
-  
+
   const [data,setData] =useState([]);
-  const setValue =(e) =>{
-  setData([{pv:props.value}])
-    console.log(data);
-  }
+
+  useEffect(() => {
+   
+    setData([{pv:props.value}])
+    console.log(data)
+}, [props.value]);
+  
+ 
+ 
+  
 
 
   return (
@@ -35,7 +41,7 @@ export default function App(props) {
       <Tooltip />
       <Legend iconSize = '0' align='right' fontSize="5"/>
       
-      <Bar dataKey='pv' name=' ' fill="#3742fa" background={{ fill: "#eee" }}>
+      <Bar dataKey="pv" name=' ' fill="#3742fa" background={{ fill: "#eee" }}>
       <LabelList dataKey="pv" position="top" fontSize="13" fontWeight="bold"/>
       </Bar>
     </BarChart>

@@ -1,25 +1,28 @@
-import {useState,Component,useEffect} from 'react'
-import greenlightoff from '../img/Off_Green.png';
-import greenlighton from '../img/On_Green.png';
-import redlightoff from '../img/Off_Red.png';
-import redlighton from '../img/On_Red.png';
+import { useEffect, useState } from 'react';
 import {
-    Container, Col, Form,
-    FormGroup, Label, Input,Button
-   
-  } from 'reactstrap';
-    import './PumpPop.css'
-  // import Select from 'react-select'
-  import io from "socket.io-client";
+  Button, Col, Container, Form,
+  FormGroup, Input, Label
+} from 'reactstrap';
+// import Select from 'react-select'
+import io from "socket.io-client";
+import greenlightoff from '../img/Off_Green.png';
+import redlightoff from '../img/Off_Red.png';
+import greenlighton from '../img/On_Green.png';
+import redlighton from '../img/On_Red.png';
+import './PumpPop.css';
   let socket;
   const CONNECTION_PORT = "localhost:5000/";
   
 
-function PumpPop(props) {
+function PumpPop() {
 
- 
-  const [stateP1,setStateP1] = useState([]);
-  const[speedSet,setSpeedSet] = useState([]);
+  const[modeSet,setModeSet] =useState(null)
+    const [mode,setMode] = useState();
+    const [feedback,setFeedback] = useState();
+    const [fault,setFault] = useState();
+    const[speed,setSpeed] = useState([]);
+
+   const[speedSet,setSpeedSet] = useState([]);
   const [bit,setBit] = useState()
 
     /// Connect 
@@ -28,19 +31,36 @@ function PumpPop(props) {
   }, [CONNECTION_PORT]);
     ///State
   useEffect(() => {
-    socket.on("pump1", (data) => {
-       setStateP1(data)
-        
-        });
+
+    ////
+    socket.on("Pump_1_MODE", (data) => {
+      if(data===2)
+      {setMode('AUTO')}
+      else if(data===1)
+      {setMode('MAN')}
+               });
+    ////
+    socket.on("Pump_1_FEEDBACK", (data) => {
+      setFeedback(data);
+      console.log(data);
+      });
+   ////
+        socket.on("Pump_1_FAULT", (data) => {
+          setFault(data);
+          console.log(data);
+          });
+        ////  
+          socket.on("Pump_1_SPEED", (data) => {
+            setSpeed(data);
+            console.log(data);
+            });
  });
 
   
     ///Mode
-    const selectMode =async(e)=>{
-      let pump1Mode = {
-        pump1Mode:e.target.value}
-     await 
-     socket.emit('pump1Mode',pump1Mode)
+    const btnSetMode =async(e)=>{
+    
+     socket.emit('Pump1_MODE',modeSet)
     };
     ///Set Start
     const btnStartClick =async()=>{
@@ -53,7 +73,8 @@ function PumpPop(props) {
     const btnResetClick =async()=>{
       await 
           socket.emit('Button',"Pump1_RESET")}
-    const btnSetClick =async()=>{
+          
+    const btnSetSpeed =async()=>{
       await 
             socket.emit('SetSpeed_Pump1',speedSet)}
 
@@ -67,21 +88,28 @@ function PumpPop(props) {
 
         <Form >
         <div className='select-mode'>
+        <Col >
+            <FormGroup>
+              <Label classNam='pump-pop-mode'>Mode :    {mode}</Label>
+              
+            </FormGroup>
+          </Col>
           <Col >
             <FormGroup>
-              <Label>Mode :</Label>
-              <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect" onChange={selectMode}>
+              <Label>SetMode :</Label>
+              <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect" onChange={(e)=>setModeSet(e.target.value)}>
              <option value ='2'> Auto </option>
              <option value ='1'> Man </option>
              </Input>
+             <Button className='btnset' onClick={btnSetMode} >Set</Button>
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
             <div className="pump-controlbtn">
                 <Label>Control : </Label>
-                <Button className='btnstart' onClick={btnStartClick} disabled ={!stateP1.man}>Start</Button>
-                <Button className='btnstop' onClick={btnStopClick} disabled ={!stateP1.man}>Stop</Button> 
+                <Button className='btnstart' onClick={btnStartClick} >Start</Button>
+                <Button className='btnstop' onClick={btnStopClick} >Stop</Button> 
                 <Button className='btnreset'onClick={btnResetClick}>Reset</Button>
                 </div>
             </FormGroup>
@@ -93,9 +121,9 @@ function PumpPop(props) {
               {/* <Label>Running Time</Label> */}
               <div className='pumplight'>
               <Label> Status </Label>
-            <img className="pump-status-light" src ={stateP1.FEEDBACK ? greenlighton : greenlightoff}/>
+            <img className="pump-status-light" src ={feedback ? greenlighton : greenlightoff}/>
              <Label> Fault </Label>
-            <img className="pump-fault-light" src ={stateP1.FAULT ?  redlighton : redlightoff } />
+            <img className="pump-fault-light" src ={fault ?  redlighton : redlightoff } />
               </div>
             
              </div>
@@ -106,11 +134,11 @@ function PumpPop(props) {
             <FormGroup>
             
               <Label>Set speed</Label>
-              <Input placeholder="0.00%" onChange={ (e)=>setSpeedSet(e.target.value)} />
-              <Button onClick={btnSetClick} > Set </Button>
+              <Input className='setspeed' placeholder="0.00%" onChange={ (e)=>setSpeedSet(e.target.value)} />
+              <Button className='btnset' onClick={btnSetSpeed} > Set </Button>
             </FormGroup>
             <FormGroup>
-              <Label >Status: {stateP1.Speed}  % </Label>
+              <Label >Status: {speed}  % </Label>
               
             </FormGroup>
             </div>

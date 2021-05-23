@@ -129,9 +129,11 @@ server.listen(process.env.PORT || 5000, () =>
         }
         if (message === "OpenVA1") {
           node = 'ns=3;s="VF"."OPEN"';
+          console.log('open')
         }
         if (message === "CloseVA1") {
           node = 'ns=3;s="VF"."CLOSE"';
+          console.log('Close')
         }
         ad(node, DataType.Boolean, true);
         ad(node, DataType.Boolean, false);
