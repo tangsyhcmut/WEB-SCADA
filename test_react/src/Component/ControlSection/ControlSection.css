@@ -32,6 +32,7 @@
     height: 50px;
     font-size: 20px;
     font-weight:bold;
+    border-radius: 20px;
 }
 Button.btn-sys-auto:hover,Button.btn-sys-reset:hover,Button.btn-sys-man:hover,Button.btn-sys-start:hover{
   background-color: #05c46b

@@ -10,7 +10,7 @@ import PlanConTextProvider from './context/PlanContext'
 import AuthContextProvider from './context/AuthContext';
 import Auth from './Features/Auth/Auth';
 import PlanForm from './Component/TodoForm/PlanForm'
-import Test from './Component/TemperatureSection/Temperature'
+import Test from './Component/Chart/PressureChart'
 import MqttContextProvider from './context/MqttContext';
 
 
@@ -40,7 +40,7 @@ function App() {
 						/>
         <ProtectedRoute  exact path ='/home' exact component ={Home} />
         <ProtectedRoute  exact path ='/dashboard' component ={Dashboard} />
-        <ProtectedRoute exact path='/test' component={PlanForm} />
+        <ProtectedRoute exact path='/test' component={Test} />
         
         <ProtectedRoute  exact path ='/P-T' exact component ={PowerandTem} />
         

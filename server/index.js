@@ -24,7 +24,6 @@ const endpointUrl = "opc.tcp://192.168.2.3:4840";
 const model = require("./models/Mqtt");
 const db = require("./config/db");
 db.connect();
-
 const app = express();
 
 const authRouter = require("./routes/auth");
@@ -34,6 +33,7 @@ const mqttRouter = require("./routes/mqtt");
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT);
 
+let a = 0;
 // Socket.io server-side
 //Setup
 const io = require("socket.io")(server, {
@@ -45,7 +45,106 @@ const io = require("socket.io")(server, {
   },
 });
 //Connection
+//Connection
+io.on("connection", (socket) => {
+  console.log(socket.id);
 
+  socket.on("send_sys_state", (data) => {
+    console.log(data);
+    socket.emit("receive_sys_state", data);
+  });
+  /// MQTT Power metter
+  var clientMQTT = mqtt.connect(
+    "mqtt://" + settings.mqttServerUrl + ":" + settings.port
+  );
+  clientMQTT.on("connect", function () {
+    clientMQTT.subscribe(settings.topic);
+    //console.log("Subscribed topic " + settings.topic);
+  });
+
+  clientMQTT.on("message", function (topic, message) {
+    let data = JSON.parse(message);
+    // a = a + 1;
+    // if (a == 500) {
+    //   a = 0;
+    //   const simdatatodb = {
+    //     UL1: data.S.UL1 / 10,
+    //     UL2: data.S.UL2 / 10,
+    //     UL3: data.S.UL3 / 10,
+    //     IL1: data.S.IL1,
+    //     IL2: data.S.IL2,
+    //     IL3: data.S.IL3,
+    //     P: data.S.P,
+    //     Q: data.S.Q,
+    //     S: data.S.S,
+    //     PF: data.S.PF / 1000,
+    //     Phi: data.S.Phi,
+    //     F: data.S.F / 100,
+    //   };
+    //   // const simdata = new model.SimData(simdatatodb);
+    //   // //console.log(simdatatodb);
+    //   // simdata.save();
+    //   //--------------
+    //   const tstatdatatodb = {
+    //     CM: data.T.CM,
+    //     MO: data.T.MO,
+    //     Tp: data.T.Tp / 10,
+    //     D: data.T.D / 10,
+    //     N: data.T.N / 10,
+    //   };
+    //   //--------------
+    //   // const tstatdata = new model.TSTATData(tstatdatatodb);
+    //   // tstatdata.save();
+    // }
+    // console.log(data)
+    //
+    // console.log(message);
+    let simeas = data.S;
+    let temperature = data.T;
+    socket.emit("temperature", temperature);
+    socket.emit("powermeter", simeas);
+    let I3 = data.S.IL3/10;
+    let IL3 ={IL3:I3}
+    a = a + 1;
+    if (a == 20) {
+      a = 0;
+      socket.emit("IL3",IL3);
+    }
+  });
+
+  /// temperature
+  socket.on("sysMode", (data) => {
+    console.log(data);
+    //  let sysMode= JSON.stringify(data);
+
+    clientMQTT.publish("R101TSTAT", data);
+    setTimeout(() => {
+      clientMQTT.publish("NTS", 'D2D');
+    }, 1500);
+  });
+
+  socket.on("temperatureSet", (data) => {
+    console.log(data);
+     let tem= JSON.stringify(data);
+
+    clientMQTT.publish("R345TSTAT", tem);
+    setTimeout(() => {
+      clientMQTT.publish("NTS", 'D2D');
+    }, 1500);
+    
+  });
+
+  socket.on("lightSet", (data) => {
+    console.log(data);
+    //  let tem= JSON.stringify(data);
+  
+    clientMQTT.publish("LIGHT", data);
+    setTimeout(() => {
+      clientMQTT.publish("NTS", 'D2D');
+    }, 1500);
+    
+  });
+});
 
 /////OPC UA Tests
 (async () => {
@@ -142,12 +241,21 @@ const io = require("socket.io")(server, {
       console.log(socket.id);
         // /--------------------------------------------------------------------------------------
            
+        // ---------SYS State----////
+        readnode("ns=3;s=\"MODE\"", (dataValue) => {
+        
+          socket.emit('MODE',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"System_Status\"", (dataValue) => {
+        
+          socket.emit('System_Status',dataValue.value.value);
+         })
         
         
         //// Emit Pump State////
 
 
-
+      // Pump1
       readnode("ns=3;s=\"Pump_1\".\"MODE\"", (dataValue) => {
         
         socket.emit('Pump_1_MODE',dataValue.value.value);
@@ -164,7 +272,7 @@ const io = require("socket.io")(server, {
         
         socket.emit('Pump_1_Speed',dataValue.value.value);
        })
-
+      //  Pump2
        readnode("ns=3;s=\"Pump_2\".\"MODE\"", (dataValue) => {
         
         socket.emit('Pump_2_MODE',dataValue.value.value);
@@ -180,6 +288,60 @@ const io = require("socket.io")(server, {
        readnode("ns=3;s=\"Pump_2\".\"Speed\"", (dataValue) => {
         
         socket.emit('Pump_2_Speed',dataValue.value.value);
+       })
+      //  Pump3
+
+       readnode("ns=3;s=\"Pump_3\".\"MODE\"", (dataValue) => {
+        
+        socket.emit('Pump_3_MODE',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_3\".\"FEEDBACK\"", (dataValue) => {
+        
+        socket.emit('Pump_3_FEEDBACK',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_3\".\"FAULT\"", (dataValue) => {
+        
+        socket.emit('Pump_3_FAULT',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_3\".\"Speed\"", (dataValue) => {
+        
+        socket.emit('Pump_3_Speed',dataValue.value.value);
+       })
+
+        //  Pump4
+
+        readnode("ns=3;s=\"Pump_4\".\"MODE\"", (dataValue) => {
+        
+          socket.emit('Pump_4_MODE',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"Pump_4\".\"FEEDBACK\"", (dataValue) => {
+          
+          socket.emit('Pump_4_FEEDBACK',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"Pump_4\".\"FAULT\"", (dataValue) => {
+          
+          socket.emit('Pump_4_FAULT',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"Pump_4\".\"Speed\"", (dataValue) => {
+          
+          socket.emit('Pump_4_Speed',dataValue.value.value);
+         })
+         //  Pump2
+       readnode("ns=3;s=\"Pump_5\".\"MODE\"", (dataValue) => {
+        
+        socket.emit('Pump_5_MODE',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_5\".\"FEEDBACK\"", (dataValue) => {
+        
+        socket.emit('Pump_5_FEEDBACK',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_5\".\"FAULT\"", (dataValue) => {
+        
+        socket.emit('Pump_5_FAULT',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_5\".\"Speed\"", (dataValue) => {
+        
+        socket.emit('Pump_5_Speed',dataValue.value.value);
        })
 
 
@@ -208,8 +370,8 @@ const io = require("socket.io")(server, {
         socket.emit('VF_FAULT',dataValue.value.value);
        })
 
-       /////
-
+       /////Valve A1
+       
        readnode("ns=3;s=\"VA1\".\"MODE\"", (dataValue) => {
         
         socket.emit('VA1_MODE',dataValue.value.value);
@@ -227,16 +389,254 @@ const io = require("socket.io")(server, {
          
          socket.emit('VA1_FAULT',dataValue.value.value);
         })
+        /////Valve A2
+
+        readnode("ns=3;s=\"VA2\".\"MODE\"", (dataValue) => {
+        
+          socket.emit('VA2_MODE',dataValue.value.value);
+         })
+   
+         readnode("ns=3;s=\"VA2\".\"OPENED\"", (dataValue) => {
+           
+           socket.emit('VA2_OPENED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA2\".\"CLOSED\"", (dataValue) => {
+           
+           socket.emit('VA2_CLOSED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA2\".\"FAULT\"", (dataValue) => {
+           
+           socket.emit('VA2_FAULT',dataValue.value.value);
+          })
+
+          /////Valve A3
+
+        readnode("ns=3;s=\"VA3\".\"MODE\"", (dataValue) => {
+        
+          socket.emit('VA3_MODE',dataValue.value.value);
+         })
+   
+         readnode("ns=3;s=\"VA3\".\"OPENED\"", (dataValue) => {
+           
+           socket.emit('VA3_OPENED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA3\".\"CLOSED\"", (dataValue) => {
+           
+           socket.emit('VA3_CLOSED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA3\".\"FAULT\"", (dataValue) => {
+           
+           socket.emit('VA3_FAULT',dataValue.value.value);
+          })
+
+          /////Valve A4
+
+        readnode("ns=3;s=\"VA4\".\"MODE\"", (dataValue) => {
+        
+          socket.emit('VA4_MODE',dataValue.value.value);
+         })
+   
+         readnode("ns=3;s=\"VA4\".\"OPENED\"", (dataValue) => {
+           
+           socket.emit('VA4_OPENED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA4\".\"CLOSED\"", (dataValue) => {
+           
+           socket.emit('VA4_CLOSED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA4\".\"FAULT\"", (dataValue) => {
+           
+           socket.emit('VA4_FAULT',dataValue.value.value);
+          })
+
+      /////Valve A5
+
+        readnode("ns=3;s=\"VA5\".\"MODE\"", (dataValue) => {
+        
+          socket.emit('VA5_MODE',dataValue.value.value);
+         })
+   
+         readnode("ns=3;s=\"VA5\".\"OPENED\"", (dataValue) => {
+           
+           socket.emit('VA5_OPENED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA5\".\"CLOSED\"", (dataValue) => {
+           
+           socket.emit('VA5_CLOSED',dataValue.value.value);
+          })
+          readnode("ns=3;s=\"VA5\".\"FAULT\"", (dataValue) => {
+           
+           socket.emit('VA5_FAULT',dataValue.value.value);
+          })
+            /////Valve B1
+
+            readnode("ns=3;s=\"VB1\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VB1_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VB1\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VB1_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB1\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VB1_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB1\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VB1_FAULT',dataValue.value.value);
+              })
+               /////Valve B2
+
+            readnode("ns=3;s=\"VB2\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VB2_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VB2\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VB2_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB2\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VB2_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB2\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VB2_FAULT',dataValue.value.value);
+              })
+               /////Valve B3
+
+            readnode("ns=3;s=\"VB3\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VB3_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VB3\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VB3_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB3\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VB3_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB3\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VB3_FAULT',dataValue.value.value);
+              })
+
+               /////Valve B4
+
+            readnode("ns=3;s=\"VB4\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VB4_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VB4\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VB4_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB4\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VB4_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB4\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VB4_FAULT',dataValue.value.value);
+              })
+               /////Valve B5
+
+            readnode("ns=3;s=\"VB5\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VB5_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VB5\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VB5_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB5\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VB5_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VB5\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VB5_FAULT',dataValue.value.value);
+              })
+              
+               /////Valve C1
+
+            readnode("ns=3;s=\"VC1\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VC1_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VC1\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VC1_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC1\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VC1_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC1\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VC1_FAULT',dataValue.value.value);
+              })
+               /////Valve C2
+
+            readnode("ns=3;s=\"VC2\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VC2_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VC2\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VC2_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC2\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VC2_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC2\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VC2_FAULT',dataValue.value.value);
+              })
+    
+    
+    
 
 
 
+              /////--------UV---------////
 
-        /////--------Level---------////
+              readnode("ns=3;s=\"UV_CMD\"", (dataValue) => {
+          
+                socket.emit('UV_CMD',dataValue.value.value);
+               })
+
+
+        /////--------Level F Tank---------////
 
 
         readnode("ns=3;s=\"FTank_Level\"", (dataValue) => {
           
           socket.emit('FTank_Level',dataValue.value.value);
+         })
+          /////--------Level F Tank---------////
+
+
+        readnode("ns=3;s=\"MTank_Level\"", (dataValue) => {
+          
+          socket.emit('MTank_Level',dataValue.value.value);
+         })
+          /////--------Level F Tank---------////
+
+
+        readnode("ns=3;s=\"CTank_Level\"", (dataValue) => {
+          
+          socket.emit('CTank_Level',dataValue.value.value);
          })
          
          
@@ -269,9 +669,24 @@ const io = require("socket.io")(server, {
 
          socket.on("Button", (message) => {
             let node;
-            if (message === "Auto") {
+            /////SYSTEM
+            if (message === "GAuto") {
+             
               node = 'ns=3;s="GAuto"';
             }
+            if (message === "StartSystem") {
+             
+              node = 'ns=3;s="StartSystem"';
+            }
+            if (message === "StopSystem") {
+             
+              node = 'ns=3;s="StopSystem"';
+            }
+            if (message === "Emergency") {
+             
+              node = 'ns=3;s="Emergency"';
+            }
+
             ////// Pump
             if (message === "Pump1_START") {
               node = 'ns=3;s="Pump_1"."START"';
@@ -527,27 +942,6 @@ const io = require("socket.io")(server, {
 
 //********** */
 
-
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect(
-//       `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@login.ezfrs.mongodb.net/mythesis?retryWrites=true&w=majority`,
-//       {
-//         useCreateIndex: true,
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//         useFindAndModify: false,
-//       }
-//     );
-
-//     console.log("MongoDB connected");
-//   } catch (error) {
-//     console.log(error.message);
-//     process.exit(1);
-//   }
-// };
-
-// connectDB();
 
 app.use(express.json());
 app.use(cors());

@@ -2,12 +2,8 @@
 import React, { useEffect, useState } from "react";
 import {
   Bar, BarChart,
-
-
-
   CartesianGrid,
-
-  Legend, Tooltip, XAxis,
+  Legend, Tooltip, XAxis,Label,
   YAxis
 } from "recharts";
 import io from "socket.io-client";
@@ -19,71 +15,84 @@ const CONNECTION_PORT = "localhost:5000/";
 export default function App() {
 
   
-  const [level,setLevel] =useState(0)
+  const [levelFTank,setLevelFTank] =useState(0)
+  const [levelMTank,setLevelMTank] =useState(0)
+  const [levelCTank,setLevelCTank] =useState(0)
 
-  const [data,setData] =useState([{
-    name: "Tank A",
-    pv:0,
-  },
-  {
-    name: "Tank B",
-    pv:0,
-  },
-  {
-    name: "Tank C",
-    pv:0,
-  },
-  {
-    name: "Tank D",
-    pv:0,
-  },
-  {
-    name: "Tank E",
-    pv:0,
-  }]);
+  const [data,setData] =useState();
   useEffect(() => {
     socket = io(CONNECTION_PORT);
 }, [CONNECTION_PORT]);
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    socket.on("FTank_Level", (data) => {
-      setLevel(data);
-      console.log(data);
-      });
+  //   socket.on("FTank_Level", (data) => {
+  //     setLevelFTank(data);
+  //     console.log(data);
+  //     });
+  //     socket.on("MTank_Level", (data) => {
+  //       setLevelMTank(data);
+  //       console.log(data);
+  //       });
+  //       socket.on("CTank_Level", (data) => {
+  //         setLevelCTank(data);
+  //         console.log(data);
+  //         });
+
+  //       });
+
+          useEffect(() => {
+
+            socket.on("FTank_Level", (data) => {
+              setLevelFTank(data);
+              
+              });
+              socket.on("MTank_Level", (data) => {
+                setLevelMTank(data);
+                
+                });
+                socket.on("CTank_Level", (data) => {
+                  setLevelCTank(data);
+                  
+                  });
 
 
     setData([{
-      name: "Tank A",
-      pv: level,
+      name: "Feed Tank",
+      pv: levelFTank,
     },
     {
-      name: "Tank B",
-      pv: 1398,
+      name: "Mix Tank",
+      pv: levelMTank,
     },
     {
-      name: "Tank C",
-      pv: 9800,
+      name: "Water Tank",
+      pv: levelCTank,
     },
-    {
-      name: "Tank D",
-      pv: 3908,
-    },
-    {
-      name: "Tank E",
-      pv: 4800,
-    }]);
-    console.log(data)
-});
+   
+    ]);
+    
+},[]);
 
+function Convert (data) {
+  var a ='url(#normalcolor)'
+   
+  
 
+  if(data>=2)
+  { a='url(#highcolor)'}
+ else if (data <= 1)
+ {a='url(#lowcolor)'}
+return a;
+}
+ 
 
   return (
     <div className="level-chart-container">
-<h1 className='label-level-chart'>LEVEL TANK CHART</h1>
+<h2 className='label-level-chart'>Current Level</h2>
     <BarChart
       width={700}
-      height={500}
+      height={250}
       data={data}
       margin={{
         top: 5,
@@ -93,12 +102,37 @@ export default function App() {
       }}
       barSize={40}
     >
-      <XAxis dataKey="name" scale="point" padding={{ left: 20, right: 20 }} />
-      <YAxis />
+      <defs>
+      <linearGradient id="highcolor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="35%" stopColor="#be0000" stopOpacity={0.9}/>
+      <stop offset="65%" stopColor="#1597bb" stopOpacity={0.3}/>
+   
+    </linearGradient>
+    
+   
+    <linearGradient id="normalcolor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="10%" stopColor="#1597bb" stopOpacity={0.9}/>
+      <stop offset="80%" stopColor="#8fd6e1" stopOpacity={0.6}/>
+      
+    </linearGradient>
+   
+    <linearGradient id="lowcolor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="10%" stopColor="#8fd6e1" stopOpacity={0.5}/>
+      <stop offset="35%" stopColor="#6f0000" stopOpacity={1}/>
+     
+    </linearGradient>
+  </defs>
+      <XAxis dataKey="name" scale="point" padding={{ left: 30, right: 30 }}>
+      {/* <Label value="Pages of my website" offset={0} position="insideBottom" /> */}
+      </XAxis>
+      <YAxis domain ={[0,3]} unit ='m' fontSize ='15'/>
       <Tooltip />
-      <Legend />
+      <Legend iconSize = '0'/>
       <CartesianGrid strokeDasharray="3 3" />
-      <Bar name ='Current Level' dataKey="pv" fill="rgba(22, 29, 111,1)" background={{ fill: "#eee" }} />
+      
+      
+      <Bar dataKey="pv" name =' ' fill='url(#normalcolor)' background={{ fill: "#eee" }} />
+      
     </BarChart>
     </div>
     

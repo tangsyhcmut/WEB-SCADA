@@ -5,11 +5,10 @@ import io from "socket.io-client";
 import Level from '../Chart/LevelBar';
 // Control
 import Control from '../ControlSection/ControlSection';
-// Filter
-import MicroFilter from '../img/Container.svg';
+// Clean
+import Clean from '../img/Clean.svg';
 // Valve
 import Valve_hori from '../img/Hand valve 2.png';
-import Pipe_four from '../img/Intersection.svg';
 import Pipe_alight from '../img/Pipes_alight.png';
 // Pipes
 import Pipe_hori from '../img/Pipes_horizontal.png';
@@ -24,6 +23,8 @@ import Pipe_fork_alight_right from '../img/Pipe_fork_alight_right.svg';
 import Pipe_fork_down from '../img/Pipe_fork_down.png';
 import Pump_Pressure from '../img/pressurepump.svg';
 import Pump_Pressure_2 from '../img/pressurepump2.svg';
+// Sensor
+import Sensor from '../img/PressureSensor.svg';
 import Pump_Pressure_2_on from '../img/Pressure_pump2_on.svg';
 import Pump_Pressure_on from '../img/Pressure_pump_on.svg';
 // Pump
@@ -31,23 +32,21 @@ import Pump from '../img/Pump.png';
 import Pump_alight from '../img/Pump_alight.svg';
 import Pump_on from '../img/Pump_on.png';
 import ROFilter from '../img/RO.svg';
+// Light
+import LightOn from '../img/On_Yellow.png';
+import LightOff from '../img/Off_Yellow.png';
 //Bể Lắng
 import FeedTank from '../img/Tank_1.png';
 import PressureTank from '../img/Tank_2.svg';
 import RawTank from '../img/Tank_4.svg';
+import UVFilterRun from '../img/UV-Open.svg';
 import UVFilter from '../img/UV.svg';
 import Valve_on from '../img/Valve_on.png';
 import Pump_alight_on from '../img/Vertical_pump_on.svg';
+import CleanPop from '../Popup/CleanPop';
 //Popup
 import Popup from '../Popup/Popup';
 import PumpPop from '../Popup/Pump1Pop';
-import Pump2Pop from '../Popup/Pump2Pop';
-import Pump3Pop from '../Popup/Pump3Pop';
-import Valve1Pop from '../Popup/ValveA1Pop';
-import Valve2Pop from '../Popup/ValveA2Pop';
-import Valve3Pop from '../Popup/ValveA3Pop';
-import Valve4Pop from '../Popup/ValveA4Pop';
-import Valve5Pop from '../Popup/ValveA5Pop';
 import ValvePop from '../Popup/ValveFPop';
 // Status
 import Status from '../StatusSection/StatusForm';
@@ -66,6 +65,8 @@ function MainSection2() {
     const [popupPump1,setPopupPump1] = useState(false);
     const [popupPump2,setPopupPump2] = useState(false);
     const [popupPump3,setPopupPump3] = useState(false);
+    const [popupPump4,setPopupPump4] = useState(false);
+    const [popupPump5,setPopupPump5] = useState(false);
     //Valve
     const [popupValveF,setPopupValveF] = useState(false);
     const [popupValve1,setPopupValve1] = useState(false);
@@ -73,7 +74,15 @@ function MainSection2() {
     const [popupValve3,setPopupValve3] = useState(false);
     const [popupValve4,setPopupValve4] = useState(false);
     const [popupValve5,setPopupValve5] = useState(false);
-
+    const [popupValve6,setPopupValve6] = useState(false);
+    const [popupValve7,setPopupValve7] = useState(false);
+    const [popupValve8,setPopupValve8] = useState(false);
+    const [popupValve9,setPopupValve9] = useState(false);
+    const [popupValve10,setPopupValve10] = useState(false);
+    const [popupValve11,setPopupValve11] = useState(false);
+    const [popupValve12,setPopupValve12] = useState(false);
+    //Clean
+    const [popupClean,setPopupClean] = useState(false);
     // State
     const [statePump1,setStatePump1] = useState(false);
     const [statePump2,setStatePump2] = useState(false);
@@ -95,10 +104,22 @@ function MainSection2() {
     const [stateValveB5,setStateValveB5] = useState(false);
     const [stateValveC1,setStateValveC1] = useState(false);
     const [stateValveC2,setStateValveC2] = useState(false);
+    const [stateUV,setStateUV] = useState(false);
    
 //// Level
-const[levelTank1,setLevelTank1] = useState([])
-
+const[levelTankF,setLevelTankF] = useState([])
+const[levelTankM,setLevelTankM] = useState([])
+const[levelTankC,setLevelTankC] = useState([])
+const[levelTankFHigh,setlevelTankFHigh] = useState(false);
+const[levelTankFLow,setlevelTankFLow] = useState(false);
+const[levelTankMHigh,setlevelTankMHigh] = useState(false);
+const[levelTankMLow,setlevelTankMLow] = useState(false);
+const[levelTankCHigh,setlevelTankCHigh] = useState(false);
+const[levelTankCLow,setlevelTankCLow] = useState(false);
+//// Pressure
+const[pressure1,setPressure1] = useState()
+const[pressure2,setPressure2] = useState()
+const[pressure3,setPressure3] = useState()
 
 
 /////
@@ -113,17 +134,25 @@ useEffect(() => {
 
   ////-------Level----///
   socket.on("FTank_Level", (data) => {
-    setLevelTank1(data)
-             });    
+    setLevelTankF(data)
+             });   
+             socket.on("MTank_Level", (data) => {
+                setLevelTankM(data)
+                         });   
+                         socket.on("CTank_Level", (data) => {
+                            setLevelTankC(data)
+                                     });    
 // ----------------Pump State--------///
     socket.on("Pump_1_FEEDBACK", (data) => {
         setStatePump1(data)
              }); 
              socket.on("Pump_2_FEEDBACK", (data) => {
                 setStatePump2(data)
+               
                      });    
                      socket.on("Pump_3_FEEDBACK", (data) => {
                         setStatePump3(data)
+                        
                              });    
                              socket.on("Pump_4_FEEDBACK", (data) => {
                                 setStatePump4(data)
@@ -170,7 +199,20 @@ useEffect(() => {
              }); 
              socket.on("VC2_OPENED", (data) => {
                 setStateValveC2(data)
-                 });                          
+                 }); 
+                 socket.on("Pressure1", (data) => {
+                    setStateValveC1(data)
+                     }); 
+                     socket.on("Pressure2", (data) => {
+                        setStateValveC2(data)
+                         });
+                         socket.on("Pressure3", (data) => {
+                            setStateValveC2(data)
+                             });
+                          
+                 socket.on("UV_CMD", (data) => {
+                    setStateUV(data)
+                     });                         
  })
 
 
@@ -198,8 +240,18 @@ useEffect(() => {
              <Control/>
              
             </div>
-            
-            
+            {/* --------------------Set Time------- */}
+            <div className="settime">
+            <img  title="Time Clean" className="settime-icon"  src={Clean} onClick={() =>  setPopupClean(true) }/>
+
+            <Popup
+             title="Set Time Clean"
+            openPopup={popupClean}
+            setOpenPopup={setPopupClean}
+             >
+            <CleanPop/> 
+        </Popup>
+            </div>
             
             
     <div className="model-container">
@@ -218,7 +270,7 @@ useEffect(() => {
             openPopup={popupPump1}
             setOpenPopup={setPopupPump1}
              >
-            <PumpPop/> 
+            <PumpPop on={'Pump_1'} emit={'Pump1'}/> 
         </Popup>
             
             <img className="pipe5" src ={Pipe_LT}/>
@@ -231,7 +283,7 @@ useEffect(() => {
             openPopup={popupValveF}
             setOpenPopup={setPopupValveF}
              >
-            <ValvePop/> </Popup>
+            <ValvePop on={'VF'} emit ={'VAF'}/> </Popup>
                 
             
             </div>
@@ -253,7 +305,7 @@ useEffect(() => {
             openPopup={popupPump2}
             setOpenPopup={setPopupPump2}
              >
-            <Pump2Pop/> 
+            <PumpPop on={'Pump_2'} emit={'Pump2'}/> 
             </Popup>
             
 
@@ -264,7 +316,7 @@ useEffect(() => {
             openPopup={popupPump3}
             setOpenPopup={setPopupPump3}
              >
-            <Pump3Pop/> 
+            <PumpPop on={'Pump_3'} emit={'Pump3'}/> 
             </Popup>
 
             <img className="pipe15" src ={Pipe_alight}/>
@@ -279,8 +331,9 @@ useEffect(() => {
 
            <img title=" Feed Tank" className="tank1" src ={FeedTank} />
            <div className='leveltank1'>
-           <Level  value={levelTank1} maxValue ={3} height ={170}/> 
+           <Level  value={levelTankF} maxValue ={3} height ={170}/> 
            </div>
+           
            
           {/* -------------- */}
     
@@ -307,7 +360,7 @@ useEffect(() => {
                               openPopup={popupValve1}
                             setOpenPopup={setPopupValve1}
                         >
-                        <Valve1Pop/> </Popup>
+                        <ValvePop on={'VA1'} emit ={'VA1'}/></Popup>
                          
                     
                     
@@ -317,7 +370,7 @@ useEffect(() => {
                               openPopup={popupValve2}
                             setOpenPopup={setPopupValve2}
                         >
-                        <Valve2Pop/> </Popup>
+                        <ValvePop on={'VA2'} emit ={'VA2'}/> </Popup>
                     <img className="pipe25" src ={Pipe_fork_down}/>
                     <img className="pipe26" src ={Pipe_fork_down}/>
 
@@ -328,14 +381,14 @@ useEffect(() => {
                               openPopup={popupValve3}
                             setOpenPopup={setPopupValve3}
                         >
-                        <Valve3Pop/> </Popup>
+                        <ValvePop on={'VA3'} emit ={'VA3'}/> </Popup>
                     <img title=' VALVE A4 '  className="valve4" src ={stateValveA4 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve4(true)}/>
                     <Popup
                               title="Valve 4"
                               openPopup={popupValve4}
                             setOpenPopup={setPopupValve4}
                         >
-                        <Valve4Pop/> </Popup>
+                       <ValvePop on={'VA4'} emit ={'VA4'}/> </Popup>
 
                     <img className="pipe29" src ={Pipe_alight}/>
                     <img className="pipe27" src ={Pipe_RB}/>
@@ -362,19 +415,18 @@ useEffect(() => {
                               openPopup={popupValve5}
                             setOpenPopup={setPopupValve5}
                         >
-                        <Valve5Pop/> </Popup>
+                        <ValvePop on={'VA5'} emit ={'VA5'}/> </Popup>
 
 
                     <img className="pipe35" src ={Pipe_alight}/>
                     <img className="pipe34" src ={Pipe_RT}/>
+                    <p className="sensor1value">Pressure: {pressure1} bar </p>
+                    <img title=' Pressure Sensor ' className="sensor1" src ={Sensor}/>
                     
                     
 
                 </div>
-                {/* -------LevelTank2----- */}
-                    <div className='leveltank2'>
-                    <Level  value={1} maxValue ={2} height ={180}/> 
-                    </div>
+               
 
         </div>
         {/* ---------------------------Tank3----------- */}
@@ -393,18 +445,43 @@ useEffect(() => {
                      <img className="pipe41" src ={Pipe_hori}/>
 
 
-                    <img title=' VALVE B1 ' className="valve6" src ={stateValveB1 ? Valve_on: Valve_hori  } />
+                    <img title=' VALVE B1 ' className="valve6" src ={stateValveB1 ? Valve_on: Valve_hori} onClick={() =>  setPopupValve6(true) } />
+                       
+                        <Popup
+                              title="Valve B1"
+                              openPopup={popupValve6}
+                            setOpenPopup={setPopupValve6}
+                        >
+                        <ValvePop on={'VB1'} emit ={'VB1'}/> </Popup>
+
+                    <img title=' VALVE B2 ' className="valve7" src ={stateValveB2 ? Valve_on: Valve_hori} onClick={() =>  setPopupValve7(true)  }/>
+
+                    <Popup
+                              title="Valve B2"
+                              openPopup={popupValve7}
+                            setOpenPopup={setPopupValve7}
+                        >
+                        <ValvePop on={'VB2'} emit ={'VB2'}/> </Popup>
 
 
-                    <img title=' VALVE B2 ' className="valve7" src ={stateValveB2 ? Valve_on: Valve_hori  }/>
+                <img className="pipe42" src ={Pipe_fork_down}/>
+                <img className="pipe43" src ={Pipe_fork_down}/> 
 
 
-                    <img className="pipe42" src ={Pipe_fork_down}/>
-                     <img className="pipe43" src ={Pipe_fork_down}/> 
-
-
-                      <img title=' VALVE 8 ' className="valve8" src ={stateValveB3 ? Valve_on: Valve_hori  }/> 
-                     <img title=' VALVE 9 'className="valve9" src ={stateValveB4 ? Valve_on: Valve_hori  }/> 
+                <img title=' VALVE B3 ' className="valve8" src ={stateValveB3 ? Valve_on: Valve_hori } onClick={() =>  setPopupValve8(true)  } /> 
+                <Popup
+                              title="Valve B3"
+                              openPopup={popupValve8}
+                            setOpenPopup={setPopupValve8}
+                        >
+                        <ValvePop on={'VB3'} emit ={'VB3'}/> </Popup>
+                <img title=' VALVE B4 'className="valve9" src ={stateValveB4 ? Valve_on: Valve_hori } onClick={() =>  setPopupValve9(true)  }/> 
+                <Popup
+                              title="Valve B4"
+                              openPopup={popupValve9}
+                            setOpenPopup={setPopupValve9}
+                        >
+                        <ValvePop on={'VB4'} emit ={'VB4'}/> </Popup>
 
 
                      <img className="pipe46" src ={Pipe_alight}/>
@@ -421,7 +498,13 @@ useEffect(() => {
                     <img className="pipe49" src ={Pipe_angle}/>
 
 
-                    <img title=' VALVE 10 ' className="valve10" src ={stateValveB5 ? Valve_on: Valve_hori  }/>
+                    <img title=' VALVE B5 ' className="valve10" src ={stateValveB5 ? Valve_on: Valve_hori  } onClick={() =>  setPopupValve10(true)  }/>
+                    <Popup
+                              title="Valve B5"
+                              openPopup={popupValve10}
+                            setOpenPopup={setPopupValve10}
+                        >
+                        <ValvePop on={'VB5'} emit ={'VB5'}/> </Popup>
 
 
                     {/* <img className="pipe52" src ={Pipe_alight}/> */}
@@ -430,11 +513,8 @@ useEffect(() => {
 
                 </div>
                  {/* -------LevelTank3----- */}
-                 <div className='leveltank3'>
-                    <Level  value={1} maxValue ={2} height ={180}/> 
-                </div>
-
-
+                 <p className="sensor2value"> Pressure: {pressure2} bar </p>
+                 <img title=' Pressure Sensor ' className="sensor2" src ={Sensor}/>
         </div>
         {/* -------------Tank4-------- */}
         <div className="tank4-container">
@@ -442,14 +522,13 @@ useEffect(() => {
                 <div className="before-tank4">
 
                 {/* <img className="pipe54" src ={Pipe_hori}/>
-                <img className="pipe53" src ={Pipe_LB}/>
-                <img className="pipe55" src ={Pipe_RB}/> */}
+                */}
 
                 </div>
             {/* --------After Tank 4---------- */}
                 <div className='after-tank4'>
                 {/* <img className="pipe56" src ={Pipe_alight}/>
-                <img className="pipe57" src ={Pipe_fork_alight_right}/>
+                
                 <img className="pipe58" src ={Pipe_RB}/> */}
                 {/* <img className="pipe59" src ={Pipe_alight}/> */}
                 <img className="pipe60" src ={Pipe_alight}/>
@@ -462,7 +541,9 @@ useEffect(() => {
            {/* <p className='label-tank4' > RAW TANK </p> */}
             {/* -------LevelTank4----- */}
             <div className='leveltank4'>
-                    <Level  value={1} maxValue ={3} height ={180}/> 
+            
+           <Level  value={levelTankM} maxValue ={3} height ={170}/> 
+  
             </div>
 
          {/* -------------Micro Filter-------- */}
@@ -480,28 +561,65 @@ useEffect(() => {
             <img className="pipe67" src ={Pipe_hori}/>
             <img className="pipe66" src ={Pipe_RB}/>
             <img className="pipe64" src ={Pipe_fork}/>
-            <img title=' VALVE 11 ' className="valve11" src ={Valve_hori}/>
-            <img title=' VALVE 12 ' className="valve12" src ={Valve_hori}/>
-            <img title=" Pressure Pump 1 " className="pump6"  src ={statePump4?   Pump_Pressure_on:Pump_Pressure}/>
-            <img title=" Pressure Pump 2 " className="pump7" src ={statePump5 ?  Pump_Pressure_2_on:Pump_Pressure_2 }/>
+
+
+            <img title=' VALVE C1 ' className="valve11" src ={stateValveC1 ? Valve_on: Valve_hori} onClick={() =>  setPopupValve11(true)  }/>
+            <Popup
+                              title="Valve C1"
+                              openPopup={popupValve11}
+                            setOpenPopup={setPopupValve11}
+                        >
+                        <ValvePop on={'VC1'} emit ={'VC1'}/> </Popup>
+
+            <img title=' VALVE C2 ' className="valve12" src ={stateValveC2 ? Valve_on: Valve_hori} onClick={() =>  setPopupValve12(true)  }/>
+            <Popup
+                              title="Valve C2"
+                              openPopup={popupValve12}
+                            setOpenPopup={setPopupValve12}
+                        >
+                        <ValvePop on={'VC2'} emit ={'VC2'}/> </Popup>
+
+
+            <img title=" Pressure Pump 1 " className="pump6"  src ={statePump4?   Pump_Pressure_on:Pump_Pressure} onClick={() =>  setPopupPump4(true)}/>
+            <Popup
+             title="Pressure Pump 1"
+            openPopup={popupPump4}
+            setOpenPopup={setPopupPump4}
+             >
+            <PumpPop on={'Pump_4'} emit={'Pump4'}/> 
+        </Popup>
+            <img title=" Pressure Pump 2 " className="pump7" src ={statePump5 ?  Pump_Pressure_2_on:Pump_Pressure_2 } onClick={() =>  setPopupPump5(true)}/>
+            <Popup
+             title="Pressure Pump 2"
+            openPopup={popupPump5}
+            setOpenPopup={setPopupPump5}
+             >
+            <PumpPop on={'Pump_5'} emit={'Pump5'}/> 
+        </Popup>
             </div>
             {/* --------Micro Filter--------*/}
-            <img title="Micro Filter"className='micro-filter' src={MicroFilter}/>
+            {/* <img title="Micro Filter"className='micro-filter' src={MicroFilter}/> */}
             {/* <p className='label-micro-filter' > MICRO FILTER </p> */}
          </div>
-
-            {/* -----------RO Filter------------ */}
+                <div className='RO-UV-CTank'>
+                    {/* -----------RO Filter------------ */}
                 <div className="RO-filter-container">
                 {/* --------before ROFilter------------ */}
               
                 
                 <div className="before-ro-filter">
+                    <img className="pipe53" src ={Pipe_alight}/>
+                   
                     <img className="pipe71" src ={Pipe_alight}/>
                     <img className="pipe70" src ={Pipe_hori}/>
                     <img className="pipe73" src ={Pipe_hori}/>
                     <img className="pipe68" src ={Pipe_LT}/>
                     <img className="pipe72" src ={Pipe_RB}/>
-                     <img className="pipe69" src ={Pipe_four}/>
+                    <img className="pipe57" src ={Pipe_fork_down}/>
+                     <img className="pipe69" src ={Pipe_fork}/>
+
+                     <img title=' Pressure Sensor ' className="sensor3" src ={Sensor}/>
+                     <p className="sensor3value">Pressure: {pressure3} bar </p>
                 </div>
                 {/* --------after ROFilter------------ */}
                 
@@ -564,7 +682,7 @@ useEffect(() => {
                     
                 </div>
                 {/* -----------uv------- */}
-                <img title='UV Water Filter' className='uvfilter' src={UVFilter}/>
+                <img title='UV Water Filter' className='uvfilter'src={stateUV?  UVFilterRun:UVFilter}/>
                 {/* <p className='label-uv-filter' > UV FILTER </p> */}
           </div>
                 {/* ------------------Tank 5  Water Tank------------------------------ */}
@@ -575,11 +693,13 @@ useEffect(() => {
                     {/* <p className='label-watertank' > WATER TANK </p> */}
                   </div>
                   <div className='leveltank5'>
-                <Level  value={1.5} maxValue ={3} height ={180}/> 
+                  <Level  value={levelTankC} maxValue ={3} height ={170}/>  
                 </div>
        
 
     </div>
+                </div>
+            
             
        
 </div>

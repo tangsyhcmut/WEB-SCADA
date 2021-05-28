@@ -2,7 +2,7 @@
     background:linear-gradient( #4B79A1,
     #283E51);
       width: 100%;
-      height: 60vh;
+      height: 85vh;
       font-size: 20px;
       font-weight: bold;
       border-radius: 20px;
@@ -11,10 +11,15 @@
       margin-bottom: 50px;
       margin-left: 20px;
     }
-.chart-container{
-    display: inline-block; 
+.voltage-chart-container{
+    display: block;
     margin-left: 25rem;
-    margin-top: -20rem;
+    margin-top: -18rem;
+}
+.current-chart-container{
+    display: block;
+    margin-left: 3rem;
+    margin-top: 3rem;
 }
 
 .powertitle{
@@ -31,7 +36,7 @@
     justify-content: space-evenly;
     margin-top: 25px;
     margin-left: 40px;
-    padding-bottom:  20px;
+    
 
     
 }

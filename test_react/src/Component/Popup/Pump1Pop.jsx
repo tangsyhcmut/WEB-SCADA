@@ -4,22 +4,23 @@ import {
   FormGroup, Input, Label
 } from 'reactstrap';
 // import Select from 'react-select'
-import io from "socket.io-client";
+
 import greenlightoff from '../img/Off_Green.png';
 import redlightoff from '../img/Off_Red.png';
 import greenlighton from '../img/On_Green.png';
 import redlighton from '../img/On_Red.png';
 import './PumpPop.css';
+import io from "socket.io-client";
   let socket;
   const CONNECTION_PORT = "localhost:5000/";
   
 
-function PumpPop() {
+function PumpPop(props) {
 
   const[modeSet,setModeSet] =useState(null)
     const [mode,setMode] = useState();
-    const [feedback,setFeedback] = useState();
-    const [fault,setFault] = useState();
+    const [feedback,setFeedback] = useState(false);
+    const [fault,setFault] = useState(false);
     const[speed,setSpeed] = useState([]);
 
    const[speedSet,setSpeedSet] = useState([]);
@@ -33,26 +34,26 @@ function PumpPop() {
   useEffect(() => {
 
     ////
-    socket.on("Pump_1_MODE", (data) => {
+    socket.on(`${props.on}_MODE`, (data) => {
       if(data===2)
       {setMode('AUTO')}
       else if(data===1)
       {setMode('MAN')}
                });
     ////
-    socket.on("Pump_1_FEEDBACK", (data) => {
+    socket.on(`${props.on}_FEEDBACK`, (data) => {
       setFeedback(data);
-      console.log(data);
+      
       });
    ////
-        socket.on("Pump_1_FAULT", (data) => {
+        socket.on(`${props.on}_FAULT`, (data) => {
           setFault(data);
-          console.log(data);
+          
           });
         ////  
-          socket.on("Pump_1_SPEED", (data) => {
+          socket.on(`${props.on}_SPEED`, (data) => {
             setSpeed(data);
-            console.log(data);
+            
             });
  });
 
@@ -60,23 +61,23 @@ function PumpPop() {
     ///Mode
     const btnSetMode =async(e)=>{
     
-     socket.emit('Pump1_MODE',modeSet)
+     socket.emit(`${props.emit}_MODE`,modeSet)
     };
     ///Set Start
     const btnStartClick =async()=>{
       await 
-      socket.emit('Button',"Pump1_START")}
+      socket.emit('Button',`${props.emit}_START`)}
       ///Set Stop
     const btnStopClick =async()=>{
       await 
-        socket.emit('Button',"Pump1_STOP")}
+        socket.emit('Button',`${props.emit}_STOP`)}
     const btnResetClick =async()=>{
       await 
-          socket.emit('Button',"Pump1_RESET")}
+          socket.emit('Button',`${props.emit}_RESET`)}
           
     const btnSetSpeed =async()=>{
       await 
-            socket.emit('SetSpeed_Pump1',speedSet)}
+            socket.emit(`Setspeed_${props.emit}`,speedSet)}
 
       
     
@@ -96,7 +97,7 @@ function PumpPop() {
           </Col>
           <Col >
             <FormGroup>
-              <Label>SetMode :</Label>
+              <Label>SetMode</Label>
               <Input className='pump-select-mode' type="select" name="Mode" id="modeSelect" onChange={(e)=>setModeSet(e.target.value)}>
              <option value ='2'> Auto </option>
              <option value ='1'> Man </option>
@@ -107,7 +108,7 @@ function PumpPop() {
           <Col>
             <FormGroup>
             <div className="pump-controlbtn">
-                <Label>Control : </Label>
+                <Label>Control </Label>
                 <Button className='btnstart' onClick={btnStartClick} >Start</Button>
                 <Button className='btnstop' onClick={btnStopClick} >Stop</Button> 
                 <Button className='btnreset'onClick={btnResetClick}>Reset</Button>

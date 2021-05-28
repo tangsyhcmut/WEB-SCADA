@@ -13,7 +13,7 @@ import './ValvePop.css';
     const CONNECTION_PORT = "localhost:5000/";
   
 
-function ValvePop() {
+function ValvePop(props) {
 
     const[modeSet,setModeSet] =useState(null)
     const [mode,setMode] = useState();
@@ -29,22 +29,22 @@ function ValvePop() {
   }, [CONNECTION_PORT]);
     ///State
   useEffect(() => {
-    socket.on("VF_MODE", (data) => {
+    socket.on(`${props.on}_MODE`, (data) => {
       console.log(data)
      if(data===2)
      {setMode('AUTO')}
      else if(data===1)
      {setMode('MAN')}
       });
-      socket.on("VF_OPENED", (data) => {
+      socket.on(`${props.on}_OPENED`, (data) => {
         setOpened(data);
         
         });
-       socket.on("VF_CLOSED", (data) => {
+       socket.on(`${props.on}_CLOSED`, (data) => {
           setClosed(data);
           
           });
-          socket.on("VF_FAULT", (data) => {
+          socket.on(`${props.on}_FAULT`, (data) => {
             setFault(data);
             
             });
@@ -53,20 +53,20 @@ function ValvePop() {
     ///Mode
     const btnSetClick =async()=>{
         
-      await socket.emit('VAF_MODE',modeSet)}
+      await socket.emit(`${props.emit}_MODE`,modeSet)}
 
     
     ///Set Open
     const btnOpenClick =async()=>{
      
-      await socket.emit('Button','VAF_OPEN')}
+      await socket.emit('Button',`${props.emit}_OPEN`)}
       ///Set Close
     const btnCloseClick =async()=>{
         
-      await socket.emit('Button','VAF_CLOSE')}
+      await socket.emit('Button',`${props.emit}_CLOSE`)}
       ///Set Reset
     const btnResetClick =async()=>{
-        await socket.emit('Button','VAF_RESET')}
+        await socket.emit('Button',`${props.emit}_RESET`)}
        
     
     return (
@@ -88,7 +88,7 @@ function ValvePop() {
           <Col >
             <FormGroup >
 
-              <Label>Set Mode :</Label>
+              <Label>Set Mode </Label>
               <Input className='valve-select-mode' type="select" name="Mode" id="modeSelect" onChange={(e)=>setModeSet(e.target.value)}>
               <option value ='2'> Auto </option>
              <option value ='1'> Man </option>
@@ -101,7 +101,7 @@ function ValvePop() {
           <Col>
             <FormGroup>
             <div className="controlbtn">
-                <Label>Control : </Label>
+                <Label>Control  </Label>
                 <Button className='btnopen'  onClick={btnOpenClick} >Open</Button> {' '}
                 <Button className='btnclose' onClick={btnCloseClick} >Close</Button> 
                 <Button className='btnreset'onClick={btnResetClick} >Reset</Button>

@@ -14,6 +14,7 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
+    AreaChart,Area,
     LabelList
   } from "recharts"
 import io from "socket.io-client";
@@ -30,7 +31,7 @@ function PowerData() {
 
 
     const [power,setPower] =useState([])
-    
+    const [current, setCurrent] = useState([]);
 
     /// Connect 
     useEffect(() => {
@@ -42,11 +43,22 @@ function PowerData() {
       
         socket.on("powermeter", (data) => {
         //   console.log(data);
+        
+     
+         
           setPower(data)
          });
+         socket.on("IL3", (data) => {
+           console.log(data);
+          
+       
+           setCurrent(currentData => [...currentData,data]);
+          
+           });
+  
 
         
-      });
+      },[]);
 
 
    /// Chart data
@@ -127,11 +139,11 @@ return data;
             
            </Row>
 
-           <Row className="chart-container">
+           <Row className="voltage-chart-container">
 
     <BarChart
       width={400}
-      height={300}
+      height={280}
       data={data}
       margin={{
         top: 5,
@@ -141,14 +153,45 @@ return data;
       }}
       barSize={30}
     >
-      <XAxis tick={{stroke: 'black', strokeWidth: 1.5}}  dataKey="name" scale="point" padding={{ left: 20, right: 20 }} color="black" />
-      <YAxis tick={{stroke: 'black', strokeWidth: 1.5}}/>
+      <defs>
+   
+    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="10%" stopColor="#f9b208" stopOpacity={0.8}/>
+      <stop offset="90%" stopColor="#f7fd04" stopOpacity={0.8}/>
+      
+    </linearGradient>
+  </defs>
+      <XAxis  tick={{stroke: 'black', strokeWidth: 1.5}}  dataKey="name" scale="point" padding={{ left: 20, right: 20 }} color="black" />
+      <YAxis unit ='V' tick={{stroke: 'black', strokeWidth: 1.5}}/>
       <Tooltip />
       <Legend  />
       <CartesianGrid strokeDasharray="3 3"  />
-      <Bar name ='Voltage' dataKey='pv' fill="rgba(22, 29, 111,1)" background={{ fill: "#eee" }} />
+      <Bar name ='Voltage' dataKey='pv' fill="url(#colorPv)" background={{ fill: "#eee" }} />
     </BarChart>
     </Row>
+
+
+    <Row className="current-chart-container">
+    
+    <AreaChart width={700} height={220} data={current}
+  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+  <defs>
+    
+    <linearGradient id="colorI" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="10%" stopColor="#bb371a" stopOpacity={2.2}/>
+      <stop offset="90%" stopColor="#8884d8" stopOpacity={0.8}/>
+      
+    </linearGradient>
+  </defs>
+  <XAxis   dataKey=" " />
+  <YAxis unit ='A' tick={{stroke: 'black', strokeWidth: 1.5}} />
+  <CartesianGrid strokeDasharray="3 3" />
+  <Tooltip />
+  {/* <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> */}
+  <Area name ='IL3' type="monotone" dataKey="IL3" stroke="#82ca9d" fillOpacity={1} fill="url(#colorI)" />
+</AreaChart>
+    </Row>
+
 
        </Form>
    
