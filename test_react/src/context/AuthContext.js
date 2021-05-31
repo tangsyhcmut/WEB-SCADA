@@ -4,8 +4,8 @@ import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from './constants'
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 
-export const AuthContext = createContext()
-
+export const AuthContext = createContext() ////create store
+// Khoi tao trang thai ban dau
 const AuthContextProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(authReducer, {
 		authLoading: true,
@@ -16,11 +16,11 @@ const AuthContextProvider = ({ children }) => {
 	// Authenticate user
 	const loadUser = async () => {
 		if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
-			setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+			setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]) /// set token cho tat ca cac du lieu sau khi login
 		}
 
 		try {
-			const response = await axios.get(`${apiUrl}/auth`)
+			const response = await axios.get(`${apiUrl}/auth`) // kiem tra voi server xem client da login chua
 			if (response.data.success) {
 				dispatch({
 					type: 'SET_AUTH',
@@ -42,19 +42,19 @@ const AuthContextProvider = ({ children }) => {
 	// Login
 	const loginUser = async userForm => {
 		try {
-			const response = await axios.post(`${apiUrl}/auth/login`, userForm)
+			const response = await axios.post(`${apiUrl}/auth/login`, userForm) ///gui username va pass
 			if (response.data.success)
 				localStorage.setItem(
 					LOCAL_STORAGE_TOKEN_NAME,
-					response.data.accessToken
+					response.data.accessToken ///// neu dang nhap thanh cong luu gia trị nhan duoc vào local store
 				)
 
 			await loadUser()
 
 			return response.data
 		} catch (error) {
-			if (error.response.data) return error.response.data
-			else return { success: false, message: error.message }
+			if (error.response.data) return error.response.data //// neu loi nhan dc tu server
+			else return { success: false, message: error.message } /// loi bat ki khong nhan biet duoc
 		}
 	}
 

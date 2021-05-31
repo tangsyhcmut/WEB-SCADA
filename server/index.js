@@ -1,9 +1,22 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
+const app = express();
 const socket = require("socket.io");
 const cors = require("cors");
 const chalk = require("chalk");
+const authRouter = require("./routes/auth");
+const postRouter = require("./routes/post");
+const mqttRouter = require("./routes/mqtt");
+
+
+
+
+
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT);
+const db = require("./config/db");
+db.connect();
+////////////////////////////////
 require('events').EventEmitter.defaultMaxListeners = 2000;
 var mqtt = require("mqtt");
 var settings = {
@@ -11,7 +24,7 @@ var settings = {
   port: 1884,
   topic: "ModbusDaTa",
 };
-
+////////////////////////////////////////////////////////////////
 const {
   AttributeIds,
   OPCUAClient,
@@ -21,17 +34,11 @@ const {
 
 const endpointUrl = "opc.tcp://192.168.2.3:4840";
 
-const model = require("./models/Mqtt");
-const db = require("./config/db");
-db.connect();
-const app = express();
 
-const authRouter = require("./routes/auth");
-const postRouter = require("./routes/post");
-const mqttRouter = require("./routes/mqtt");
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT);
+
+
+
 
 let a = 0;
 // Socket.io server-side
@@ -50,8 +57,7 @@ io.on("connection", (socket) => {
   console.log(socket.id);
 
   socket.on("send_sys_state", (data) => {
-    console.log(data);
-    socket.emit("receive_sys_state", data);
+  socket.emit("receive_sys_state", data);
   });
   /// MQTT Power metter
   var clientMQTT = mqtt.connect(
@@ -59,46 +65,12 @@ io.on("connection", (socket) => {
   );
   clientMQTT.on("connect", function () {
     clientMQTT.subscribe(settings.topic);
-    //console.log("Subscribed topic " + settings.topic);
+   
   });
 
   clientMQTT.on("message", function (topic, message) {
     let data = JSON.parse(message);
-    // a = a + 1;
-    // if (a == 500) {
-    //   a = 0;
-    //   const simdatatodb = {
-    //     UL1: data.S.UL1 / 10,
-    //     UL2: data.S.UL2 / 10,
-    //     UL3: data.S.UL3 / 10,
-    //     IL1: data.S.IL1,
-    //     IL2: data.S.IL2,
-    //     IL3: data.S.IL3,
-    //     P: data.S.P,
-    //     Q: data.S.Q,
-    //     S: data.S.S,
-    //     PF: data.S.PF / 1000,
-    //     Phi: data.S.Phi,
-    //     F: data.S.F / 100,
-    //   };
-    //   // const simdata = new model.SimData(simdatatodb);
-    //   // //console.log(simdatatodb);
-    //   // simdata.save();
-    //   //--------------
-    //   const tstatdatatodb = {
-    //     CM: data.T.CM,
-    //     MO: data.T.MO,
-    //     Tp: data.T.Tp / 10,
-    //     D: data.T.D / 10,
-    //     N: data.T.N / 10,
-    //   };
-    //   //--------------
-    //   // const tstatdata = new model.TSTATData(tstatdatatodb);
-    //   // tstatdata.save();
-    // }
-    // console.log(data)
-    //
-    // console.log(message);
+
     let simeas = data.S;
     let temperature = data.T;
     socket.emit("temperature", temperature);
@@ -106,7 +78,8 @@ io.on("connection", (socket) => {
     let I3 = data.S.IL3/10;
     let IL3 ={IL3:I3}
     a = a + 1;
-    if (a == 20) {
+    if (a == 100) {
+     
       a = 0;
       socket.emit("IL3",IL3);
     }
@@ -127,7 +100,7 @@ io.on("connection", (socket) => {
     console.log(data);
      let tem= JSON.stringify(data);
 
-    clientMQTT.publish("R345TSTAT", tem);
+    clientMQTT.publish("R350TSTAT", tem);
     setTimeout(() => {
       clientMQTT.publish("NTS", 'D2D');
     }, 1500);
@@ -618,22 +591,16 @@ io.on("connection", (socket) => {
 
 
         /////--------Level F Tank---------////
-
-
         readnode("ns=3;s=\"FTank_Level\"", (dataValue) => {
           
           socket.emit('FTank_Level',dataValue.value.value);
          })
-          /////--------Level F Tank---------////
-
-
+          /////--------Level M Tank---------////
         readnode("ns=3;s=\"MTank_Level\"", (dataValue) => {
           
           socket.emit('MTank_Level',dataValue.value.value);
          })
-          /////--------Level F Tank---------////
-
-
+          /////--------Level C Tank---------////
         readnode("ns=3;s=\"CTank_Level\"", (dataValue) => {
           
           socket.emit('CTank_Level',dataValue.value.value);
@@ -945,7 +912,7 @@ io.on("connection", (socket) => {
 
 app.use(express.json());
 app.use(cors());
-
+/// khai bao ham se thuc hien khi den url 
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/mqtts", mqttRouter);

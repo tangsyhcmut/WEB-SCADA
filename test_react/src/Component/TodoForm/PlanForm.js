@@ -1,19 +1,17 @@
-import { PostContext } from '../../context/PlanContext'
-import { AuthContext } from '../../context/AuthContext'
 import { useContext, useEffect } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import Row from 'react-bootstrap/Row'
-import Toast from 'react-bootstrap/Toast'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 import Col from 'react-bootstrap/Col'
-import SinglePost from './SinglePlan'
-import AddPostModal from './AddPlan'
-import UpdatePostModal from './UpdatePlan'
+import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
+import Toast from 'react-bootstrap/Toast'
+import { AuthContext } from '../../context/AuthContext'
+import { PostContext } from '../../context/PlanContext'
 import addIcon from '../img/add.svg'
+import AddPostModal from './AddPlan'
 import './PlanForm.css'
+import SinglePost from './SinglePlan'
+import UpdatePostModal from './UpdatePlan'
 const PlanForm = () => {
 	// Contexts
 	const {
@@ -73,18 +71,13 @@ const PlanForm = () => {
 					))}
 				</Row>
 
-				{/* Open Add Post Modal */}
-				{/* <OverlayTrigger
-					placement='left'
-					// overlay={<Tooltip>Add a new plan to do</Tooltip>}
-				> */}
 					<Button
 						className='btn-floating'
 						onClick={setShowAddPostModal.bind(this, true)}
 					>
 						<img src={addIcon} alt='add-post' width='50' height='40' />
 					</Button>
-				{/* </OverlayTrigger> */}
+				
 			</>
 		)
 	}

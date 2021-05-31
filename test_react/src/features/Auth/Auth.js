@@ -20,7 +20,7 @@ const Auth = ({ authRoute }) => {
 				<Spinner animation='border' variant='info' />
 			</div>
 		)
-	else if (isAuthenticated) return <Redirect to='/home' />
+	else if (isAuthenticated) return <Redirect to='/home' />/// dang nhap thanh cong dua toi home
 	else
 		body = (
 			<>

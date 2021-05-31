@@ -1,14 +1,14 @@
-// kiem tra dung Token hay khong
+//dinh token vao du lieu
 
 
 import axios from 'axios'
 
 
 const setAuthToken = token => {
-	if (token) {
-		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-	} else {
-		delete axios.defaults.headers.common['Authorization']
+	if (token) {// neu co token
+		axios.defaults.headers.common['Authorization'] = `Bearer ${token}` ///set header cho du lieu truyen di
+	} else {//neu thu vien khong co access token
+		delete axios.defaults.headers.common['Authorization'] /// xoa access token truoc do
 	}
 }
 

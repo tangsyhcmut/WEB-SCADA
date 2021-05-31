@@ -1,17 +1,16 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Test from './Component/Chart/PressureChart';
 import Dashboard from "./Component/Pages/Dashboard";
 import Home from "./Component/Pages/Home";
 import Landing from './Component/Pages/Landing';
 import PowerandTem from "./Component/Pages/PowerandTem";
 import Report from "./Component/Pages/Report";
 import ProtectedRoute from './Component/routing/ProtectedRoute';
-import PlanConTextProvider from './context/PlanContext'
 import AuthContextProvider from './context/AuthContext';
-import Auth from './Features/Auth/Auth';
-import PlanForm from './Component/TodoForm/PlanForm'
-import Test from './Component/Chart/PressureChart'
 import MqttContextProvider from './context/MqttContext';
+import PlanConTextProvider from './context/PlanContext';
+import Auth from './Features/Auth/Auth';
 
 
 function App() {

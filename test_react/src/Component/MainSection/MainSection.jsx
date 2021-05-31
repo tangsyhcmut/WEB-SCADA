@@ -8,6 +8,7 @@ import Control from '../ControlSection/ControlSection';
 // Clean
 import Clean from '../img/Clean.svg';
 // Valve
+import Valve_on from '../img/Valve_on.png';
 import Valve_hori from '../img/Hand valve 2.png';
 import Pipe_alight from '../img/Pipes_alight.png';
 // Pipes
@@ -30,24 +31,21 @@ import Pump_Pressure_on from '../img/Pressure_pump_on.svg';
 // Pump
 import Pump from '../img/Pump.png';
 import Pump_alight from '../img/Pump_alight.svg';
+import Pump_alight_on from '../img/Vertical_pump_on.svg';
 import Pump_on from '../img/Pump_on.png';
-import ROFilter from '../img/RO.svg';
-// Light
-import LightOn from '../img/On_Yellow.png';
-import LightOff from '../img/Off_Yellow.png';
-//Bể Lắng
+
+//Tank
 import FeedTank from '../img/Tank_1.png';
 import PressureTank from '../img/Tank_2.svg';
 import RawTank from '../img/Tank_4.svg';
 import UVFilterRun from '../img/UV-Open.svg';
 import UVFilter from '../img/UV.svg';
-import Valve_on from '../img/Valve_on.png';
-import Pump_alight_on from '../img/Vertical_pump_on.svg';
-import CleanPop from '../Popup/CleanPop';
+import ROFilter from '../img/RO.svg';
 //Popup
 import Popup from '../Popup/Popup';
 import PumpPop from '../Popup/Pump1Pop';
 import ValvePop from '../Popup/ValveFPop';
+import CleanPop from '../Popup/CleanPop';
 // Status
 import Status from '../StatusSection/StatusForm';
 import './MainSection2.css';

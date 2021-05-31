@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { Container, Row } from 'reactstrap';
 import '../../App.css';
-import MainSection from '../MainSection/MainSection2';
-import ControlSection from '../ControlSection/ControlSection';
-
-import NotiTable from'../NotiSection/NotiTable';
 import Footer from '../Footer/Footer';
-import{Container,Row,Col} from 'reactstrap';
+import MainSection from '../MainSection/MainSection';
 import StatusData from '../StatusSection/StatusData';
+
+    
 
 function Home() {
 

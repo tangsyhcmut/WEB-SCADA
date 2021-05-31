@@ -24,22 +24,7 @@ export default function App() {
     socket = io(CONNECTION_PORT);
 }, [CONNECTION_PORT]);
 
-  // useEffect(() => {
-    
-  //   socket.on("FTank_Level", (data) => {
-  //     setLevelFTank(data);
-  //     console.log(data);
-  //     });
-  //     socket.on("MTank_Level", (data) => {
-  //       setLevelMTank(data);
-  //       console.log(data);
-  //       });
-  //       socket.on("CTank_Level", (data) => {
-  //         setLevelCTank(data);
-  //         console.log(data);
-  //         });
-
-  //       });
+ 
 
           useEffect(() => {
 
@@ -72,7 +57,7 @@ export default function App() {
    
     ]);
     
-},[]);
+},[levelFTank]);
 
 function Convert (data) {
   var a ='url(#normalcolor)'

@@ -36,7 +36,7 @@ function Tem () {
          socket.on("temperature", (data) => {
             
               setTemperature(data.Tp)
-              setTemperatureSet(data.D)
+              setTemperatureSet(data.N)
               
               if(data.CM==1)
               {setSys('COOLING')}

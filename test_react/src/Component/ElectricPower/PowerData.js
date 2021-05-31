@@ -48,13 +48,11 @@ function PowerData() {
          
           setPower(data)
          });
-         socket.on("IL3", (data) => {
-           console.log(data);
+        //  socket.on("IL3", (data) => {
+           
+        //    setCurrent(currentData => [...currentData,data]);
           
-       
-           setCurrent(currentData => [...currentData,data]);
-          
-           });
+        //    });
   
 
         
@@ -143,7 +141,7 @@ return data;
 
     <BarChart
       width={400}
-      height={280}
+      height={350}
       data={data}
       margin={{
         top: 5,
@@ -171,7 +169,7 @@ return data;
     </Row>
 
 
-    <Row className="current-chart-container">
+    {/* <Row className="current-chart-container">
     
     <AreaChart width={700} height={220} data={current}
   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -187,10 +185,10 @@ return data;
   <YAxis unit ='A' tick={{stroke: 'black', strokeWidth: 1.5}} />
   <CartesianGrid strokeDasharray="3 3" />
   <Tooltip />
-  {/* <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> */}
+  
   <Area name ='IL3' type="monotone" dataKey="IL3" stroke="#82ca9d" fillOpacity={1} fill="url(#colorI)" />
 </AreaChart>
-    </Row>
+    </Row> */}
 
 
        </Form>

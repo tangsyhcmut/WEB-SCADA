@@ -1,10 +1,12 @@
 import React, { useMemo,useState,useEffect,useContext} from 'react'
-// import productApi from '../../api/productApi'
+
 import { useTable, usePagination } from 'react-table'
 import axios from 'axios'
 import { COLUMNS } from './Columns'
 import './Report.css'
 import {MqttContext} from '../../context/MqttContext'
+import { ExportCSV} from './Export'
+
 
 export const ReportPage = () => {
 
@@ -38,7 +40,6 @@ export const ReportPage = () => {
     state,
     gotoPage,
     pageCount,
-    
     prepareRow
   } = useTable(
     {
@@ -54,6 +55,7 @@ export const ReportPage = () => {
   return (
     <>
     <div  >
+    
       <table className='report' {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -108,6 +110,12 @@ export const ReportPage = () => {
             style={{ width: '50px' }}
           />
         </span>{' '}
+        <span>
+       
+      <ExportCSV csvData={mqtts} fileName='Data report'/>
+ 
+        </span>
+        
         {/* <select
           value={pageSize}
           onChange={e => setPageSize(Number(e.target.value))}>
