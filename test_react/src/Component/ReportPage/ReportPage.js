@@ -6,23 +6,31 @@ import { COLUMNS } from './Columns'
 import './Report.css'
 import {MqttContext} from '../../context/MqttContext'
 import { ExportCSV} from './Export'
+import { apiUrl } from '../../context/constants'
 
 
 export const ReportPage = () => {
 
   const [reportList, setReportList] = useState([])
 
-   //contexts
-   const {mqttState:{mqtts,mqttsLoading},
-   getMqtts} 
-   = useContext(MqttContext)
-   ///get all mqtt
-   useEffect(()=>{
-  getMqtts()
-  console.log(mqtts)
-   
-  setReportList(mqtts)
-  },[])
+
+   ///Get mqtt state
+   useEffect(async () => {
+    try{
+        const response = await axios.get(`${apiUrl}/mqtts`)
+        if (response.data.success){
+            setReportList(response.data.SimData);///// Data từ backend
+           
+        }
+    } catch(error){
+        return error.response.data
+        ? error.response.data
+        :{success:false,message:'server error'}
+
+    }
+
+},[])
+ 
 
   const columns = useMemo(() => COLUMNS, [])
   const data = useMemo(() => reportList)
@@ -112,7 +120,7 @@ export const ReportPage = () => {
         </span>{' '}
         <span>
        
-      <ExportCSV csvData={mqtts} fileName='Data report'/>
+      <ExportCSV csvData={reportList} fileName='Data report'/>
  
         </span>
         

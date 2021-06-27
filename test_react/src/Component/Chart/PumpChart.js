@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import {
   Container, Col, Form,
   FormGroup, Label, Row,Button  
 } from 'reactstrap';
-
 import './PumpChart.css';
 import PieChart from './PieChart';
+////io
+import io from "socket.io-client";
+
+let socket;
+const CONNECTION_PORT = "localhost:5000/";
+
 
 const MotorChart = () => {
   const [pump1, setPump1] = useState(0);
@@ -13,17 +18,36 @@ const MotorChart = () => {
   const [pump3, setPump3] = useState(0);
   const [pump4, setPump4] = useState(0);
   const [pump5, setPump5] = useState(0);
+  const [pump6, setPump6] = useState(0);
+  /// Connect io
+useEffect(() => {
+  socket = io(CONNECTION_PORT);
+}, [CONNECTION_PORT]);
   
 
-  const randompump1Value = () => {
-    const pump1Value = Math.floor(Math.random() * 101);
-    setPump1(pump1Value);
-    setPump2(pump1Value);
-    setPump3(pump1Value);
-    setPump4(pump1Value);
-    setPump5(pump1Value);
-    
-  }
+    ///-----GET State------
+useEffect(() => {
+
+  ////-------Speed----///
+  socket.on("Pump_1_Speed", (data) => {
+    setPump1(data)
+             });   
+             socket.on("Pump_2_Speed", (data) => {
+                setPump2(data)
+                         });   
+                         socket.on("Pump_3_Speed", (data) => {
+                           setPump3(data)
+                                     });
+                                     socket.on("Pump_4_Speed", (data) => {
+                                      setPump4(data)
+                                                });
+                                                socket.on("Pump_5_Speed", (data) => {
+                                                  setPump5(data)
+                                                            });
+                                                            socket.on("Pump_6_Speed", (data) => {
+                                                              setPump6(data)
+                                                                        });  
+                                    })
 
  
 
@@ -80,12 +104,19 @@ const MotorChart = () => {
          />
          
         </FormGroup>
+        <FormGroup className="pump-6">
+          <Label>Pump 6</Label>
+          <PieChart
+          progress={pump6}
+          size={160}
+          strokeWidth={25}
+         />
+         
+        </FormGroup>
 
         </Col>
         
-        <Button onClick={randompump1Value}>
-          Random
-        </Button>
+       
         
         
       </Form>

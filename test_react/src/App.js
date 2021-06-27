@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Test from './Component/Chart/PressureChart';
 import Dashboard from "./Component/Pages/Dashboard";
+import Tutorial from "./Component/Pages/Tutorial";
 import Home from "./Component/Pages/Home";
 import Landing from './Component/Pages/Landing';
 import PowerandTem from "./Component/Pages/PowerandTem";
@@ -44,6 +45,7 @@ function App() {
         <ProtectedRoute  exact path ='/P-T' exact component ={PowerandTem} />
         
         <ProtectedRoute  exact path ='/report' exact component ={Report} />
+        <ProtectedRoute  exact path ='/tutorial' exact component ={Tutorial} />
         
       </Switch>
     </Router>

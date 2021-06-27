@@ -26,7 +26,7 @@ export default function App() {
 
  
 
-          useEffect(() => {
+  useEffect(() => {
 
             socket.on("FTank_Level", (data) => {
               setLevelFTank(data);
@@ -61,9 +61,6 @@ export default function App() {
 
 function Convert (data) {
   var a ='url(#normalcolor)'
-   
-  
-
   if(data>=2)
   { a='url(#highcolor)'}
  else if (data <= 1)

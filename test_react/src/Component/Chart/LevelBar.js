@@ -1,15 +1,9 @@
 
 import { useEffect, useState } from "react";
 import {
-  Bar, BarChart,
-
-
-
-  CartesianGrid,
-
-
-  LabelList, Legend, Tooltip, YAxis
-} from "recharts";
+Bar, BarChart,
+CartesianGrid,
+LabelList, Legend, Tooltip, YAxis} from "recharts";
 
 export default function App(props) {
 

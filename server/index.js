@@ -7,23 +7,15 @@ const chalk = require("chalk");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
 const mqttRouter = require("./routes/mqtt");
-
-
-
-
+const nodemailer =  require('nodemailer');
+// Connect Port
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT);
+// Connect MongoDB
 const db = require("./config/db");
 db.connect();
-////////////////////////////////
-require('events').EventEmitter.defaultMaxListeners = 2000;
-var mqtt = require("mqtt");
-var settings = {
-  mqttServerUrl: "192.168.100.5",
-  port: 1884,
-  topic: "ModbusDaTa",
-};
+////////////////////////////////OPC UA
 ////////////////////////////////////////////////////////////////
 const {
   AttributeIds,
@@ -33,13 +25,6 @@ const {
 } = require("node-opcua");
 
 const endpointUrl = "opc.tcp://192.168.2.3:4840";
-
-
-
-
-
-
-
 let a = 0;
 // Socket.io server-side
 //Setup
@@ -51,75 +36,8 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
-//Connection
-//Connection
-io.on("connection", (socket) => {
-  console.log(socket.id);
 
-  socket.on("send_sys_state", (data) => {
-  socket.emit("receive_sys_state", data);
-  });
-  /// MQTT Power metter
-  var clientMQTT = mqtt.connect(
-    "mqtt://" + settings.mqttServerUrl + ":" + settings.port
-  );
-  clientMQTT.on("connect", function () {
-    clientMQTT.subscribe(settings.topic);
-   
-  });
-
-  clientMQTT.on("message", function (topic, message) {
-    let data = JSON.parse(message);
-
-    let simeas = data.S;
-    let temperature = data.T;
-    socket.emit("temperature", temperature);
-    socket.emit("powermeter", simeas);
-    let I3 = data.S.IL3/10;
-    let IL3 ={IL3:I3}
-    a = a + 1;
-    if (a == 100) {
-     
-      a = 0;
-      socket.emit("IL3",IL3);
-    }
-  });
-
-  /// temperature
-  socket.on("sysMode", (data) => {
-    console.log(data);
-    //  let sysMode= JSON.stringify(data);
-
-    clientMQTT.publish("R101TSTAT", data);
-    setTimeout(() => {
-      clientMQTT.publish("NTS", 'D2D');
-    }, 1500);
-  });
-
-  socket.on("temperatureSet", (data) => {
-    console.log(data);
-     let tem= JSON.stringify(data);
-
-    clientMQTT.publish("R350TSTAT", tem);
-    setTimeout(() => {
-      clientMQTT.publish("NTS", 'D2D');
-    }, 1500);
-    
-  });
-
-  socket.on("lightSet", (data) => {
-    console.log(data);
-    //  let tem= JSON.stringify(data);
-  
-    clientMQTT.publish("LIGHT", data);
-    setTimeout(() => {
-      clientMQTT.publish("NTS", 'D2D');
-    }, 1500);
-    
-  });
-});
-
-/////OPC UA Tests
+/////OPC UA
 (async () => {
   try {
     const client = OPCUAClient.create({
@@ -209,6 +127,9 @@ io.on("connection", (socket) => {
     //   console.log("KQ: ", JSON.stringify(dataValue.value));
     //   // }
     //  });
+
+
+
     //--------Emit DATA------------------------------////
     io.on("connection", (socket) => {
       console.log(socket.id);
@@ -225,7 +146,10 @@ io.on("connection", (socket) => {
          })
         
         
-        //// Emit Pump State////
+
+
+
+    ////------------------- Emit Pump State-----------------------////
 
 
       // Pump1
@@ -299,7 +223,7 @@ io.on("connection", (socket) => {
           
           socket.emit('Pump_4_Speed',dataValue.value.value);
          })
-         //  Pump2
+         //  Pump5
        readnode("ns=3;s=\"Pump_5\".\"MODE\"", (dataValue) => {
         
         socket.emit('Pump_5_MODE',dataValue.value.value);
@@ -315,6 +239,23 @@ io.on("connection", (socket) => {
        readnode("ns=3;s=\"Pump_5\".\"Speed\"", (dataValue) => {
         
         socket.emit('Pump_5_Speed',dataValue.value.value);
+       })
+       //  Pump6
+       readnode("ns=3;s=\"Pump_6\".\"MODE\"", (dataValue) => {
+        
+        socket.emit('Pump_6_MODE',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_6\".\"FEEDBACK\"", (dataValue) => {
+        
+        socket.emit('Pump_6_FEEDBACK',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_6\".\"FAULT\"", (dataValue) => {
+        
+        socket.emit('Pump_6_FAULT',dataValue.value.value);
+       })
+       readnode("ns=3;s=\"Pump_6\".\"Speed\"", (dataValue) => {
+        
+        socket.emit('Pump_6_Speed',dataValue.value.value);
        })
 
 
@@ -576,6 +517,25 @@ io.on("connection", (socket) => {
                
                socket.emit('VC2_FAULT',dataValue.value.value);
               })
+               /////Valve C3
+
+            readnode("ns=3;s=\"VC3\".\"MODE\"", (dataValue) => {
+        
+              socket.emit('VC3_MODE',dataValue.value.value);
+             })
+       
+             readnode("ns=3;s=\"VC3\".\"OPENED\"", (dataValue) => {
+               
+               socket.emit('VC3_OPENED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC3\".\"CLOSED\"", (dataValue) => {
+               
+               socket.emit('VC3_CLOSED',dataValue.value.value);
+              })
+              readnode("ns=3;s=\"VC3\".\"FAULT\"", (dataValue) => {
+               
+               socket.emit('VC3_FAULT',dataValue.value.value);
+              })
     
     
     
@@ -589,7 +549,7 @@ io.on("connection", (socket) => {
                 socket.emit('UV_CMD',dataValue.value.value);
                })
 
-
+        // ---------------------Value-------------------//
         /////--------Level F Tank---------////
         readnode("ns=3;s=\"FTank_Level\"", (dataValue) => {
           
@@ -605,10 +565,51 @@ io.on("connection", (socket) => {
           
           socket.emit('CTank_Level',dataValue.value.value);
          })
-         
-         
+        //  ----------------------Pressure value-------////
+        readnode("ns=3;s=\"PS1_M\"", (dataValue) => {
+          
+          socket.emit('PS1_M',dataValue.value.value);
+         })
+        readnode("ns=3;s=\"PS2_M\"", (dataValue) => {
+          
+          socket.emit('PS2_M',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"PS3_M\"", (dataValue) => {
+          
+          socket.emit('PS3_M',dataValue.value.value);
+         })
 
-
+        // ----------------Set Pressure-----///
+        readnode(" ns=3;s=\"DataSystem\".\"PS_Filter1_Set\"", (dataValue) => {
+          
+          socket.emit('PS_Filter1_Set',dataValue.value.value);
+         })
+        readnode("ns=3;s=\"DataSystem\".\"PS_Filter2_Set\"", (dataValue) => {
+          
+          socket.emit('PS_Filter2_Set',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"DataSystem\".\"PS_RO_Set\"", (dataValue) => {
+          
+          socket.emit('PS_RO_Set',dataValue.value.value);
+         })
+        
+        // -------------Set Parameters----------//
+        readnode("ns=3;s=\"DataSystem\".\"TimeInvertPump23\"", (dataValue) => {
+          
+          socket.emit('Timeset_Pump23',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"DataSystem\".\"TimeInvertPump45\"", (dataValue) => {
+          
+          socket.emit('Timeset_Pump45',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"DataSystem\".\"Time_Rinse\"", (dataValue) => {
+          
+          socket.emit('Timeset_Rinse',dataValue.value.value);
+         })
+         readnode("ns=3;s=\"DataSystem\".\"Time_Backwash\"", (dataValue) => {
+          
+          socket.emit('Timeset_Backwash',dataValue.value.value);
+         })
         ////-------------------Speed----------//////
 
         readnode("ns=3;s=\"Pump_1\".\"Speed\"", (dataValue) => {
@@ -632,7 +633,7 @@ io.on("connection", (socket) => {
           socket.emit('Pump_5_SPEED',dataValue.value.value);
          })
 
-        //  --------------------------------socket on-------
+        //  --------------------------------socket on------------------------------------//
 
          socket.on("Button", (message) => {
             let node;
@@ -691,6 +692,7 @@ io.on("connection", (socket) => {
               node = 'ns=3;s="Pump_3"."RESET"';
               
             }
+
             if (message === "Pump4_START") {
               node = 'ns=3;s="Pump_4"."START"';
               
@@ -703,6 +705,7 @@ io.on("connection", (socket) => {
               node = 'ns=3;s="Pump_4"."RESET"';
               
             }
+            
             if (message === "Pump5_START") {
               node = 'ns=3;s="Pump_5"."START"';
               
@@ -713,6 +716,19 @@ io.on("connection", (socket) => {
             }
             if (message === "Pump5_RESET") {
               node = 'ns=3;s="Pump_5"."RESET"';
+              
+            }
+
+            if (message === "Pump6_START") {
+              node = 'ns=3;s="Pump_6"."START"';
+              
+            }
+            if (message === "Pump6_STOP") {
+              node = 'ns=3;s="Pump_6"."STOP"';
+              
+            }
+            if (message === "Pump6_RESET") {
+              node = 'ns=3;s="Pump_6"."RESET"';
               
             }
 
@@ -765,6 +781,72 @@ io.on("connection", (socket) => {
           node = 'ns=3;s="VA5"."CLOSE"';
 
         }
+        // -----//
+        else if (message === "VB1_OPEN") {
+          node = 'ns=3;s="VB1"."OPEN"';
+
+        }
+        else if (message === "VB1_CLOSE") {
+          node = 'ns=3;s="VB1"."CLOSE"';
+
+        }
+        else if (message === "VB2_OPEN") {
+          node = 'ns=3;s="VB2"."OPEN"';
+
+        }
+        else if (message === "VB2_CLOSE") {
+          node = 'ns=3;s="VB2"."CLOSE"';
+
+        }
+        else if (message === "VB3_OPEN") {
+          node = 'ns=3;s="VB3"."OPEN"';
+
+        }
+        else if (message === "VB3_CLOSE") {
+          node = 'ns=3;s="VB3"."CLOSE"';
+
+        }
+        else if (message === "VB4_OPEN") {
+          node = 'ns=3;s="VB4"."OPEN"';
+
+        }
+        else if (message === "VB4_CLOSE") {
+          node = 'ns=3;s="VB4"."CLOSE"';
+
+        }
+        else if (message === "VB5_OPEN") {
+          node = 'ns=3;s="VB5"."OPEN"';
+
+        }
+        else if (message === "VB5_CLOSE") {
+          node = 'ns=3;s="VB5"."CLOSE"';
+
+        }
+        // -----------///
+        else if (message === "VC1_OPEN") {
+          node = 'ns=3;s="VC1"."OPEN"';
+
+        }
+        else if (message === "VC1_CLOSE") {
+          node = 'ns=3;s="VC1"."CLOSE"';
+
+        }
+        else if (message === "VC2_OPEN") {
+          node = 'ns=3;s="VC2"."OPEN"';
+
+        }
+        else if (message === "VC2_CLOSE") {
+          node = 'ns=3;s="VC2"."CLOSE"';
+
+        }
+        else if (message === "VC3_OPEN") {
+          node = 'ns=3;s="VC3"."OPEN"';
+
+        }
+        else if (message === "VC3_CLOSE") {
+          node = 'ns=3;s="VC3"."CLOSE"';
+
+        }
         else {}
         console.log(message);
         WriteNode(node, DataType.Boolean, true);
@@ -776,17 +858,14 @@ io.on("connection", (socket) => {
         console.log(typeof message);
         if (message === "0") {
           VM = 0;
-          console.log('0')
         }
         if (message === "2") {
           VM = 2;
-          console.log('2')
         }
         if (message === "1") {
           VM = 1;
-          console.log('2')
         }
-        console.log(VM);
+        
         WriteNode('ns=3;s="VF"."MODE"', DataType.Int16, VM);
       });
       socket.on("VA1_MODE", (message) => {
@@ -794,17 +873,14 @@ io.on("connection", (socket) => {
         console.log(typeof message);
         if (message === "0") {
           VM = 0;
-          console.log('0')
         }
         if (message === "2") {
           VM = 2;
-          console.log('2')
         }
         if (message === "1") {
           VM = 1;
-          console.log('2')
         }
-        console.log(VM);
+        
         WriteNode('ns=3;s="VA1"."MODE"', DataType.Int16, VM);
       });
       ////
@@ -823,7 +899,7 @@ io.on("connection", (socket) => {
           PM = 1;
          
         }
-        console.log(PM);
+        
         WriteNode('ns=3;s="Pump_1"."MODE"', DataType.Int16, PM);
       });
       socket.on("Pump2_MODE", (message) => {
@@ -841,7 +917,7 @@ io.on("connection", (socket) => {
           PM = 1;
           
         }
-        console.log(PM);
+        
         WriteNode('ns=3;s="Pump_2"."MODE"', DataType.Int16, PM);
       });
 
@@ -872,9 +948,43 @@ io.on("connection", (socket) => {
         
         WriteNode('ns=3;s="Pump_5"."SetSpeed"', DataType.Float,message);
       });
+      socket.on("SetSpeed_Pump6", (message) => {
+        
+        WriteNode('ns=3;s="Pump_6"."SetSpeed"', DataType.Float,message);
+      });
 
 
+      /////--------SET Parameters-------------------------------------//////////////
 
+      socket.on("SetPressure_1", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."PS_Filter1_Set"', DataType.Float,message);
+      });
+      socket.on("SetPressure_2", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."PS_Filter2_Set"', DataType.Float,message);
+      });
+      socket.on("SetPressure_3", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."PS_RO_Set"', DataType.Float,message);
+      });
+
+      socket.on("Clean_Rinse", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."Time_Rinse"', DataType.Float,message);
+      });
+      socket.on("Clean_Backwash", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."Time_Backwash"', DataType.Float,message);
+      });
+      socket.on("Convert23", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."TimeInvertPump23"', DataType.Float,message);
+      });
+      socket.on("Convert45", (message) => {
+        
+        WriteNode('ns=3;s="DataSystem"."TimeInvertPump45"', DataType.Float,message);
+      });
 
 
 

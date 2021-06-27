@@ -60,6 +60,12 @@ function Navbar(){
                       Report
                     </NavLink>
                   </li>
+                  <li className='nav-item'>
+                    <NavLink to='/tutorial' className ='nav-NavLink' >
+                    <span class="material-icons md-48">description</span> 
+                      Tutorial
+                    </NavLink>
+                  </li>
                   
                   <li className='nav-item'>
                  

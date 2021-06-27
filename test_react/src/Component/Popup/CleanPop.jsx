@@ -15,6 +15,12 @@ function CleanPop() {
   const[time2,setTime2] =useState(null)
   const[time3,setTime3] =useState(null)
   const[time4,setTime4] =useState(null)
+
+  const[pressure1,setPressure1] =useState(null)
+  const[pressure2,setPressure2] =useState(null)
+  const[pressure3,setPressure3] =useState(null)
+
+
   
 
 
@@ -26,29 +32,39 @@ useEffect(() => {
 
 const btnSet1 = async () => {
                
-  await socket.emit("Clean_Forward_1",time1);
+  await socket.emit("Clean_Rinse",time1);
           };
           const btnSet2 = async () => {
                
-            await socket.emit("Clean_Forward_2",time2);
+            await socket.emit("Clean_Backwash",time2);
                     };
                     const btnSet3 = async () => {
                
-                      await socket.emit("Clean_Forward_3",time3);
+                      await socket.emit("Convert23",time3);
                               };
                               const btnSet4 = async () => {
                
-                                await socket.emit("Clean_Forward_4",time4);
+                                await socket.emit("Convert45",time4);
                                         };
-    
+const btnSet5 = async () => {
+               
+  await socket.emit("SetPressure_1",pressure1);
+  };
+  const btnSet6 = async () => {
+               
+    await socket.emit("SetPressure_2",pressure2);
+    };
+    const btnSet7 = async () => {
+               
+      await socket.emit("SetPressure_3",pressure3);
+      };
     return (
         <Container className='motorpop'>
-     
 
         <Form >
           <div className='select-mode'>
           <Col>
-          <Label>Tank 1 </Label>
+          <Label>Time Clean</Label>
             <FormGroup>
             <Label>Clean Forward </Label>
               <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime1(e.target.value)} />
@@ -68,22 +84,41 @@ const btnSet1 = async () => {
           
           <Col>
           <div className="motor-status">
-          <Label>Tank 2 </Label>
-            
+          <Label>Time Convert </Label>
             <FormGroup>
-            <Label>Clean Forward </Label>
+            <Label>Convert Pump 2,3 </Label>
               <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime3(e.target.value)} />
               <Button className='btnset' onClick={btnSet3} > Set </Button>
             </FormGroup>
             <FormGroup>
-            <Label> Clean Reverse </Label>
+            <Label> Convert Pump 4,5 </Label>
               <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime4(e.target.value)} />
               <Button className='btnset' onClick={btnSet4} > Set </Button>
+            </FormGroup>
+          </div> 
+          </Col>
+          <Col>
+          <div className="motor-status">
+          <Label>Set Pressure </Label>
+            
+            <FormGroup>
+            <Label>Filter Tank 1 </Label>
+              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure1(e.target.value)} />
+              <Button className='btnset' onClick={btnSet5} > Set </Button>
+            </FormGroup>
+            <FormGroup>
+            <Label>Filter Tank 2 </Label>
+              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure2(e.target.value)} />
+              <Button className='btnset' onClick={btnSet6} > Set </Button>
+            </FormGroup>
+            <FormGroup className='RO'>
+            <Label> RO </Label>
+              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure3(e.target.value)} />
+              <Button className='btnset' onClick={btnSet7} > Set </Button>
             </FormGroup>
           </div>
             
           </Col>
-         
         </Form>
       </Container>
     )

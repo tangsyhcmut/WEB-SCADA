@@ -6,14 +6,14 @@ const model = require('../models/Mqtt')
 // @route GET api/testmqtts
 // @desc Get mqtt
 // @access Private
+const now = new Date();
+const Day =now.getDay()
 router.get('/', verifyToken, async (req, res) => {
 	try {
-		const SimData = await model.SimData.find()
-		// const data =([]) 
-		// for (let i = 0; i < mqtts.length; i++) {
-		// 	data[i] = [mqtts[i].S[0]]
-		// }
-		// console.log(data)
+		
+		const SimData = await model.SimData.find() ///{createdAt:new Date.getDay()}
+		
+		console.log(SimData)
 		res.json({ success: true, SimData})
 	} catch (error) {
 		console.log(error)

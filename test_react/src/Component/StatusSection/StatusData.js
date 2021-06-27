@@ -2,7 +2,7 @@ import {useState,Component,useEffect} from 'react'
 import './StatusData.css'
 
 import {
-    Container, Col, Form,
+    Container, Col, Form,Row,
     FormGroup, Label, Input,Button
    
   } from 'reactstrap';
@@ -15,7 +15,14 @@ import {
 function StatusData() {
 
 
-    const [stateP1,setStateP1] = useState([]);
+    const [pressure1,setPressure1] = useState(null);
+    const [pressure2,setPressure2] = useState(null);
+    const [pressure3,setPressure3] = useState(null);
+    
+    const [timecovert23,setTimecovert23] = useState(null);
+    const [timecovert45,setTimecovert45] = useState(null);
+    const [timeRinse,setTimeRinse] = useState(null);
+    const [timeBackwash,setTimeBackwash] = useState(null);
 
 
      /// Connect 
@@ -24,10 +31,28 @@ function StatusData() {
     }, [CONNECTION_PORT]);
       ///State
     useEffect(() => {
-      socket.on("pump1", (data) => {
-         
-          
+      socket.on("PS_Filter1_Set", (data) => {
+        setPressure1(data)
           });
+          socket.on("PS_Filter2_Set", (data) => {
+            setPressure2(data)
+              });
+              socket.on("PS_RO_Set", (data) => {
+                setPressure3(data)
+                  });
+    socket.on("Timeset_Pump23", (data) => {
+        setTimecovert23(data)
+            });
+            socket.on("Timeset_Pump45", (data) => {
+                setTimecovert45(data)
+                    });
+                    socket.on("Timeset_Rinse", (data) => {
+                        setTimeRinse(data)
+                            });
+                            socket.on("Timeset_Backwash", (data) => {
+                                setTimeBackwash(data)
+                                    });
+                        
    });
 
     return (
@@ -47,7 +72,7 @@ function StatusData() {
                 </ul>
                 </Col>
                 <Col >
-                <ul className='motor-state'>Mode
+                <ul className='motor-state'>Status
                 <li>Motor 1</li>
                 <li>Motor 2</li>
                 <li>Motor 3</li>
@@ -57,7 +82,7 @@ function StatusData() {
                 </Col>
                 </FormGroup>
                 <FormGroup className="valve-state-container">
-                <Col >
+                <Col  >
                 <ul className ='valve-list'>Valve
                 <li>Valve 1</li>
                 <li>Valve 2</li>
@@ -68,7 +93,7 @@ function StatusData() {
                 </ul>
                 </Col>
                 <Col >
-                <ul className='valve-state'>Mode
+                <ul className='valve-state' >Status
                 <li>Valve 1</li>
                 <li>Valve 2</li>
                 <li>Valve 3</li>
@@ -91,7 +116,7 @@ function StatusData() {
                 </ul>
                 </Col>
                 <Col >
-                <ul className='valve-state' >Mode
+                <ul className='valve-state'  >Status
                 <li>Valve 7</li>
                 <li>Valve 8</li>
                 <li>Valve 9</li>
@@ -101,6 +126,35 @@ function StatusData() {
                 <li>Valve 13</li>
                 </ul>
                 </Col>
+                </FormGroup>
+                <FormGroup className="timeclean-container">
+                <Row>
+                <ul className='time-clean' >Time clean
+                <li>Clean Forward: {timeRinse} </li>
+              
+                <li>Clean Reverse: {timeBackwash} </li>
+                </ul>
+                </Row>
+                <Row >
+                <ul className='time-convert' >Time Convert
+                <li>Convert Pump 2,3 :{timecovert23}</li>
+              
+                <li>Convert Pump 4,5 :{timecovert45}</li>
+                </ul>
+                </Row>
+                </FormGroup>
+                <FormGroup className="pressure-container">
+                <Row>
+                <ul className='set-pressure' >Pressure Set
+                <br></br>
+                <br></br>
+                <li>Filter Tank 1 Pressure: {pressure1} Bar</li>
+                <br></br>
+                <li>Filter Tank 2 Pressure: {pressure2} Bar</li>
+                <br></br>
+                <li>RO Pressure:{pressure3} Bar</li>
+                </ul>
+                </Row>
                 </FormGroup>
                 
             </Form>
