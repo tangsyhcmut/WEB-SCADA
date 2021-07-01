@@ -24,23 +24,16 @@ export default function App() {
     socket = io(CONNECTION_PORT);
 }, [CONNECTION_PORT]);
 
- 
+
+
+
 
   useEffect(() => {
 
-            socket.on("FTank_Level", (data) => {
+            socket.on('ns=3;s="FTank_Level"', (data) => {
               setLevelFTank(data);
               
               });
-              socket.on("MTank_Level", (data) => {
-                setLevelMTank(data);
-                
-                });
-                socket.on("CTank_Level", (data) => {
-                  setLevelCTank(data);
-                  
-                  });
-
 
     setData([{
       name: "Feed Tank",
@@ -57,7 +50,54 @@ export default function App() {
    
     ]);
     
-},[levelFTank]);
+    },[levelFTank]);
+     useEffect(() => {
+
+            socket.on('ns=3;s="MTank_Level"', (data) => {
+              setLevelMTank(data);
+              
+              });
+
+    setData([{
+      name: "Feed Tank",
+      pv: levelFTank,
+    },
+    {
+      name: "Mix Tank",
+      pv: levelMTank,
+    },
+    {
+      name: "Water Tank",
+      pv: levelCTank,
+    },
+   
+    ]);
+    
+  },[levelMTank]);
+  useEffect(() => {
+
+            socket.on('ns=3;s="CTank_Level"', (data) => {
+              setLevelCTank(data);
+              
+              });
+
+    setData([{
+      name: "Feed Tank",
+      pv: levelFTank,
+    },
+    {
+      name: "Mix Tank",
+      pv: levelMTank,
+    },
+    {
+      name: "Water Tank",
+      pv: levelCTank,
+    },
+   
+    ]);
+    
+  },[levelCTank]);
+
 
 function Convert (data) {
   var a ='url(#normalcolor)'

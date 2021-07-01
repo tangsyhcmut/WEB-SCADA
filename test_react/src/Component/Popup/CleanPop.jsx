@@ -1,127 +1,162 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
-  Button, Col, Container, Form,
-  FormGroup, Input, Label
-} from 'reactstrap';
-import './CleanPop.css';
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+} from "reactstrap";
+import "./CleanPop.css";
 import io from "socket.io-client";
 let socket;
 const CONNECTION_PORT = "localhost:5000/";
-  
 
 function CleanPop() {
+  const [time1, setTime1] = useState(null);
+  const [time2, setTime2] = useState(null);
+  const [time3, setTime3] = useState(null);
+  const [time4, setTime4] = useState(null);
 
-  const[time1,setTime1] =useState(null)
-  const[time2,setTime2] =useState(null)
-  const[time3,setTime3] =useState(null)
-  const[time4,setTime4] =useState(null)
-
-  const[pressure1,setPressure1] =useState(null)
-  const[pressure2,setPressure2] =useState(null)
-  const[pressure3,setPressure3] =useState(null)
-
-
-  
-
+  const [pressure1, setPressure1] = useState(null);
+  const [pressure2, setPressure2] = useState(null);
+  const [pressure3, setPressure3] = useState(null);
 
   /// Connect io
-useEffect(() => {
-  socket = io(CONNECTION_PORT);
-}, [CONNECTION_PORT]);
+  useEffect(() => {
+    socket = io(CONNECTION_PORT);
+  }, [CONNECTION_PORT]);
 
-
-const btnSet1 = async () => {
-               
-  await socket.emit("Clean_Rinse",time1);
-          };
-          const btnSet2 = async () => {
-               
-            await socket.emit("Clean_Backwash",time2);
-                    };
-                    const btnSet3 = async () => {
-               
-                      await socket.emit("Convert23",time3);
-                              };
-                              const btnSet4 = async () => {
-               
-                                await socket.emit("Convert45",time4);
-                                        };
-const btnSet5 = async () => {
-               
-  await socket.emit("SetPressure_1",pressure1);
+  const btnSet1 = async () => {
+    await socket.emit("Clean_Rinse", time1);
+  };
+  const btnSet2 = async () => {
+    await socket.emit("Clean_Backwash", time2);
+  };
+  const btnSet3 = async () => {
+    await socket.emit("Convert23", time3);
+  };
+  const btnSet4 = async () => {
+    await socket.emit("Convert45", time4);
+  };
+  const btnSet5 = async () => {
+    await socket.emit("SetPressure_1", pressure1);
   };
   const btnSet6 = async () => {
-               
-    await socket.emit("SetPressure_2",pressure2);
-    };
-    const btnSet7 = async () => {
-               
-      await socket.emit("SetPressure_3",pressure3);
-      };
-    return (
-        <Container className='motorpop'>
+    await socket.emit("SetPressure_2", pressure2);
+  };
+  const btnSet7 = async () => {
+    await socket.emit("SetPressure_3", pressure3);
+  };
+  return (
+    <Container className="motorpop">
+      <Form>
+        <div className="select-mode">
+          <Col>
+            <Label>Time Clean</Label>
+            <FormGroup>
+              <Label>Clean Forward </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 minutes"
+                onChange={(e) => setTime1(e.target.value*1000)}
+              />
+              <Button className="btnset" onClick={btnSet1}>
+                {" "}
+                Set{" "}
+              </Button>
+            </FormGroup>
+            <FormGroup>
+              <Label> Clean Reverse </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 minutes"
+                onChange={(e) => setTime2(e.target.value*1000)}
+              />
+              <Button className="btnset" onClick={btnSet2}>
+                {" "}
+                Set{" "}
+              </Button>
+            </FormGroup>
+          </Col>
+          <Col></Col>
+        </div>
 
-        <Form >
-          <div className='select-mode'>
-          <Col>
-          <Label>Time Clean</Label>
-            <FormGroup>
-            <Label>Clean Forward </Label>
-              <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime1(e.target.value)} />
-              <Button className='btnset' onClick={btnSet1} > Set </Button>
-            </FormGroup>
-            <FormGroup>
-            <Label> Clean Reverse </Label>
-              <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime2(e.target.value)} />
-              <Button className='btnset' onClick={btnSet2} > Set </Button>
-            </FormGroup>
-          </Col>
-          <Col>
-         
-           
-          </Col>
-          </div>
-          
-          <Col>
+        <Col>
           <div className="motor-status">
-          <Label>Time Convert </Label>
+            <Label>Time Convert </Label>
             <FormGroup>
-            <Label>Convert Pump 2,3 </Label>
-              <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime3(e.target.value)} />
-              <Button className='btnset' onClick={btnSet3} > Set </Button>
+              <Label>Convert Pump 2,3 </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 minutes"
+                onChange={(e) => setTime3(e.target.value*1000)}
+              />
+              <Button className="btnset" onClick={btnSet3}>
+                {" "}
+                Set{" "}
+              </Button>
             </FormGroup>
             <FormGroup>
-            <Label> Convert Pump 4,5 </Label>
-              <Input className='setspeed' placeholder="0 minutes" onChange={ (e)=>setTime4(e.target.value)} />
-              <Button className='btnset' onClick={btnSet4} > Set </Button>
-            </FormGroup>
-          </div> 
-          </Col>
-          <Col>
-          <div className="motor-status">
-          <Label>Set Pressure </Label>
-            
-            <FormGroup>
-            <Label>Filter Tank 1 </Label>
-              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure1(e.target.value)} />
-              <Button className='btnset' onClick={btnSet5} > Set </Button>
-            </FormGroup>
-            <FormGroup>
-            <Label>Filter Tank 2 </Label>
-              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure2(e.target.value)} />
-              <Button className='btnset' onClick={btnSet6} > Set </Button>
-            </FormGroup>
-            <FormGroup className='RO'>
-            <Label> RO </Label>
-              <Input className='setspeed' placeholder="0 bar" onChange={ (e)=>setPressure3(e.target.value)} />
-              <Button className='btnset' onClick={btnSet7} > Set </Button>
+              <Label> Convert Pump 4,5 </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 minutes"
+                onChange={(e) => setTime4(e.target.value*1000)}
+              />
+              <Button className="btnset" onClick={btnSet4}>
+                {" "}
+                Set{" "}
+              </Button>
             </FormGroup>
           </div>
-            
-          </Col>
-        </Form>
-      </Container>
-    )
+        </Col>
+        <Col>
+          <div className="motor-status">
+            <Label>Set Pressure </Label>
+
+            <FormGroup>
+              <Label>Filter Tank 1 </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 bar"
+                onChange={(e) => setPressure1(e.target.value)}
+              />
+              <Button className="btnset" onClick={btnSet5}>
+                {" "}
+                Set{" "}
+              </Button>
+            </FormGroup>
+            <FormGroup>
+              <Label>Filter Tank 2 </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 bar"
+                onChange={(e) => setPressure2(e.target.value)}
+              />
+              <Button className="btnset" onClick={btnSet6}>
+                {" "}
+                Set{" "}
+              </Button>
+            </FormGroup>
+            <FormGroup className="RO">
+              <Label> RO </Label>
+              <Input
+                className="setspeed"
+                placeholder="0 bar"
+                onChange={(e) => setPressure3(e.target.value)}
+              />
+              <Button className="btnset" onClick={btnSet7}>
+                {" "}
+                Set{" "}
+              </Button>
+            </FormGroup>
+          </div>
+        </Col>
+      </Form>
+    </Container>
+  );
 }
 
-export default CleanPop
+export default CleanPop;
