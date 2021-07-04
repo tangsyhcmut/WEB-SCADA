@@ -185,7 +185,13 @@ function MainSection2() {
   const [pressure1, setPressure1] = useState();
   const [pressure2, setPressure2] = useState();
   const [pressure3, setPressure3] = useState();
-
+  ////SPEED
+  const [speedPump1, setSpeedPump1] = useState(null);
+  const [speedPump2, setSpeedPump2] = useState(null);
+  const [speedPump3, setSpeedPump3] = useState(null);
+  const [speedPump4, setSpeedPump4] = useState(null);
+  const [speedPump5, setSpeedPump5] = useState(null);
+  const [speedPump6, setSpeedPump6] = useState(null);
   /////
   /// Connect io
   useEffect(() => {
@@ -195,151 +201,170 @@ function MainSection2() {
   ///-----GET State------
   useEffect(() => {
     ////-------Level----///
-    socket.on("FTank_Level", (data) => {
+    socket.on(  'ns=3;s="FTank_Level"', (data) => {
       setLevelTankF(data);
     });
-    socket.on("MTank_Level", (data) => {
+    socket.on(  'ns=3;s="MTank_Level"', (data) => {
       setLevelTankM(data);
     });
-    socket.on("CTank_Level", (data) => {
+    socket.on(  'ns=3;s="CTank_Level"', (data) => {
       setLevelTankC(data);
     });
-    // ----------------Pump State--------///
-    socket.on("Pump_1_FEEDBACK", (data) => {
+    // ----------------Speed-------------//
+    socket.on(  'ns=3;s="Pump_1"."Speed"', (data) => {
+      setSpeedPump1(data);
+    });
+    socket.on(  'ns=3;s="Pump_2"."Speed"', (data) => {
+      setSpeedPump2(data);
+    });
+    socket.on(  'ns=3;s="Pump_3"."Speed"', (data) => {
+      setSpeedPump3(data);
+    });
+    socket.on(  'ns=3;s="Pump_4"."Speed"', (data) => {
+      setSpeedPump4(data);
+    });
+    socket.on(  'ns=3;s="Pump_5"."Speed"', (data) => {
+      setSpeedPump5(data);
+    });
+    socket.on(  'ns=3;s="Pump_6"."Speed"', (data) => {
+      setSpeedPump6(data);
+    });
+   // ----------------Pump State--------///
+    socket.on(  'ns=3;s="Pump_1"."FEEDBACK"', (data) => {
       setStatePump1(data);
     });
-    socket.on("Pump_2_FEEDBACK", (data) => {
+    socket.on(  'ns=3;s="Pump_2"."FEEDBACK"', (data) => {
       setStatePump2(data);
     });
-    socket.on("Pump_3_FEEDBACK", (data) => {
+    socket.on(  'ns=3;s="Pump_3"."FEEDBACK"', (data) => {
       setStatePump3(data);
     });
-    socket.on("Pump_4_FEEDBACK", (data) => {
+    socket.on(  'ns=3;s="Pump_4"."FEEDBACK"', (data) => {
       setStatePump4(data);
     });
-    socket.on("Pump_5_FEEDBACK", (data) => {
+    socket.on(  'ns=3;s="Pump_5"."FEEDBACK"', (data) => {
       setStatePump5(data);
     });
-    socket.on("Pump_6_FEEDBACK", (data) => {
-      setStatePump5(data);
+    socket.on(  'ns=3;s="Pump_6"."FEEDBACK"', (data) => {
+      setStatePump6(data);
     });
     // ----------------Valve State--------///
-    socket.on("VF_OPENED", (data) => {
+    socket.on('ns=3;s="VF"."OPENED"', (data) => {
       setStateValveF(data);
     });
-    socket.on("VA1_OPENED", (data) => {
+    socket.on('ns=3;s="VA1"."OPENED"', (data) => {
       setStateValveA1(data);
     });
-    socket.on("VA2_OPENED", (data) => {
+    socket.on('ns=3;s="VA2"."OPENED"', (data) => {
       setStateValveA2(data);
     });
-    socket.on("VA3_OPENED", (data) => {
+    socket.on('ns=3;s="VA3"."OPENED"', (data) => {
       setStateValveA3(data);
     });
-    socket.on("VA4_OPENED", (data) => {
+    socket.on('ns=3;s="VA4"."OPENED"', (data) => {
       setStateValveA4(data);
     });
-    socket.on("VA5_OPENED", (data) => {
+    socket.on('ns=3;s="VA5"."OPENED"', (data) => {
       setStateValveA5(data);
     });
-    socket.on("VB1_OPENED", (data) => {
+    socket.on('ns=3;s="VB1"."OPENED"', (data) => {
       setStateValveB1(data);
     });
-    socket.on("VB2_OPENED", (data) => {
+    socket.on('ns=3;s="VB2"."OPENED"', (data) => {
       setStateValveB2(data);
     });
-    socket.on("VB3_OPENED", (data) => {
+    socket.on('ns=3;s="VB3"."OPENED"', (data) => {
       setStateValveB3(data);
     });
-    socket.on("VB4_OPENED", (data) => {
+    socket.on('ns=3;s="VB4"."OPENED"', (data) => {
       setStateValveB4(data);
     });
-    socket.on("VB5_OPENED", (data) => {
+    socket.on('ns=3;s="VB5"."OPENED"', (data) => {
       setStateValveB5(data);
     });
-    socket.on("VC1_OPENED", (data) => {
+    socket.on('ns=3;s="VC1"."OPENED"', (data) => {
       setStateValveC1(data);
     });
-    socket.on("VC2_OPENED", (data) => {
+    socket.on('ns=3;s="VC2"."OPENED"', (data) => {
       setStateValveC2(data);
     });
-    socket.on("VC3_OPENED", (data) => {
+    socket.on('ns=3;s="VC3"."OPENED"', (data) => {
       setStateValveC3(data);
     });
 
-    socket.on("PS1_M", (data) => {
+    socket.on('ns=3;s="PS1_M"', (data) => {
       setPressure1(data);
     });
-    socket.on("PS2_M", (data) => {
+    socket.on('ns=3;s="PS2_M"', (data) => {
       setPressure2(data);
     });
-    socket.on("PS3_M", (data) => {
+    socket.on('ns=3;s="PS3_M"', (data) => {
       setPressure3(data);
     });
-    socket.on("UV_CMD", (data) => {
+    socket.on('ns=3;s="UV_CMD"', (data) => {
       setStateUV(data);
     });
 
     // ----------------------------Set Fault----------------------------//
-    socket.on("Pump_1_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_1"."FAULT"', (data) => {
       setFaultPump1(data);
     });
-    socket.on("Pump_2_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_2"."FAULT"', (data) => {
       setFaultPump2(data);
     });
-    socket.on("Pump_3_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_3"."FAULT"', (data) => {
       setFaultPump3(data);
     });
-    socket.on("Pump_4_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_4"."FAULT"', (data) => {
       setFaultPump4(data);
     });
-    socket.on("Pump_5_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_5"."FAULT"', (data) => {
       setFaultPump5(data);
     });
-    socket.on("Pump_6_FAULT", (data) => {
+    socket.on('ns=3;s="Pump_6"."FAULT"', (data) => {
       setFaultPump6(data);
     });
     // ----------------Valve Fault--------///
-    socket.on("VF_FAULT", (data) => {
+    socket.on('ns=3;s="VF"."FAULT"', (data) => {
       setFaultValveF(data);
     });
-    socket.on("VA1_FAULT", (data) => {
+    socket.on('ns=3;s="VA1"."FAULT"', (data) => {
       setFaultValveA1(data);
     });
-    socket.on("VA2_FAULT", (data) => {
+    socket.on('ns=3;s="VA2"."FAULT"', (data) => {
       setFaultValveA2(data);
     });
-    socket.on("VA3_FAULT", (data) => {
+    socket.on('ns=3;s="VA3"."FAULT"', (data) => {
       setFaultValveA3(data);
     });
-    socket.on("VA4_FAULT", (data) => {
+    socket.on('ns=3;s="VA4"."FAULT"', (data) => {
       setFaultValveA4(data);
     });
-    socket.on("VA5_FAULT", (data) => {
+    socket.on('ns=3;s="VA5"."FAULT"', (data) => {
       setFaultValveA5(data);
     });
-    socket.on("VB1_FAULT", (data) => {
+    socket.on('ns=3;s="VB1"."FAULT"', (data) => {
       setFaultValveB1(data);
     });
-    socket.on("VB2_FAULT", (data) => {
+    socket.on('ns=3;s="VB2"."FAULT"', (data) => {
       setFaultValveB2(data);
     });
-    socket.on("VB3_FAULT", (data) => {
+    socket.on('ns=3;s="VB3"."FAULT"', (data) => {
       setFaultValveB3(data);
     });
-    socket.on("VB4_FAULT", (data) => {
+    socket.on('ns=3;s="VB4"."FAULT"', (data) => {
       setFaultValveB4(data);
     });
-    socket.on("VB5_FAULT", (data) => {
+    socket.on('ns=3;s="VB5"."FAULT"', (data) => {
       setFaultValveB5(data);
     });
-    socket.on("VC1_FAULT", (data) => {
+    socket.on('ns=3;s="VC1"."FAULT"', (data) => {
       setFaultValveC1(data);
     });
-    socket.on("VC2_FAULT", (data) => {
+    socket.on('ns=3;s="VC2"."FAULT"', (data) => {
       setFaultValveC2(data);
     });
-    socket.on("VC3_FAULT", (data) => {
+    socket.on('ns=3;s="VC3"."FAULT"', (data) => {
       setFaultValveC3(data);
     });
   });
@@ -388,13 +413,14 @@ function MainSection2() {
               onClick={() => setPopupPump1(true)}
               src={ConvertStatePump1(statePump1, faultPump1)}
             />
+            <p className="speed1value">{speedPump1} %</p>
 
             <Popup
               title="Pump 1"
               openPopup={popupPump1}
               setOpenPopup={setPopupPump1}
             >
-              <PumpPop on={"Pump_1"} emit={"Pump1"} />
+              <PumpPop on={"Pump_1"} emit={"Pump_1"} />
             </Popup>
 
             <img className="pipe5" src={Pipe_LT} />
@@ -412,7 +438,7 @@ function MainSection2() {
               openPopup={popupValveF}
               setOpenPopup={setPopupValveF}
             >
-              <ValvePop on={"VF"} emit={"VAF"} />{" "}
+              <ValvePop on={"VF"} emit={"VF"} />{" "}
             </Popup>
           </div>
           {/* ------After Tank1----------- */}
@@ -431,12 +457,13 @@ function MainSection2() {
               onClick={() => setPopupPump2(true)}
               src={ConvertStatePump236(statePump2, faultPump2)}
             />
+            <p className="speed2value">{speedPump2} %</p>
             <Popup
               title="Pump 2"
               openPopup={popupPump2}
               setOpenPopup={setPopupPump2}
             >
-              <PumpPop on={"Pump_2"} emit={"Pump2"} />
+              <PumpPop on={"Pump_2"} emit={"Pump_2"} />
             </Popup>
 
             <img
@@ -445,13 +472,13 @@ function MainSection2() {
               onClick={() => setPopupPump3(true)}
               src={ConvertStatePump236(statePump3, faultPump3)}
             />
-
+          <p className="speed3value">{speedPump3} %</p>
             <Popup
               title="Pump 3"
               openPopup={popupPump3}
               setOpenPopup={setPopupPump3}
             >
-              <PumpPop on={"Pump_3"} emit={"Pump3"} />
+              <PumpPop on={"Pump_3"} emit={"Pump_3"} />
             </Popup>
 
             <img className="pipe15" src={Pipe_alight} />
@@ -733,12 +760,13 @@ function MainSection2() {
               src={ConvertStatePump4(statePump4, faultPump4)}
               onClick={() => setPopupPump4(true)}
             />
+            <p className="speed4value">{speedPump4} %</p>
             <Popup
               title="Pressure Pump 1"
               openPopup={popupPump4}
               setOpenPopup={setPopupPump4}
             >
-              <PumpPop on={"Pump_4"} emit={"Pump4"} />
+              <PumpPop on={"Pump_4"} emit={"Pump_4"} />
             </Popup>
             <img
               title=" Pressure Pump 2 "
@@ -746,12 +774,13 @@ function MainSection2() {
               src={ConvertStatePump5(statePump5, faultPump5)}
               onClick={() => setPopupPump5(true)}
             />
+            <p className="speed5value"> {speedPump5} %</p>
             <Popup
               title="Pressure Pump 2"
               openPopup={popupPump5}
               setOpenPopup={setPopupPump5}
             >
-              <PumpPop on={"Pump_5"} emit={"Pump5"} />
+              <PumpPop on={"Pump_5"} emit={"Pump_5"} />
             </Popup>
           </div>
         </div>
@@ -840,13 +869,13 @@ function MainSection2() {
                 onClick={() => setPopupPump6(true)}
                 src={ConvertStatePump236(statePump6, faultPump6)}
               />
-
+            <p className="speed6value"> {speedPump6} %</p>
               <Popup
                 title="Pump 6"
                 openPopup={popupPump6}
                 setOpenPopup={setPopupPump6}
               >
-                <PumpPop on={"Pump_6"} emit={"Pump6"} />
+                <PumpPop on={"Pump_6"} emit={"Pump_6"} />
               </Popup>
             </div>
             {/* --------after uvFilter------------ */}

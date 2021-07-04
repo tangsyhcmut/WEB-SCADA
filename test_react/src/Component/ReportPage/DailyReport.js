@@ -2,19 +2,19 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useTable, usePagination } from "react-table";
 import axios from "axios";
 import { COLUMNS } from "./Columns";
-import "./Report.css";
+import "./Table.css";
 import { ExportCSV } from "./Export";
 import { apiUrl } from "../../context/constants";
 
-export const ReportPage = () => {
+export const ReportDaily = () => {
   const [reportList, setReportList] = useState([]);
 
   ///Get mqtt state
   useEffect(async () => {
     try {
-      const response = await axios.get(`${apiUrl}/data`);
+      const response = await axios.get(`${apiUrl}/dailydata`);
       if (response.data.success) {
-        setReportList(response.data.sendFullData); ///// Data từ backend
+        setReportList(response.data.sendDailyData); ///// Data từ backend
       }
     } catch (error) {
       return error.response.data
@@ -44,7 +44,7 @@ export const ReportPage = () => {
     {
       columns,
       data,
-      initialState: { pageSize: 20, pageIndex: 0 },
+      initialState: { pageSize:6, pageIndex: 0 },
     },
     usePagination
   );
@@ -54,7 +54,7 @@ export const ReportPage = () => {
   return (
     <>
       <div>
-        <table className="report" {...getTableProps()}>
+        <table className="notitable" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -114,24 +114,16 @@ export const ReportPage = () => {
                   : 0;
                 gotoPage(pageNumber);
               }}
-              style={{ width: "50px" }}
+              style={{ width: "30px" }}
             />
           </span>{" "}
           <span>
             <ExportCSV csvData={reportList} fileName="Data report" />
           </span>
-          {/* <select
-          value={pageSize}
-          onChange={e => setPageSize(Number(e.target.value))}>
-          {[20, 15, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select> */}
+         
         </div>
       </div>
     </>
   );
 };
-export default ReportPage;
+export default ReportDaily;

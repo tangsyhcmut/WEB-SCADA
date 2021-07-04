@@ -100,6 +100,12 @@
   margin-left: 19.5rem;
   margin-top: 0rem;
 }
+.speed1value{
+  position: absolute;
+  margin-top: 1.5rem;
+  margin-left: 17rem;
+
+}
 .pipe2 {
   position: absolute;
   height: 3rem;
@@ -173,12 +179,24 @@
   margin-left: 38.8rem;
   margin-top: 10.5rem;
 }
+.speed2value{
+  position: absolute;
+  margin-left: 40rem;
+  margin-top: 8rem;
+
+}
 .pump3 {
   position: absolute;
   height: 3.5rem;
   width: 4rem;
   margin-left: 38.8rem;
   margin-top: 14.8rem;
+}
+.speed3value{
+  position: absolute;
+  margin-left: 40rem;
+  margin-top: 19rem;
+
 }
 .pipe10 {
   position: absolute;
@@ -678,12 +696,24 @@
   margin-left: 84.6rem;
   margin-top: 18rem;
 }
+.speed4value{
+  position: absolute;
+  margin-left: 74rem;
+  margin-top: 21rem;
+
+}
 .pump5 {
   position: absolute;
   height: 4rem;
   width: 5rem;
   margin-left: 87.3rem;
   margin-top: 17.8rem;
+}
+.speed5value{
+  position: absolute;
+  margin-left: 74rem;
+  margin-top: 34rem;
+
 }
 /* ---------Tank4------------ */
 .tank4 {
@@ -768,6 +798,7 @@
   margin-left: 69.5rem;
   margin-top: 20.3rem;
 }
+
 
 .pump5 {
   position: absolute;
@@ -1052,6 +1083,12 @@
   width: 4rem;
   margin-left: 30.5rem;
   margin-top: 31.8rem;
+}
+.speed6value{
+  position: absolute;
+  margin-left: 32rem;
+  margin-top: 29rem;
+
 }
 .pipe96 {
   position: absolute;

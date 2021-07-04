@@ -1,8 +1,8 @@
 .redlight,
 .greenlight,
 .yellowlight {
-  width: 60px;
-  height: 50px;
+  width: 80px;
+  height: 90px;
   display: list-item;
 }
 .statusForm {

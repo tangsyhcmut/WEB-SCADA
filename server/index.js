@@ -4,10 +4,19 @@ const app = express();
 const socket = require("socket.io");
 const cors = require("cors");
 const chalk = require("chalk");
+// const mailer= require("./mailer")
+// const nodemailer =  require('nodemailer');
+const schedule = require('node-schedule');
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
-const mqttRouter = require("./routes/mqtt");
-const nodemailer = require("nodemailer");
+const fulldataRouter = require("./routes/data");
+const trenddataRouter = require("./routes/trenddata");
+const dailydataRouter = require("./routes/dailydata");
+const DataSchema = require("./models/DataSchema");
+const router = express.Router();
+const verifyToken = require("./middleware/auth")
+const nodeOPC = require("./NodeOPC");
+const alarm = require("./alarm")
 // Connect Port
 
 const PORT = process.env.PORT || 5000;
@@ -15,6 +24,8 @@ const server = app.listen(PORT);
 // Connect MongoDB
 const db = require("./config/db");
 db.connect();
+
+
 ////////////////////////////////OPC UA
 ////////////////////////////////////////////////////////////////
 const {
@@ -24,7 +35,7 @@ const {
   DataType,
 } = require("node-opcua");
 
-const nodeOPC = require("./NodeOPC");
+
 
 const endpointUrl = "opc.tcp://192.168.2.3:4840";
 let a = 0;
@@ -92,6 +103,7 @@ const io = require("socket.io")(server, {
         );
 
         monitoredItem.on("changed", (dataValue) => {
+          console.log(nodeIdToMonitor);
           return callback(dataValue);
         });
       } catch (error) {}
@@ -112,7 +124,7 @@ const io = require("socket.io")(server, {
     }
 
     //TEST WRITE-------------------
-    function WriteNode(setPointTemperatureId, Type, Wvalue) {
+    async function WriteNode(setPointTemperatureId, Type, Wvalue) {
       var nodesToWrite = [
         {
           nodeId: setPointTemperatureId,
@@ -126,12 +138,12 @@ const io = require("socket.io")(server, {
         },
       ];
 
-      session.write(nodesToWrite, function (err, statusCodes) {
+      await session.write(nodesToWrite, function (err, statusCodes) {
         if (!err) {
         }
       });
     }
-    // readnode('ns=3;s="Clock_0.5Hz"', (dataValue) => {
+    // // readnode('ns=3;s="Clock_0.5Hz"', (dataValue) => {
     // //   const PS = {
     // //     value: dataValue.value.value,
     // //     TimeStamp: JSON.stringify(dataValue.serverTimestamp),
@@ -143,56 +155,107 @@ const io = require("socket.io")(server, {
     //   console.log("KQ: ", JSON.stringify(dataValue.value));
     //   // }
     //  });
+    //----------REPORT------------------
+    const maxAge = 0;
+    const nodeToRead = {
+      nodeId: 'ns=3;s="PS1_M"',
+      attributeId: AttributeIds.Value,
+    };
+    let flag = 0;
+    let flag2 = 0;
+    let dataV = 0;
+
+    setInterval(async () => {
+      flag = flag + 1;
+      const dataValue = await session.read(nodeToRead, maxAge);
+      dataV = dataValue.value.value;
+      if (dataV > 5.5) {
+        flag2 = flag2 + 1;
+      } else {
+        flag2 = 0;
+      }
+      if (flag > 15 || flag2 > 5) {
+        const PS = {
+          value: dataValue.value.value,
+          // TimeStamp: JSON.stringify(dataValue.serverTimestamp),
+        };
+        const data = new DataSchema(PS);
+        data.save();
+        flag = 0;
+      }
+    }, 1000);
 
     //--------Emit DATA------------------------------////
     io.on("connection", (socket) => {
       console.log(socket.id);
       // /--------------------------------------------------------------------------------------
+      // const nodereads = nodeOPC.Nodereads;
+      // let Pre_Read = [];
+      // setInterval(() => {
+      //   for (let index = 0; index < nodereads.length; index++) {
+      //     const nodeID = nodereads[index];
+      //     readNode(nodeID, (dataValue) => {
+      //       if (dataValue.value.value.toString() !== Pre_Read[index]) {
+      //         Pre_Read[index] = dataValue.value.value.toString();
+      //         if ((nodeID == 'ns=3;s="PS1_M"') || (nodeID == 'ns=3;s="PS2_M"') || (nodeID == 'ns=3;s="PS3_M"') )
+      //         {socket.emit(nodeID, dataValue.value.value.toFixed(2));}
+      //         else {
+      //           socket.emit(nodeID, dataValue.value.value);
+      //         }
+      //       }
+      //     });
+      //   }
+      // }, 200);
       const nodereads = nodeOPC.Nodereads;
-      let Pre_Read = [];
-      setInterval(() => {
-        for (let index = 0; index < nodereads.length; index++) {
-          const nodeID = nodereads[index];
-          readNode(nodeID, (dataValue) => {
-            if (dataValue.value.value.toString() !== Pre_Read[index]) {
-              Pre_Read[index] = dataValue.value.value.toString();
-              socket.emit(nodeID , dataValue.value.value);
-            }
-          });
-        }
-      }, 3000);
+      for (let index = 0; index < nodereads.length; index++) {
+        const nodeID = nodereads[index];
+        readNodeMonitor(nodeID, (dataValue) => {
+          if (
+            nodeID == 'ns=3;s="PS1_M"' ||
+            nodeID == 'ns=3;s="PS2_M"' ||
+            nodeID == 'ns=3;s="PS3_M"'
+          ) {
+            socket.emit(nodeID, dataValue.value.value.toFixed(2));
+          } 
+          else {
+            
+            socket.emit(nodeID, dataValue.value.value);
+          }
+        });
+      }
+      const nodereadsfaults = nodeOPC.Nodereadsfaults;
+      // --------------------Tracking Fault----------------//
+      for (let index = 0; index < nodereadsfaults.length; index++) {
+        const nodeIDF = nodereadsfaults[index];
+      readNodeMonitor(nodeIDF, (dataValue) => {
+        //console.log(nodeIDF)
+        // if(nodeID ==  'ns=3;s="Sys_Error"')
+        // alarm.generateFaultAlarm(dataValue.value.value,'System')
+        alarm.generateFaultAlarm(dataValue.value.value,nodeIDF)
+       
+      })}
+      // const nodereads2 = [  'ns=3;s="PS1_M"',
+      //  'ns=3;s="PS2_M"',
+      //  'ns=3;s="PS3_M"'];
+      // let Pre_Read2 = [];
+      // setInterval(() => {
+      //   for (let index = 0; index < nodereads.length; index++) {
+      //     const nodeID2 = nodereads2[index];
+      //     readNode(nodeID2, (dataValue) => {
+      //       if (dataValue.value.value.toString() !== Pre_Rea2d[index]) {
+      //         Pre_Read2[index] = dataValue.value.value.toString();
+      //         socket.emit(nodeID2, dataValue.value.value.toFixed(2));
+      //       }
+      //     });
+      //   }
+      // }, 450);
 
-      ////-------------------Speed----------//////
-
-      // readnode("ns=3;s=\"Pump_1\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_1_SPEED',dataValue.value.value.toFixed(2));
-      //  })
-      //  readnode("ns=3;s=\"Pump_2\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_2_SPEED',dataValue.value.value.toFixed(2));
-      //  })
-      //  readnode("ns=3;s=\"Pump_3\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_3_SPEED',dataValue.value.value.toFixed(2));
-      //  })
-      //  readnode("ns=3;s=\"Pump_4\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_4_SPEED',dataValue.value.value.toFixed(2));
-      //  })
-      //  readnode("ns=3;s=\"Pump_5\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_5_SPEED',dataValue.value.value.toFixed(2));
-      //  })
-      //  readnode("ns=3;s=\"Pump_6\".\"Speed\"", (dataValue) => {
-
-      //   socket.emit('Pump_6_SPEED',dataValue.value.value.toFixed(2));
-      //  })
+      
 
       //  --------------------------------socket on------------------------------------//
 
       socket.on("Button", (message) => {
-        let node = 'ns=3;s=' + message;
+        let node = "ns=3;s=" + message;
         /////SYSTEM
         console.log(message);
         WriteNode(node, DataType.Boolean, true);
@@ -263,22 +326,22 @@ const io = require("socket.io")(server, {
 
       /////--------SET SPEED-----------------------------//////////////
 
-      socket.on("SetSpeed_Pump1", (message) => {
+      socket.on("SetSpeed_Pump_1", (message) => {
         WriteNode('ns=3;s="Pump_1"."SetSpeed"', DataType.Float, message);
       });
-      socket.on("SetSpeed_Pump2", (message) => {
+      socket.on("SetSpeed_Pump_2", (message) => {
         WriteNode('ns=3;s="Pump_2"."SetSpeed"', DataType.Float, message);
       });
-      socket.on("SetSpeed_Pump3", (message) => {
+      socket.on("SetSpeed_Pump_3", (message) => {
         WriteNode('ns=3;s="Pump_3"."SetSpeed"', DataType.Float, message);
       });
-      socket.on("SetSpeed_Pump4", (message) => {
+      socket.on("SetSpeed_Pump_4", (message) => {
         WriteNode('ns=3;s="Pump_4"."SetSpeed"', DataType.Float, message);
       });
-      socket.on("SetSpeed_Pump5", (message) => {
+      socket.on("SetSpeed_Pump_5", (message) => {
         WriteNode('ns=3;s="Pump_5"."SetSpeed"', DataType.Float, message);
       });
-      socket.on("SetSpeed_Pump6", (message) => {
+      socket.on("SetSpeed_Pump_6", (message) => {
         WriteNode('ns=3;s="Pump_6"."SetSpeed"', DataType.Float, message);
       });
 
@@ -333,9 +396,7 @@ const io = require("socket.io")(server, {
         console.log("USER DISCONNECTED");
       });
     });
-    //ad(setPointTemperatureId, DataType.Int16, 22);
-    // ad("ns=3;s=\"GAuto\"", DataType.Boolean, true);
-    // detect CTRL+C and close
+    
     let running = true;
     process.on("SIGINT", async () => {
       if (!running) {
@@ -365,4 +426,45 @@ app.use(cors());
 /// khai bao ham se thuc hien khi den url
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
-app.use("/api/mqtts", mqttRouter);
+app.use("/api/data", fulldataRouter);
+app.use("/api/trenddata", trenddataRouter);
+app.use("/api/dailydata", dailydataRouter);
+// schedule mailer
+// schedule.scheduleJob('*/1 * * * *', ()=>{
+//  let senddata
+// app.get("/api/trenddata", verifyToken, async (req, res) => {
+//   try {senddata = await DataSchema.find() ///{createdAt:new Date.getDay()}
+ 
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// });
+//   console.log(senddata)
+//   var text =
+//   'Hello {{name}} please find this email as an update to you project.\n' + senddata ;
+//   console.log(text);
+//   var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//       user: 'huufuks99@gmail.com',
+//       pass: 'le6minhhuu74phuc1'
+//     }
+//   });
+  
+// var mailOptions = {
+//     from: 'huufuks99@gmail.com',
+//     to: 'phucle11299@gmail.com',
+//     subject: 'Sending Email using Node.js',
+//     text: text ,
+    
+//   };
+  
+//   transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log('Email sent: ' + info.response);
+//     }
+//   });
+// });

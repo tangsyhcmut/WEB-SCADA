@@ -31,7 +31,7 @@ function ValvePop(props) {
   }, [CONNECTION_PORT]);
   ///State
   useEffect(() => {
-    socket.on(`${props.on}_MODE`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."MODE"`, (data) => {
       console.log(data);
       if (data === 2) {
         setMode("AUTO");
@@ -39,33 +39,33 @@ function ValvePop(props) {
         setMode("MAN");
       }
     });
-    socket.on(`${props.on}_OPENED`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."OPENED"`, (data) => {
       setOpened(data);
     });
-    socket.on(`${props.on}_CLOSED`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."CLOSED"`, (data) => {
       setClosed(data);
     });
-    socket.on(`${props.on}_FAULT`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."FAULT"`, (data) => {
       setFault(data);
     });
   });
 
   ///Mode
   const btnSetClick = async () => {
-    await socket.emit(`${props.emit}_MODE`, modeSet);
+    await socket.emit(`"${props.emit}"."MODE"`, modeSet);
   };
 
   ///Set Open
   const btnOpenClick = async () => {
-    await socket.emit("Button", `${props.emit}_OPEN`);
+    await socket.emit("Button", `"${props.emit}"."OPEN"`);
   };
   ///Set Close
   const btnCloseClick = async () => {
-    await socket.emit("Button", `${props.emit}_CLOSE`);
+    await socket.emit("Button", `"${props.emit}"."CLOSE"`);
   };
   ///Set Reset
   const btnResetClick = async () => {
-    await socket.emit("Button", `${props.emit}_RESET`);
+    await socket.emit("Button", `"${props.emit}"."RESET"`);
   };
 
   return (

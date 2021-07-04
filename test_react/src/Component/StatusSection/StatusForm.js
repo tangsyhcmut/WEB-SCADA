@@ -24,27 +24,31 @@ function StatusForm() {
   ///State
   useEffect(() => {
     ////
-    socket.on("MODE", (data) => {
-      if (data === 2) {
+    socket.on('ns=3;s="System_Auto"', (data) => {
+      if (data == true) {
         setMode("AUTO");
-      } else if (data === 1) {
-        setMode("MAN");
-      }
-      console.log(mode);
+      } 
     });
-    socket.on("System_Status", (data) => {
+    socket.on('ns=3;s="System_Man"', (data) => {
+      if (data == true) {
+        setMode("MANUAL");
+      } 
+    });
+    socket.on('ns=3;s="System_Service"', (data) => {
+      if (data == true) {
+        setMode("Service");
+      } 
+    });
+    socket.on('ns=3;s="System_Status"', (data) => {
       setRun(data);
     });
-    socket.on("Pump_1_FEEDBACK", (data) => {
-      setWarn(data);
-    });
-    socket.on("Pump_1_FEEDBACK", (data) => {
+    socket.on('ns=3;s="Sys_Error"', (data) => {
       setFault(data);
     });
   });
   ///Set Start
   const btnEmer = async () => {
-    await socket.emit("Button", "Emergency");
+    await socket.emit("Button", '"M_Emergency"');
   };
 
   return (
@@ -58,11 +62,11 @@ function StatusForm() {
             src={run ? greenlighton : greenlightoff}
           />
 
-          <Label> Warning </Label>
+          {/* <Label> Warning </Label>
           <img
             className="yellowlight"
             src={warn ? yellowlighton : yellowlightoff}
-          />
+          /> */}
 
           <Label> Error </Label>
           <img className="redlight" src={fault ? redlighton : redlightoff} />

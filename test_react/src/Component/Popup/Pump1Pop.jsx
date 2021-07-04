@@ -25,7 +25,6 @@ function PumpPop(props) {
   const [feedback, setFeedback] = useState(false);
   const [fault, setFault] = useState(false);
   const [speed, setSpeed] = useState([]);
-
   const [speedSet, setSpeedSet] = useState([]);
   const [bit, setBit] = useState();
 
@@ -36,7 +35,7 @@ function PumpPop(props) {
   ///State
   useEffect(() => {
     ////
-    socket.on(`${props.on}_MODE`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."MODE"`, (data) => {
       if (data === 2) {
         setMode("AUTO");
       } else if (data === 1) {
@@ -44,15 +43,15 @@ function PumpPop(props) {
       }
     });
     ////
-    socket.on(`${props.on}_FEEDBACK`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."FEEDBACK"`, (data) => {
       setFeedback(data);
     });
     ////
-    socket.on(`${props.on}_FAULT`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."FAULT"`, (data) => {
       setFault(data);
     });
     ////
-    socket.on(`${props.on}_SPEED`, (data) => {
+    socket.on(`ns=3;s="${props.on}"."Speed"`, (data) => {
       setSpeed(data);
     });
   });
@@ -63,14 +62,14 @@ function PumpPop(props) {
   };
   ///Set Start
   const btnStartClick = async () => {
-    await socket.emit("Button", `${props.emit}_START`);
+    await socket.emit("Button", `"${props.emit}"."START"`);
   };
   ///Set Stop
   const btnStopClick = async () => {
-    await socket.emit("Button", `${props.emit}_STOP`);
+    await socket.emit("Button", `"${props.emit}"."STOP"`);
   };
   const btnResetClick = async () => {
-    await socket.emit("Button", `${props.emit}_RESET`);
+    await socket.emit("Button", `"${props.emit}"."RESET"`);
   };
 
   const btnSetSpeed = async () => {
@@ -143,6 +142,9 @@ function PumpPop(props) {
         <Col>
           <div className="pump-set">
             <FormGroup>
+            <FormGroup>
+              <Label>Running time: {speed} minutes</Label>
+            </FormGroup>
               <Label>Set speed</Label>
               <Input
                 className="setspeed"

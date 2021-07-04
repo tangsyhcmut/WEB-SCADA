@@ -5,7 +5,6 @@ import Dashboard from "./Component/Pages/Dashboard";
 import Tutorial from "./Component/Pages/Tutorial";
 import Home from "./Component/Pages/Home";
 import Landing from "./Component/Pages/Landing";
-import PowerandTem from "./Component/Pages/PowerandTem";
 import Report from "./Component/Pages/Report";
 import ProtectedRoute from "./Component/routing/ProtectedRoute";
 import AuthContextProvider from "./context/AuthContext";
@@ -33,7 +32,6 @@ function App() {
               />
               <ProtectedRoute exact path="/home" exact component={Home} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-              <ProtectedRoute exact path="/P-T" exact component={PowerandTem} />
 
               <ProtectedRoute exact path="/report" exact component={Report} />
               <ProtectedRoute

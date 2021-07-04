@@ -1,11 +1,7 @@
 table.notitable {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 50%;
-  float: right;
-  margin-top: -150px;
-  margin-right: 20px;
-  margin-bottom: 40px;
+  width :52vw;
 }
 
 table td,
@@ -24,7 +20,7 @@ table tr:hover {
 
 table th {
   padding-top: 12px;
-  padding-bottom: 12px;
+  
   text-align: center;
   background-color: black;
   color: white;

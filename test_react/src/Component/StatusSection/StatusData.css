@@ -1,9 +1,10 @@
-.state-container {
+.mid-container{
   background: linear-gradient(
     rgba(192, 192, 192, 0.7),
     rgba(255, 255, 255, 0.8)
   );
-  width: 99vw;
+  width:99vw;
+  height: 50vh;
   font-weight: bold;
   border-radius: 20px;
   box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.75);
@@ -11,28 +12,35 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.label-status {
+
+.set-container{
+  
+  width:45vw;
+  height: 50vh;
+  font-weight: bold;
+  border-radius: 20px;
+  display: inline-flex;
+  margin-left: 10px;
+}
+.report-status {
+  
   position: absolute;
   font-weight: bold;
-  margin-left: 42rem;
+  margin-left:2rem;
   margin-top: 1rem;
   font-size: 24px;
 }
 
-.motor-state-container,
-.valve-state-container {
-  display: inline-flex;
-  width: 16vw;
-  font-size: 18px;
-  margin: 60px 0px 30px 20px;
-  border-radius: 20px;
-  border: 3px solid;
+.daily-report {
+  margin-left:-26rem;
+  margin-right: 0.5rem;
+  margin-top: 3.5rem;
 }
 .pressure-container,
 .timeclean-container {
   width: 21.5vw;
   font-size: 18px;
-  margin: 60px 0px 30px 20px;
+  margin: 60px 0px 10px 10px;
   border-radius: 20px;
   border: 3px solid;
 }

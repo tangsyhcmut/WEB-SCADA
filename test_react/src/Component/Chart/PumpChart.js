@@ -31,22 +31,22 @@ const MotorChart = () => {
   ///-----GET State------
   useEffect(() => {
     ////-------Speed----///
-    socket.on("Pump_1_Speed", (data) => {
+    socket.on('ns=3;s="Pump_1"."Speed"', (data) => {
       setPump1(data);
     });
-    socket.on("Pump_2_Speed", (data) => {
+    socket.on('ns=3;s="Pump_2"."Speed"', (data) => {
       setPump2(data);
     });
-    socket.on("Pump_3_Speed", (data) => {
+    socket.on('ns=3;s="Pump_3"."Speed"', (data) => {
       setPump3(data);
     });
-    socket.on("Pump_4_Speed", (data) => {
+    socket.on('ns=3;s="Pump_4"."Speed"', (data) => {
       setPump4(data);
     });
-    socket.on("Pump_5_Speed", (data) => {
+    socket.on('ns=3;s="Pump_5"."Speed"', (data) => {
       setPump5(data);
     });
-    socket.on("Pump_6_Speed", (data) => {
+    socket.on('ns=3;s="Pump_6"."Speed"', (data) => {
       setPump6(data);
     });
   });

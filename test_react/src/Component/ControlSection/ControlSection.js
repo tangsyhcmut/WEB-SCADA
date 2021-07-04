@@ -18,25 +18,25 @@ function ControlSection() {
 
   ///btnClick
   const btnAutoClick = async () => {
-    await socket.emit("Button", "GAuto");
+    await socket.emit("Button",'"M_Auto"');
   };
   const btnManClick = async () => {
-    await socket.emit("Button", "M_Manual");
+    await socket.emit("Button",'"M_Manual"');
   };
   const btnSerClick = async () => {
-    await socket.emit("Button", "M_Ser");
+    await socket.emit("Button",'"M_Ser"');
   };
 
   const btnResetClick = async () => {
-    await socket.emit("Button", "M_Reset");
+    await socket.emit("Button", '"Sys_Reset"');
   };
 
   const btnStartClick = async () => {
-    await socket.emit("Button", "StartSystem");
+    await socket.emit("Button",'"M_StartSys"');
   };
 
   const btnStopClick = async () => {
-    await socket.emit("Button", "StopSystem");
+    await socket.emit("Button", '"M_StopSys"');
   };
 
   return (

@@ -30,7 +30,7 @@ const app = express();
 
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
-const mqttRouter = require("./routes/mqtt");
+const mqttRouter = require("./routes/data");
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT);
