@@ -22,7 +22,7 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-server.listen(process.env.PORT || 5000, () =>
+server.listen(process.env.PORT || 7000, () =>
   console.log(`Server has started.`)
 );
 
@@ -78,100 +78,103 @@ server.listen(process.env.PORT || 5000, () =>
         );
 
         monitoredItem.on("changed", (dataValue) => {
+          console.log(nodeIdToMonitor);
           return callback(dataValue);
         });
       } catch (error) {}
     }
-    readnode('ns=3;s="PS1_M"', (dataValue) => {
-      const PS = {
-        value: dataValue.value.value,
-        TimeStamp: JSON.stringify(dataValue.serverTimestamp),
-      };
-      io.on("connection", (socket) => {
-        socket.emit("MQTT", dataValue.value.value.toString());
-      });
-      if (dataValue.value.value > 5.5) {
-        //const data = new Data(PS);
-        //data.save();
-        console.log("KQ: ", JSON.stringify(dataValue.value));
-      }
-    });
-    readnode("ns=3;s=\"Clock_0.5Hz\"", (dataValue) => {
-     console.log(JSON.stringify(dataValue.value));
-    })
-    //TEST WRITE
-    var setPointTemperatureId = 'ns=3;s="Mode"';
 
-    function ad(setPointTemperatureId, Type, Wvalue) {
-      var nodesToWrite = [
-        {
-          nodeId: setPointTemperatureId,
-          attributeId: AttributeIds.Value,
-          value: {
-            value: {
-              dataType: Type,
-              value: Wvalue,
-            },
-          },
-        },
-      ];
+    readnode('ns=3;s="FTank_Level"', (dataValue) => {})
+    // readnode('ns=3;s="PS1_M"', (dataValue) => {
+    //   const PS = {
+    //     value: dataValue.value.value,
+    //     TimeStamp: JSON.stringify(dataValue.serverTimestamp),
+    //   };
+    //   io.on("connection", (socket) => {
+    //     socket.emit("MQTT", dataValue.value.value.toString());
+    //   });
+    //   if (dataValue.value.value > 5.5) {
+    //     //const data = new Data(PS);
+    //     //data.save();
+    //     console.log("KQ: ", JSON.stringify(dataValue.value));
+    //   }
+    // });
+    // readnode("ns=3;s=\"Clock_0.5Hz\"", (dataValue) => {
+    //  console.log(JSON.stringify(dataValue.value));
+    // })
+    // //TEST WRITE
+    // var setPointTemperatureId = 'ns=3;s="Mode"';
 
-      session.write(nodesToWrite, function (err, statusCodes) {
-        if (!err) {
-        }
-      });
-    }
-    io.on("connection", (socket) => {
-      socket.on("Button", (message) => {
-        let node;
-        if (message === "Auto") {
-          node = 'ns=3;s="GAuto"';
-        }
-        if (message === "OpenVA1") {
-          node = 'ns=3;s="VF"."OPEN"';
-          console.log('open')
-        }
-        if (message === "CloseVA1") {
-          node = 'ns=3;s="VF"."CLOSE"';
-          console.log('Close')
-        }
-        ad(node, DataType.Boolean, true);
-        ad(node, DataType.Boolean, false);
-      });
-      socket.on("VA1Mode", (message) => {
-        let VA1M = 5;
-        console.log(typeof message);
-        if (message === "0") {
-          VA1M = 0;
-        }
-        if (message === "2") {
-          VA1M = 2;
-        }
-        if (message === "1") {
-          VA1M = 1;
-        }
-        console.log(VA1M);
-        ad('ns=3;s="VF"."MODE"', DataType.Int16, VA1M);
-      });
-    });
-    //ad(setPointTemperatureId, DataType.Int16, 22);
-    // ad("ns=3;s=\"GAuto\"", DataType.Boolean, true);
-    // detect CTRL+C and close
-    let running = true;
-    process.on("SIGINT", async () => {
-      if (!running) {
-        return; // avoid calling shutdown twice
-      }
-      console.log("shutting down client");
-      running = false;
+    // function ad(setPointTemperatureId, Type, Wvalue) {
+    //   var nodesToWrite = [
+    //     {
+    //       nodeId: setPointTemperatureId,
+    //       attributeId: AttributeIds.Value,
+    //       value: {
+    //         value: {
+    //           dataType: Type,
+    //           value: Wvalue,
+    //         },
+    //       },
+    //     },
+    //   ];
 
-      await subscription.terminate();
+    //   session.write(nodesToWrite, function (err, statusCodes) {
+    //     if (!err) {
+    //     }
+    //   });
+    // }
+    // io.on("connection", (socket) => {
+    //   socket.on("Button", (message) => {
+    //     let node;
+    //     if (message === "Auto") {
+    //       node = 'ns=3;s="GAuto"';
+    //     }
+    //     if (message === "OpenVA1") {
+    //       node = 'ns=3;s="VF"."OPEN"';
+    //       console.log('open')
+    //     }
+    //     if (message === "CloseVA1") {
+    //       node = 'ns=3;s="VF"."CLOSE"';
+    //       console.log('Close')
+    //     }
+    //     ad(node, DataType.Boolean, true);
+    //     ad(node, DataType.Boolean, false);
+    //   });
+    //   socket.on("VA1Mode", (message) => {
+    //     let VA1M = 5;
+    //     console.log(typeof message);
+    //     if (message === "0") {
+    //       VA1M = 0;
+    //     }
+    //     if (message === "2") {
+    //       VA1M = 2;
+    //     }
+    //     if (message === "1") {
+    //       VA1M = 1;
+    //     }
+    //     console.log(VA1M);
+    //     ad('ns=3;s="VF"."MODE"', DataType.Int16, VA1M);
+    //   });
+    // });
+    // //ad(setPointTemperatureId, DataType.Int16, 22);
+    // // ad("ns=3;s=\"GAuto\"", DataType.Boolean, true);
+    // // detect CTRL+C and close
+    // let running = true;
+    // process.on("SIGINT", async () => {
+    //   if (!running) {
+    //     return; // avoid calling shutdown twice
+    //   }
+    //   console.log("shutting down client");
+    //   running = false;
 
-      await session.close();
-      await client.disconnect();
-      console.log("Done");
-      process.exit(0);
-    });
+    //   await subscription.terminate();
+
+    //   await session.close();
+    //   await client.disconnect();
+    //   console.log("Done");
+    //   process.exit(0);
+    // });
   } catch (err) {
     console.log(chalk.bgRed.white("Error" + err.message));
     console.log(err);

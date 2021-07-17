@@ -27,6 +27,7 @@ import Pipe_fork_down from "../img/Pipe_fork_down.png";
 
 // Sensor
 import Sensor from "../img/PressureSensor.svg";
+import FlowMeter from "../img/Flowmeter.svg";
 
 // Pump
 import Pump from "../img/Pump.png";
@@ -597,7 +598,10 @@ function MainSection2() {
             <img className="pipe35" src={Pipe_alight} />
             <img className="pipe34" src={Pipe_RT} />
             <p className="sensor1value">Pressure: {pressure1} bar </p>
-            <img title=" Pressure Sensor " className="sensor1" src={Sensor} />
+           <img title=" Pressure Sensor " className="sensor1" src= {Sensor} />
+           <p className="flow1value">Flow:{pressure1}m3/s</p>
+           <img title=" Flow Sensor " className="flow1" src= {FlowMeter} />
+
           </div>
         </div>
         {/* ---------------------------Tank3----------- */}
@@ -708,6 +712,8 @@ function MainSection2() {
           {/* -------LevelTank3----- */}
           <p className="sensor2value"> Pressure: {pressure2} bar </p>
           <img title=" Pressure Sensor " className="sensor2" src={Sensor} />
+          <p className="flow2value">Flow:{pressure1}m3/s</p>
+           <img title=" Flow Sensor " className="flow2" src= {FlowMeter} />
         </div>
         {/* -------------Tank4-------- */}
         <div className="tank4-container">
@@ -807,6 +813,7 @@ function MainSection2() {
 
               <img title=" Pressure Sensor " className="sensor3" src={Sensor} />
               <p className="sensor3value">Pressure: {pressure3} bar </p>
+             
             </div>
             {/* --------after ROFilter------------ */}
 
@@ -841,6 +848,8 @@ function MainSection2() {
               <img title="RO Filter 2" className="rofilter2" src={ROFilter} />
               <img title="RO Filter 3" className="rofilter3" src={ROFilter} />
               <img title="RO Filter 4" className="rofilter4" src={ROFilter} />
+              <tr className="flow3value">Flow:{pressure1}m3/s</tr>
+           <img title=" Flow Sensor " className="flow3" src= {FlowMeter} />
               {/* <p className='label-ro-filter' > RO FILTER </p> */}
             </div>
           </div>

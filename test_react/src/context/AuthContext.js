@@ -15,12 +15,12 @@ const AuthContextProvider = ({ children }) => {
 
   // Authenticate user
   const loadUser = async () => {
-    if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
+    if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {           // kiem tra voi server xem client da login chua
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]); /// set token cho tat ca cac du lieu sau khi login
     }
 
     try {
-      const response = await axios.get(`${apiUrl}/auth`); // kiem tra voi server xem client da login chua
+      const response = await axios.get(`${apiUrl}/auth`); // kiem tra lai voi server xem client da dung chua
       if (response.data.success) {
         dispatch({
           type: "SET_AUTH",

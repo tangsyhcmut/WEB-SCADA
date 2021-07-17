@@ -1,4 +1,4 @@
-const DataAlarm = require('./models/DataAlarm')
+const dataSchema = require('./models/DataSchema')
 let now = new Date();
 function formatted_date(time)
 {
@@ -19,7 +19,7 @@ module.exports.generateFaultAlarm = function (data,id) {
 					type: "Fault",
 					warnMsg: id +' is fault!!!'
 				}
-				const data_alarm= new DataAlarm(warnObj);
+				const data_alarm= new dataSchema.AlarmData(warnObj);
 				data_alarm.save();	
 	}
 }

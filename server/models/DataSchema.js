@@ -14,10 +14,19 @@ function formatted_date()
 }
 
 const TestData = new Schema({
-    value: { type: Number, require: true},
-
+    PS1: { type: Number, require: true},
+    PS2: { type: Number, require: true},
+    PS3: { type: Number, require: true},
     dateCreated :{type:String,
         default:formatted_date(now)}
 });
 
-module.exports = mongoose.model('PS1_Report', TestData);
+const AlarmData = new Schema({
+    type: { type: String, require: true},
+    warnMsg:{ type: String, require: true},
+    warnTime:{type:String,
+        default:formatted_date(now)}
+});
+
+module.exports.TestData = mongoose.model('PS1_Report', TestData);
+module.exports.AlarmData = mongoose.model('Alarm_Report', AlarmData);

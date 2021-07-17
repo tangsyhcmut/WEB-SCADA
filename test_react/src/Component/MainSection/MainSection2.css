@@ -452,6 +452,19 @@
   margin-left: 45rem;
   margin-top: 1.8rem;
 }
+.flow1{
+  position: absolute;
+  height: 3.2rem;
+  width: 3rem;
+  margin-left: 53rem;
+  margin-top: 13.3rem;
+}
+.flow1value{
+  position:absolute;
+  display:inline-flex;
+  margin-top: 17rem;
+  margin-left: 53rem;
+}
 .tank2 {
   position: absolute;
   height: 15rem;
@@ -638,6 +651,19 @@
   width: 3rem;
   margin-left: 64.5rem;
   margin-top: 1.8rem;
+}
+.flow2{
+  position: absolute;
+  height: 3.2rem;
+  width: 3rem;
+  margin-left: 73.2rem;
+  margin-top: 13.3rem;
+}
+.flow2value{
+  position:absolute;
+  display:inline-flex;
+  margin-top: 17rem;
+  margin-left: 73.5rem;
 }
 .tank3 {
   position: absolute;
@@ -879,6 +905,19 @@
   width: 3rem;
   margin-left: 67rem;
   margin-top: 22.4rem;
+}
+.flow3{
+  position: absolute;
+  height: 3.3rem;
+  width: 3rem;
+  margin-left: 41.5rem;
+  margin-top: 21.3rem;
+}
+.flow3value{
+  position:absolute;
+  
+  margin-top: 20rem;
+  margin-left:41.5rem;
 }
 /* --------------------------after RO Filter-------------- */
 .pipe74 {

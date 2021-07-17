@@ -153,35 +153,55 @@ const io = require("socket.io")(server, {
     //   // }
     //  });
     //----------REPORT------------------
-    // const maxAge = 0;
-    // const nodeToRead = {
-    //   nodeId: 'ns=3;s="PS1_M"',
-    //   attributeId: AttributeIds.Value,
-    // };
-    // let flag = 0;
-    // let flag2 = 0;
-    // let dataV = 0;
+    const maxAge = 0;
+    const nodePS1 = {
+      nodeId: 'ns=3;s="PS1_M"',
+      attributeId: AttributeIds.Value,
+    };
+    const nodePS2 = {
+      nodeId: 'ns=3;s="PS2_M"',
+      attributeId: AttributeIds.Value,
+    };
+    const nodePS3 = {
+      nodeId: 'ns=3;s="PS3_M"',
+      attributeId: AttributeIds.Value,
+    };
+    let flag = 0;
 
-    // setInterval(async () => {
-    //   flag = flag + 1;
-    //   const dataValue = await session.read(nodeToRead, maxAge);
-    //   dataV = dataValue.value.value;
-    //   if (dataV > 5.5) {
-    //     flag2 = flag2 + 1;
-    //   } else {
-    //     flag2 = 0;
-    //   }
-    //   if (flag > 15 || flag2 > 5) {
-    //     const PS = {
-    //       value: dataValue.value.value,
-    //       // TimeStamp: JSON.stringify(dataValue.serverTimestamp),
-    //     };
-    //     const data = new DataSchema(PS);
-    //     data.save();
-    //     flag = 0;
-    //   }
-    // }, 1000);
+    setInterval(async () => {
+      flag = flag + 1;
+      const dataPS1 = await session.read(nodePS1, maxAge);
+      const dataPS2 = await session.read(nodePS2, maxAge);
+      const dataPS3 = await session.read(nodePS3, maxAge);
 
+      if (flag > 3 ) {
+        const PS = {
+          PS1: dataPS1.value.value,
+          PS2: dataPS1.value.value,
+          PS3: dataPS1.value.value,
+          // TimeStamp: JSON.stringify(dataValue.serverTimestamp),
+        };
+        const data = new DataSchema.TestData(PS);
+        data.save();
+        flag = 0;
+      }
+    }, 1000);
+    //****************-------FAILT ALARM************************************* */
+    const nodereadsfaults = nodeOPC.Nodereadsfaults;
+    // --------------------Tracking Fault----------------//
+    for (let index = 0; index < nodereadsfaults.length; index++) {
+      const nodeIDF = nodereadsfaults[index];
+      let Str = nodeIDF.replace('"',''); 
+      Str = Str.replace('ns=3;s=',''); 
+      Str = Str.replace('_Fault"','');
+      console.log(Str);
+      readNodeMonitor(nodeIDF, (dataValue) => {
+        //console.log(nodeIDF)
+        // if(nodeID ==  'ns=3;s="Sys_Error"')
+        // alarm.generateFaultAlarm(dataValue.value.value,'System')
+        alarm.generateFaultAlarm(dataValue.value.value, Str);
+      });
+    }
     //--------Emit DATA------------------------------////
     io.on("connection", (socket) => {
       console.log(socket.id);
@@ -220,18 +240,7 @@ const io = require("socket.io")(server, {
           }
         });
       }
-      //****************-------FAILT ALARM************************************* */
-      const nodereadsfaults = nodeOPC.Nodereadsfaults;
-      // --------------------Tracking Fault----------------//
-      for (let index = 0; index < nodereadsfaults.length; index++) {
-        const nodeIDF = nodereadsfaults[index];
-        readNodeMonitor(nodeIDF, (dataValue) => {
-          //console.log(nodeIDF)
-          // if(nodeID ==  'ns=3;s="Sys_Error"')
-          // alarm.generateFaultAlarm(dataValue.value.value,'System')
-          alarm.generateFaultAlarm(dataValue.value.value, nodeIDF);
-        });
-      }
+
       // const nodereads2 = [  'ns=3;s="PS1_M"',
       //  'ns=3;s="PS2_M"',
       //  'ns=3;s="PS3_M"'];
