@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-
 import Dashboard from "./Component/Pages/Dashboard";
 import Tutorial from "./Component/Pages/Tutorial";
 import Home from "./Component/Pages/Home";
@@ -8,7 +7,6 @@ import Landing from "./Component/Pages/Landing";
 import Report from "./Component/Pages/Report";
 import ProtectedRoute from "./Component/routing/ProtectedRoute";
 import AuthContextProvider from "./context/AuthContext";
-import MqttContextProvider from "./context/MqttContext";
 import PlanConTextProvider from "./context/PlanContext";
 import Auth from "./Features/Auth/Auth";
 
@@ -16,7 +14,6 @@ function App() {
   return (
     <AuthContextProvider>
       <PlanConTextProvider>
-        <MqttContextProvider>
           <Router>
             <Switch>
               <Route exact path="/" component={Landing} />
@@ -32,15 +29,10 @@ function App() {
               />
               <ProtectedRoute exact path="/home" exact component={Home} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-
               <ProtectedRoute exact path="/report" exact component={Report} />
-              <ProtectedRoute
-                exact path="/tutorial"
-                exact component={Tutorial}
-              />
+              <ProtectedRoute exact path="/tutorial"exact component={Tutorial}/>
             </Switch>
           </Router>
-        </MqttContextProvider>
       </PlanConTextProvider>
     </AuthContextProvider>
   );

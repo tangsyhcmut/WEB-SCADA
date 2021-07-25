@@ -42,12 +42,6 @@ function Navbar() {
                 Dashboard
               </NavLink>
             </li>
-            {/* <li className='nav-item'>
-                    <NavLink to='/P-T' className ='nav-NavLink' >
-                    <span class="material-icons md-48">settings_power</span>  
-                      Power-Temperature
-                    </NavLink>
-                  </li> */}
             <li className="nav-item">
               <NavLink to="/report" className="nav-NavLink">
                 <span class="material-icons md-48">description</span>
@@ -62,10 +56,7 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              {/* <label>Welcome {username}</label> */}
-
               <Button
-                // className ='nav-NavLink'
                 className="logout-btn"
                 onClick={logout}
               >

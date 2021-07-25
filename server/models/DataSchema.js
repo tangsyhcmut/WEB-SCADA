@@ -14,9 +14,9 @@ function formatted_date()
 }
 
 const TestData = new Schema({
-    PS1: { type: Number, require: true},
-    PS2: { type: Number, require: true},
-    PS3: { type: Number, require: true},
+    F1: { type: Number, require: true},
+    F2: { type: Number, require: true},
+    F3: { type: Number, require: true},
     dateCreated :{type:String,
         default:formatted_date(now)}
 });
@@ -28,5 +28,5 @@ const AlarmData = new Schema({
         default:formatted_date(now)}
 });
 
-module.exports.TestData = mongoose.model('PS1_Report', TestData);
+module.exports.TestData = mongoose.model('Flow_Report', TestData);
 module.exports.AlarmData = mongoose.model('Alarm_Report', AlarmData);

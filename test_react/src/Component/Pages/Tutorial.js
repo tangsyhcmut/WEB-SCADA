@@ -39,7 +39,7 @@ function Tutorial() {
         <Form className="tutorial-diagram">
           <img className="simit" src={system} />
           <a>
-            Vận hành bể lọc áp gồm 3 pha: pha lọc (service), rửa ngược (
+            Vận hành bể lọc áp gồm 3 pha: pha lọc (Service), rửa ngược (
             Backwash) và xả bỏ (Rinse).
           </a>
         </Form>

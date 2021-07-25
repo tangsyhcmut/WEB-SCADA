@@ -9,7 +9,7 @@ Content-Type: application/json
 
 
 
-GET http://localhost:5000/api/mydata
+GET http://localhost:5000/api/dailydata
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGE0Yzc4MmZkNDZhMjMzMmMyMzBhMDciLCJpYXQiOjE2MjE0MTQwMDR9.Yu4Vmm8UOJvUF1mvEVkfJbNfmL027cefISeYlvBFkLE
 
 

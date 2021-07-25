@@ -8,7 +8,6 @@ import {
   Input,
   Label,
 } from "reactstrap";
-// import Select from 'react-select'
 
 import greenlightoff from "../img/Off_Green.png";
 import redlightoff from "../img/Off_Red.png";
@@ -26,7 +25,6 @@ function PumpPop(props) {
   const [fault, setFault] = useState(false);
   const [speed, setSpeed] = useState([]);
   const [speedSet, setSpeedSet] = useState([]);
-  const [bit, setBit] = useState();
 
   /// Connect
   useEffect(() => {

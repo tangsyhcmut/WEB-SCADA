@@ -19,10 +19,6 @@ function CleanPop() {
   const [time3, setTime3] = useState(null);
   const [time4, setTime4] = useState(null);
 
-  const [pressure1, setPressure1] = useState(null);
-  const [pressure2, setPressure2] = useState(null);
-  const [pressure3, setPressure3] = useState(null);
-
   /// Connect io
   useEffect(() => {
     socket = io(CONNECTION_PORT);
@@ -40,15 +36,7 @@ function CleanPop() {
   const btnSet4 = async () => {
     await socket.emit("Convert45", time4);
   };
-  const btnSet5 = async () => {
-    await socket.emit("SetPressure_1", pressure1);
-  };
-  const btnSet6 = async () => {
-    await socket.emit("SetPressure_2", pressure2);
-  };
-  const btnSet7 = async () => {
-    await socket.emit("SetPressure_3", pressure3);
-  };
+
   return (
     <Container className="motorpop">
       <Form>
@@ -106,48 +94,6 @@ function CleanPop() {
                 onChange={(e) => setTime4(e.target.value*1000)}
               />
               <Button className="btnset" onClick={btnSet4}>
-                {" "}
-                Set{" "}
-              </Button>
-            </FormGroup>
-          </div>
-        </Col>
-        <Col>
-          <div className="motor-status">
-            <Label>Set Pressure </Label>
-
-            <FormGroup>
-              <Label>Filter Tank 1 </Label>
-              <Input
-                className="setspeed"
-                placeholder="0 bar"
-                onChange={(e) => setPressure1(e.target.value)}
-              />
-              <Button className="btnset" onClick={btnSet5}>
-                {" "}
-                Set{" "}
-              </Button>
-            </FormGroup>
-            <FormGroup>
-              <Label>Filter Tank 2 </Label>
-              <Input
-                className="setspeed"
-                placeholder="0 bar"
-                onChange={(e) => setPressure2(e.target.value)}
-              />
-              <Button className="btnset" onClick={btnSet6}>
-                {" "}
-                Set{" "}
-              </Button>
-            </FormGroup>
-            <FormGroup className="RO">
-              <Label> RO </Label>
-              <Input
-                className="setspeed"
-                placeholder="0 bar"
-                onChange={(e) => setPressure3(e.target.value)}
-              />
-              <Button className="btnset" onClick={btnSet7}>
                 {" "}
                 Set{" "}
               </Button>

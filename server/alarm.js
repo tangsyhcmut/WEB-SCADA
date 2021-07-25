@@ -1,4 +1,4 @@
-const dataSchema = require('./models/DataSchema')
+const dataSchema = require("./models/DataSchema")
 let now = new Date();
 function formatted_date(time)
 {

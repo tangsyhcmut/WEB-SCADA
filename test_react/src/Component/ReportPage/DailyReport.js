@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useTable, usePagination } from "react-table";
 import axios from "axios";
-import { COLUMNS } from "./Columns";
+import { COLUMNS } from "./DailyColumns";
 import "./Table.css";
 import { ExportCSV } from "./Export";
 import { apiUrl } from "../../context/constants";
@@ -14,6 +14,7 @@ export const ReportDaily = () => {
     try {
       const response = await axios.get(`${apiUrl}/dailydata`);
       if (response.data.success) {
+        console.log(response.data.sendDailyData);
         setReportList(response.data.sendDailyData); ///// Data từ backend
       }
     } catch (error) {

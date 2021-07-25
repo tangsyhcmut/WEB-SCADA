@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ControlSection.css";
 import io from "socket.io-client";
-import { Label, Input, Container, Row, Button, FormGroup } from "reactstrap";
-import CleanPop from "../Popup/CleanPop";
+import { Container, Row, Button, FormGroup } from "reactstrap";
+
 
 let socket;
 const CONNECTION_PORT = "localhost:5000/";

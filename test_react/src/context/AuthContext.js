@@ -15,7 +15,7 @@ const AuthContextProvider = ({ children }) => {
 
   // Authenticate user
   const loadUser = async () => {
-    if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {           // kiem tra voi server xem client da login chua
+    if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {           // kiem tra xem client da login chua
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]); /// set token cho tat ca cac du lieu sau khi login
     }
 

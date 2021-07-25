@@ -1,19 +1,11 @@
 export const COLUMNS = [
     {
         Header: 'Time',
-        accessor: 'dateCreated'
+        accessor: 'warnTime'
     },
     {
-        Header: 'Flow Tank A',
-        accessor: 'F1'
-    },
-    {
-        Header: 'Flow Tank B',
-        accessor: 'F2'
-    },
-    {
-        Header: 'Flow Tank C',
-        accessor: 'F3'
+        Header: 'Message',
+        accessor: 'warnMsg'
     }
     // },
     // {

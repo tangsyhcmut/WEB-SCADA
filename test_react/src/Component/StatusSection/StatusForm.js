@@ -62,12 +62,6 @@ function StatusForm() {
             src={run ? greenlighton : greenlightoff}
           />
 
-          {/* <Label> Warning </Label>
-          <img
-            className="yellowlight"
-            src={warn ? yellowlighton : yellowlightoff}
-          /> */}
-
           <Label> Error </Label>
           <img className="redlight" src={fault ? redlighton : redlightoff} />
         </div>

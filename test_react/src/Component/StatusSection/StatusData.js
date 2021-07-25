@@ -11,7 +11,7 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import DailyReport from '../ReportPage/DailyReport'
+import DailyReport from "../ReportPage/DailyReport";
 
 // import Select from 'react-select'
 import io from "socket.io-client";
@@ -61,16 +61,16 @@ function StatusData() {
     <div className="mid-container">
       <h2 className="report-status">Daily Report</h2>
       <div className="daily-report">
-       < DailyReport />  
-       </div>
-       <Form className="set-container">
-       <h2 className="report-status">Parameters Setting</h2>
+        <DailyReport />
+      </div>
+      <Form className="set-container">
+        <h2 className="report-status">Parameters Setting</h2>
         <FormGroup className="timeclean-container">
           <Row>
             <ul className="time-clean">
-              Time clean
-              <li>Clean Forward: {timeRinse / 1000} minutes</li>
-              <li>Clean Reverse: {timeBackwash / 1000} minutes</li>
+              Time Clean
+              <li>Time Backwash: {timeRinse / 1000} minutes</li>
+              <li>Time Rinse: {timeBackwash / 1000} minutes</li>
             </ul>
           </Row>
           <Row>
@@ -84,18 +84,20 @@ function StatusData() {
         <FormGroup className="pressure-container">
           <Row>
             <ul className="set-pressure">
-              Pressure Set
+              Realtime Data
               <br></br>
               <br></br>
               <li>Filter Tank 1 Pressure: {pressure1} Bar</li>
-              <br></br>
               <li>Filter Tank 2 Pressure: {pressure2} Bar</li>
-              <br></br>
               <li>RO Pressure:{pressure3} Bar</li>
+              <br></br>
+              <li>Filter Tank 1 Flow: {pressure1} m3/s</li>
+              <li>Filter Tank 2 Flow: {pressure2} m3/s</li>
+              <li>RO Flow:{pressure3} m3/s</li>
             </ul>
           </Row>
         </FormGroup>
-        </Form>
+      </Form>
     </div>
   );
 }

@@ -251,14 +251,14 @@
   position: absolute;
   height: 2rem;
   width: 2rem;
-  margin-left: 46.6rem;
+  margin-left: 47.6rem;
   margin-top: 14rem;
 }
 .pipe18 {
   position: absolute;
   height: 11rem;
   width: 1rem;
-  margin-left: 47.5rem;
+  margin-left: 48.5rem;
   margin-top: 3.5rem;
 }
 
@@ -285,42 +285,42 @@
   position: absolute;
   height: 2.2rem;
   width: 2.2rem;
-  margin-left: 38.4rem;
+  margin-left: 39.4rem;
   margin-top: 11rem;
 }
 .pipe20 {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  margin-left: 38.5rem;
+  margin-left: 39.5rem;
   margin-top: 2rem;
 }
 .pipe21 {
   position: absolute;
   height: 1rem;
   width: 2rem;
-  margin-left: 40rem;
+  margin-left: 41rem;
   margin-top: 2.2rem;
 }
 .pipe22 {
   position: absolute;
   height: 1rem;
   width: 2rem;
-  margin-left: 40rem;
+  margin-left: 41rem;
   margin-top: 11.6rem;
 }
 .valve1 {
   position: absolute;
   height: 4rem;
   width: 3rem;
-  margin-left: 41rem;
+  margin-left: 42rem;
   margin-top: -0.2rem;
 }
 .valve2 {
   position: absolute;
   height: 4rem;
   width: 3rem;
-  margin-left: 41rem;
+  margin-left: 42rem;
   margin-top: 9.1rem;
 }
 .pipe23 {
@@ -456,14 +456,14 @@
   position: absolute;
   height: 3.2rem;
   width: 3rem;
-  margin-left: 53rem;
+  margin-left: 36rem;
   margin-top: 13.3rem;
 }
 .flow1value{
   position:absolute;
   display:inline-flex;
   margin-top: 17rem;
-  margin-left: 53rem;
+  margin-left: 36rem;
 }
 .tank2 {
   position: absolute;
@@ -656,14 +656,14 @@
   position: absolute;
   height: 3.2rem;
   width: 3rem;
-  margin-left: 73.2rem;
+  margin-left: 53rem;
   margin-top: 13.3rem;
 }
 .flow2value{
   position:absolute;
   display:inline-flex;
   margin-top: 17rem;
-  margin-left: 73.5rem;
+  margin-left: 53rem;
 }
 .tank3 {
   position: absolute;
@@ -769,8 +769,8 @@
 .pipe63 {
   position: absolute;
   height: 1rem;
-  width: 15rem;
-  margin-left: 66rem;
+  width: 12rem;
+  margin-left: 69rem;
   margin-top: 30.5rem;
 }
 /* --------After Filter------------------------------------------------ */
@@ -799,7 +799,7 @@
 .pipe67 {
   position: absolute;
   height: 1rem;
-  width: 5rem;
+  width: 2rem;
   margin-left: 72rem;
   margin-top: 26rem;
 }
@@ -850,7 +850,7 @@
   position: absolute;
   height: 2rem;
   width: 2rem;
-  margin-left: 69.3rem;
+  margin-left: 71.3rem;
   margin-top: 26rem;
 }
 
@@ -858,7 +858,7 @@
   position: absolute;
   height: 2rem;
   width: 2rem;
-  margin-left: 69.7rem;
+  margin-left: 71.7rem;
   margin-top: 29.7rem;
 }
 .pipe69 {
@@ -879,7 +879,7 @@
   position: absolute;
   height: 3rem;
   width: 1rem;
-  margin-left: 69.8rem;
+  margin-left: 71.8rem;
   margin-top: 27rem;
 }
 .pipe72 {
@@ -903,21 +903,21 @@
   position: absolute;
   height: 4rem;
   width: 3rem;
-  margin-left: 67rem;
+  margin-left: 66.5rem;
   margin-top: 22.4rem;
 }
 .flow3{
   position: absolute;
   height: 3.3rem;
   width: 3rem;
-  margin-left: 41.5rem;
-  margin-top: 21.3rem;
+  margin-left: 67.2rem;
+  margin-top: 24.3rem;
 }
 .flow3value{
   position:absolute;
   
-  margin-top: 20rem;
-  margin-left:41.5rem;
+  margin-top: 23rem;
+  margin-left:67.5rem;
 }
 /* --------------------------after RO Filter-------------- */
 .pipe74 {
