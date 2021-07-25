@@ -44,7 +44,7 @@ function CleanPop() {
           <Col>
             <Label>Time Clean</Label>
             <FormGroup>
-              <Label>Clean Forward </Label>
+              <Label>Clean Backwash</Label>
               <Input
                 className="setspeed"
                 placeholder="0 minutes"
@@ -56,7 +56,7 @@ function CleanPop() {
               </Button>
             </FormGroup>
             <FormGroup>
-              <Label> Clean Reverse </Label>
+              <Label> Clean Rinse </Label>
               <Input
                 className="setspeed"
                 placeholder="0 minutes"

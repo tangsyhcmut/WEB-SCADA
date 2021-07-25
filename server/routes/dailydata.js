@@ -19,7 +19,7 @@ router.get("/", verifyToken, async (req, res) => {
   try {
     const DailyData = await Data.AlarmData.find({ warnTime: { $regex: compare } }); ///{createdAt:new Date.getDay()}
     const sendDailyData= DailyData.reverse()
-    console.log(sendDailyData)
+
     res.json({ success: true, sendDailyData });
   } catch (error) {
     console.log(error);

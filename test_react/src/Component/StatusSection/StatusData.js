@@ -22,6 +22,9 @@ function StatusData() {
   const [pressure1, setPressure1] = useState(null);
   const [pressure2, setPressure2] = useState(null);
   const [pressure3, setPressure3] = useState(null);
+  const [flow1, setFlow1] = useState(null);
+  const [flow2, setFlow2] = useState(null);
+  const [flow3, setFlow3] = useState(null);
 
   const [timecovert23, setTimecovert23] = useState(null);
   const [timecovert45, setTimecovert45] = useState(null);
@@ -34,14 +37,23 @@ function StatusData() {
   }, [CONNECTION_PORT]);
   ///State
   useEffect(() => {
-    socket.on('ns=3;s="DataSystem"."PS_Filter1_Set"', (data) => {
+    socket.on('ns=3;s="PS1_M"', (data) => {
       setPressure1(data);
     });
-    socket.on('ns=3;s="DataSystem"."PS_Filter2_Set"', (data) => {
+    socket.on('ns=3;s="PS2_M"', (data) => {
       setPressure2(data);
     });
-    socket.on('ns=3;s="DataSystem"."PS_RO_Set"', (data) => {
+    socket.on('ns=3;s="PS3_M"', (data) => {
       setPressure3(data);
+    });
+    socket.on('ns=3;s="FLow_FA_IN"', (data) => {
+      setFlow1(data);
+    });
+    socket.on('ns=3;s="FLow_FB_IN"', (data) => {
+      setFlow2(data);
+    });
+    socket.on('ns=3;s="FLow_RO_IN"', (data) => {
+      setFlow3(data);
     });
     socket.on('ns=3;s="DataSystem"."TimeInvertPump23"', (data) => {
       setTimecovert23(data);
@@ -91,9 +103,9 @@ function StatusData() {
               <li>Filter Tank 2 Pressure: {pressure2} Bar</li>
               <li>RO Pressure:{pressure3} Bar</li>
               <br></br>
-              <li>Filter Tank 1 Flow: {pressure1} m3/s</li>
-              <li>Filter Tank 2 Flow: {pressure2} m3/s</li>
-              <li>RO Flow:{pressure3} m3/s</li>
+              <li>Filter Tank 1 Flow: {flow1} m3/s</li>
+              <li>Filter Tank 2 Flow: {flow2} m3/s</li>
+              <li>RO Flow:{flow3} m3/s</li>
             </ul>
           </Row>
         </FormGroup>

@@ -8,9 +8,10 @@ const Data = require("../models/DataSchema");
 // @access Private
 
 router.get("/", verifyToken, async (req, res) => {
-  try {const TrendData = await Data.find().limit(10) ///{createdAt:new Date.getDay()}
-  const sendTrendData = TrendData.reverse()
+  try {const TrendData = await Data.PressureData.find() ///{createdAt:new Date.getDay()}
+  const sendTrendData = TrendData.reverse().slice(1,15)
   res.json({ success: true, sendTrendData})
+  console.log(sendTrendData)
   
   } catch (error) {
     console.log(error);

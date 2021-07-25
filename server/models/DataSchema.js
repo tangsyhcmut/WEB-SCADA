@@ -21,6 +21,14 @@ const TestData = new Schema({
         default:formatted_date(now)}
 });
 
+const PressData = new Schema({
+    P1: { type: Number, require: true},
+    P2: { type: Number, require: true},
+    P3: { type: Number, require: true},
+    dateCreated :{type:String,
+        default:formatted_date(now)}
+});
+
 const AlarmData = new Schema({
     type: { type: String, require: true},
     warnMsg:{ type: String, require: true},
@@ -29,4 +37,5 @@ const AlarmData = new Schema({
 });
 
 module.exports.TestData = mongoose.model('Flow_Report', TestData);
+module.exports.PressureData = mongoose.model('Press_Report', PressData);
 module.exports.AlarmData = mongoose.model('Alarm_Report', AlarmData);

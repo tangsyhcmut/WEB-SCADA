@@ -183,12 +183,12 @@ function MainSection2() {
   // const [levelTankCHigh, setlevelTankCHigh] = useState(false);
   // const [levelTankCLow, setlevelTankCLow] = useState(false);
   //// Pressure
-  const [pressure1, setPressure1] = useState();
-  const [pressure2, setPressure2] = useState();
-  const [pressure3, setPressure3] = useState();
-  const [flow1, setFlow1] = useState();
-  const [flow2, setFlow2] = useState();
-  const [flow3, setFlow3] = useState();
+  const [pressure1, setPressure1] = useState(0);
+  const [pressure2, setPressure2] = useState(0);
+  const [pressure3, setPressure3] = useState(0);
+  const [flow1, setFlow1] = useState(0);
+  const [flow2, setFlow2] = useState(0);
+  const [flow3, setFlow3] = useState(0);
   ////SPEED
   const [speedPump1, setSpeedPump1] = useState(null);
   const [speedPump2, setSpeedPump2] = useState(null);
@@ -305,13 +305,13 @@ function MainSection2() {
     socket.on('ns=3;s="PS3_M"', (data) => {
       setPressure3(data);
     });
-    socket.on('ns=3;s="Flow_FA_M"', (data) => {
+    socket.on('ns=3;s="FLow_FA_IN"', (data) => {
       setFlow1(data);
     });
-    socket.on('ns=3;s="Flow_FB_M"', (data) => {
+    socket.on('ns=3;s="FLow_FB_IN"', (data) => {
       setFlow2(data);
     });
-    socket.on('ns=3;s="Flow_RO_M"', (data) => {
+    socket.on('ns=3;s="FLow_RO_IN"', (data) => {
       setFlow3(data);
     });
     socket.on('ns=3;s="UV_CMD"', (data) => {
@@ -324,9 +324,11 @@ function MainSection2() {
     });
     socket.on('ns=3;s="Pump_2"."FAULT"', (data) => {
       setFaultPump2(data);
+     
     });
     socket.on('ns=3;s="Pump_3"."FAULT"', (data) => {
       setFaultPump3(data);
+      console.log(faultPump3)
     });
     socket.on('ns=3;s="Pump_4"."FAULT"', (data) => {
       setFaultPump4(data);
@@ -611,7 +613,7 @@ function MainSection2() {
             <img className="pipe34" src={Pipe_RT} />
             <p className="sensor1value">Pressure: {pressure1} bar </p>
            <img title=" Pressure Sensor " className="sensor1" src= {Sensor} />
-           <p className="flow1value">Flow:{flow1}m3/s</p>
+           <p className="flow1value">Flow:{flow1}m3/h</p>
            <img title=" Flow Sensor " className="flow1" src= {FlowMeter} />
 
           </div>
@@ -724,7 +726,7 @@ function MainSection2() {
           {/* -------LevelTank3----- */}
           <p className="sensor2value"> Pressure: {pressure2} bar </p>
           <img title=" Pressure Sensor " className="sensor2" src={Sensor} />
-          <p className="flow2value">Flow:{flow2}m3/s</p>
+          <p className="flow2value">Flow:{flow2}m3/h</p>
            <img title=" Flow Sensor " className="flow2" src= {FlowMeter} />
         </div>
         {/* -------------Tank4-------- */}
@@ -860,7 +862,7 @@ function MainSection2() {
               <img title="RO Filter 2" className="rofilter2" src={ROFilter} />
               <img title="RO Filter 3" className="rofilter3" src={ROFilter} />
               <img title="RO Filter 4" className="rofilter4" src={ROFilter} />
-              <tr className="flow3value">Flow:{flow3}m3/s</tr>
+              <tr className="flow3value">Flow:{flow3}m3/h</tr>
            <img title=" Flow Sensor " className="flow3" src= {FlowMeter} />
               {/* <p className='label-ro-filter' > RO FILTER </p> */}
             </div>

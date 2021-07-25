@@ -11,7 +11,7 @@ router.get("/", verifyToken, async (req, res) => {
   
   try {
     
-    const FullData = await Data.find(); ///{createdAt:new Date.getDay()}
+    const FullData = await Data.TestData.find(); ///{createdAt:new Date.getDay()}
     const sendFullData = FullData.reverse()
     res.json({ success: true, sendFullData});
   } catch (error) {

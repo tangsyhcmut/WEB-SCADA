@@ -13,6 +13,7 @@ const fulldataRouter = require("./routes/data");
 const trenddataRouter = require("./routes/trenddata");
 const dailydataRouter = require("./routes/dailydata");
 const DataSchema = require("./models/DataSchema");
+
 // const router = express.Router();
 // const verifyToken = require("./middleware/auth");
 const nodeOPC = require("./NodeOPC");
@@ -152,6 +153,20 @@ const io = require("socket.io")(server, {
        nodeId: 'ns=3;s="FLow_RO_IN"',
        attributeId: AttributeIds.Value,
      };
+
+     const nodeP1 = {
+      nodeId: 'ns=3;s="PS1_M"',
+      attributeId: AttributeIds.Value,
+    };
+    const nodeP2 = {
+      nodeId: 'ns=3;s="PS2_M"',
+      attributeId: AttributeIds.Value,
+    };
+    const nodeP3 = {
+      nodeId: 'ns=3;s="PS3_M"',
+      attributeId: AttributeIds.Value,
+    };
+
      let flag = 0;
  
      setInterval(async () => {
@@ -159,16 +174,27 @@ const io = require("socket.io")(server, {
        const dataF1 = await session.read(nodeF1, maxAge);
        const dataF2 = await session.read(nodeF2, maxAge);
        const dataF3 = await session.read(nodeF3, maxAge);
- 
+      
+       const dataP1 = await session.read(nodeP1, maxAge);
+       const dataP2 = await session.read(nodeP2, maxAge);
+       const dataP3 = await session.read(nodeP3, maxAge);
+
        if (flag > 3 ) {
          const F = {
            F1: dataF1.value.value,
            F2: dataF2.value.value,
            F3: dataF3.value.value,
-           // TimeStamp: JSON.stringify(dataValue.serverTimestamp),
-         };
-         const data = new DataSchema.TestData(F);
-         data.save();
+           
+        };
+        const P = {
+          P1: dataP1.value.value,
+          P2: dataP2.value.value,
+          P3: dataP3.value.value,
+       };
+         const data1 = new DataSchema.TestData(F);
+         const data2 = new DataSchema.PressureData(P)
+         data1.save();
+         data2.save();
          flag = 0;
        }
      }, 1000);
@@ -197,9 +223,9 @@ const io = require("socket.io")(server, {
             nodeID == 'ns=3;s="PS1_M"' ||
             nodeID == 'ns=3;s="PS2_M"' ||
             nodeID == 'ns=3;s="PS3_M"' ||
-            nodeID == 'ns=3;s="Flow_FA_IN"' ||
-            nodeID == 'ns=3;s="Flow_FB_IN"' ||
-            nodeID == 'ns=3;s="Flow_RO_IN"'
+            nodeID == 'ns=3;s="FLow_FA_IN"' ||
+            nodeID == 'ns=3;s="FLow_FB_IN"' ||
+            nodeID == 'ns=3;s="FLow_RO_IN"'
           ) {
             socket.emit(nodeID, dataValue.value.value.toFixed(2));
           } else {
